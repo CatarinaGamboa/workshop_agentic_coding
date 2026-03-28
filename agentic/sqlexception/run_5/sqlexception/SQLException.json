@@ -1,0 +1,189 @@
+{
+  "class": {
+    "name": "SQLException",
+    "signature": "public class SQLException extends Exception implements Iterable<Throwable>",
+    "description": "An exception that provides information on a database access error or other errors. Each SQLException provides several kinds of information: a string describing the error. This is used as the Java Exception message, available via the method getMessage. a \"SQLstate\" string, which follows either the XOPEN SQLstate conventions or the SQL:2003 conventions. The values of the SQLState string are described in the appropriate spec. The DatabaseMetaData method getSQLStateType can be used to discover whether the driver returns the XOPEN type or the SQL:2003 type. an integer error code that is specific to each vendor. Normally this will be the actual error code returned by the underlying database. a chain to a next Exception. This can be used to provide additional error information. the causal relationship, if any for this SQLException.",
+    "implements": [
+      "Serializable",
+      "Iterable<Throwable>"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason, String SQLState, int vendorCode)",
+      "description": "Constructs a SQLException object with a given reason, SQLState and vendorCode. The cause is not initialized, and may subsequently be initialized by a call to the Throwable.initCause(java.lang.Throwable) method.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception"
+        },
+        {
+          "name": "SQLState",
+          "description": "an XOPEN or SQL:2003 code identifying the exception"
+        },
+        {
+          "name": "vendorCode",
+          "description": "a database vendor-specific exception code"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason, String SQLState)",
+      "description": "Constructs a SQLException object with a given reason and SQLState. The cause is not initialized, and may subsequently be initialized by a call to the Throwable.initCause(java.lang.Throwable) method. The vendor code is initialized to 0.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception"
+        },
+        {
+          "name": "SQLState",
+          "description": "an XOPEN or SQL:2003 code identifying the exception"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason)",
+      "description": "Constructs a SQLException object with a given reason. The SQLState is initialized to null and the vendor code is initialized to 0. The cause is not initialized, and may subsequently be initialized by a call to the Throwable.initCause(java.lang.Throwable) method.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException()",
+      "description": "Constructs a SQLException object. The reason, SQLState are initialized to null and the vendor code is initialized to 0. The cause is not initialized, and may subsequently be initialized by a call to the Throwable.initCause(java.lang.Throwable) method."
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(Throwable cause)",
+      "description": "Constructs a SQLException object with a given cause. The SQLState is initialized to null and the vendor code is initialized to 0. The reason is initialized to null if cause==null or to cause.toString() if cause!=null.",
+      "parameters": [
+        {
+          "name": "cause",
+          "description": "the underlying reason for this SQLException (which is saved for later retrieval by the getCause() method); may be null indicating the cause is non-existent or unknown."
+        }
+      ],
+      "throws": [],
+      "since": "1.6"
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason, Throwable cause)",
+      "description": "Constructs a SQLException object with a given reason and cause. The SQLState is initialized to null and the vendor code is initialized to 0.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception."
+        },
+        {
+          "name": "cause",
+          "description": "the underlying reason for this SQLException (which is saved for later retrieval by the getCause() method); may be null indicating the cause is non-existent or unknown."
+        }
+      ],
+      "throws": [],
+      "since": "1.6"
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason, String sqlState, Throwable cause)",
+      "description": "Constructs a SQLException object with a given reason, SQLState and cause. The vendor code is initialized to 0.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception."
+        },
+        {
+          "name": "sqlState",
+          "description": "an XOPEN or SQL:2003 code identifying the exception"
+        },
+        {
+          "name": "cause",
+          "description": "the underlying reason for this SQLException (which is saved for later retrieval by the getCause() method); may be null indicating the cause is non-existent or unknown."
+        }
+      ],
+      "throws": [],
+      "since": "1.6"
+    },
+    {
+      "name": "SQLException",
+      "signature": "public SQLException(String reason, String sqlState, int vendorCode, Throwable cause)",
+      "description": "Constructs a SQLException object with a given reason, SQLState, vendorCode and cause.",
+      "parameters": [
+        {
+          "name": "reason",
+          "description": "a description of the exception"
+        },
+        {
+          "name": "sqlState",
+          "description": "an XOPEN or SQL:2003 code identifying the exception"
+        },
+        {
+          "name": "vendorCode",
+          "description": "a database vendor-specific exception code"
+        },
+        {
+          "name": "cause",
+          "description": "the underlying reason for this SQLException (which is saved for later retrieval by the getCause() method); may be null indicating the cause is non-existent or unknown."
+        }
+      ],
+      "throws": [],
+      "since": "1.6"
+    }
+  ],
+  "methods": [
+    {
+      "name": "getSQLState",
+      "signature": "public String getSQLState()",
+      "description": "Retrieves the SQLState for this SQLException object.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the SQLState value"
+    },
+    {
+      "name": "getErrorCode",
+      "signature": "public int getErrorCode()",
+      "description": "Retrieves the vendor-specific exception code for this SQLException object.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the vendor's error code"
+    },
+    {
+      "name": "getNextException",
+      "signature": "public SQLException getNextException()",
+      "description": "Retrieves the exception chained to this SQLException object by setNextException(SQLException ex).",
+      "parameters": [],
+      "throws": [],
+      "returns": "the next SQLException object in the chain; null if there are none"
+    },
+    {
+      "name": "setNextException",
+      "signature": "public void setNextException(SQLException ex)",
+      "description": "Adds an SQLException object to the end of the chain.",
+      "parameters": [
+        {
+          "name": "ex",
+          "description": "the new exception that will be added to the end of the SQLException chain"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "iterator",
+      "signature": "public Iterator<Throwable> iterator()",
+      "description": "Returns an iterator over the chained SQLExceptions. The iterator will be used to iterate over each SQLException and its underlying cause (if any).",
+      "parameters": [],
+      "throws": [],
+      "returns": "an iterator over the chained SQLExceptions and causes in the proper order",
+      "since": "1.6"
+    }
+  ]
+}

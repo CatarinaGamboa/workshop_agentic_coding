@@ -1,0 +1,33 @@
+stateDiagram-v2
+    [*] --> Disconnected : RMIConnector RMIConnector([JMXServiceURL url], [Map environment])
+    [*] --> Disconnected : RMIConnector RMIConnector([RMIServer rmiServer], [Map environment])
+
+    Disconnected --> Disconnected : String toString()
+    Disconnected --> Disconnected : JMXServiceURL getAddress()
+    Disconnected --> Disconnected : void addConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Disconnected --> Disconnected : void removeConnectionNotificationListener([NotificationListener listener])
+    Disconnected --> Disconnected : void removeConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Disconnected --> Connected : void connect()
+    Disconnected --> Connected : void connect([Map environment])
+
+    Connected --> Connected : String toString()
+    Connected --> Connected : JMXServiceURL getAddress()
+    Connected --> Connected : String getConnectionId()
+    Connected --> Connected : MBeanServerConnection getMBeanServerConnection()
+    Connected --> Connected : MBeanServerConnection getMBeanServerConnection([Subject delegationSubject])
+    Connected --> Connected : void addConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Connected --> Connected : void removeConnectionNotificationListener([NotificationListener listener])
+    Connected --> Connected : void removeConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Connected --> Closed : void close()
+
+    Closed --> Closed : String toString()
+    Closed --> Closed : JMXServiceURL getAddress()
+    Closed --> Closed : void addConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Closed --> Closed : void removeConnectionNotificationListener([NotificationListener listener])
+    Closed --> Closed : void removeConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Closed --> [*]
+
+    note right of Connected
+        getMBeanServerConnection() and getConnectionId() only valid when Connected.
+        These throw IOException if not yet connected or if closed.
+    end note

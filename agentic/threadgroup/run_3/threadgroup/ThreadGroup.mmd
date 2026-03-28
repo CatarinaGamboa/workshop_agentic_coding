@@ -1,0 +1,42 @@
+stateDiagram-v2
+    [*] --> Active : ThreadGroup ThreadGroup([String name])
+    [*] --> Active : ThreadGroup ThreadGroup([ThreadGroup parent], [String name])
+
+    Active --> Active : String getName()
+    Active --> Active : ThreadGroup getParent()
+    Active --> Active : int getMaxPriority()
+    Active --> Active : void isDaemon()
+    Active --> Active : void isDestroyed()
+    Active --> Active : void setDaemon([boolean daemon])
+    Active --> Active : void setMaxPriority([int pri])
+    Active --> Active : boolean parentOf([ThreadGroup g])
+    Active --> Active : void checkAccess()
+    Active --> Active : int activeCount()
+    Active --> Active : int enumerate([Thread[] list])
+    Active --> Active : int enumerate([Thread[] list], [boolean recurse])
+    Active --> Active : int enumerate([ThreadGroup[] list])
+    Active --> Active : int enumerate([ThreadGroup[] list], [boolean recurse])
+    Active --> Active : int activeGroupCount()
+    Active --> Active : void stop()
+    Active --> Active : void interrupt()
+    Active --> Active : void suspend()
+    Active --> Active : void resume()
+    Active --> Active : void list()
+    Active --> Active : void uncaughtException([Thread t], [Throwable e])
+    Active --> Active : void allowThreadSuspension([boolean b])
+    Active --> Active : String toString()
+
+    Active --> Destroyed : void destroy()
+    Destroyed --> [*]
+
+    note right of Active
+        destroy() requires the group to be empty
+        (all threads stopped). Throws
+        IllegalThreadStateException if not empty
+        or already destroyed.
+    end note
+
+    note right of Destroyed
+        Terminal state. destroy() is not valid here
+        (throws IllegalThreadStateException).
+    end note

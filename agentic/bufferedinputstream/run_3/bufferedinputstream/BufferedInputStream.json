@@ -1,0 +1,162 @@
+{
+  "class": {
+    "name": "BufferedInputStream",
+    "signature": "public class BufferedInputStream extends FilterInputStream",
+    "description": "A BufferedInputStream adds functionality to another input stream-namely, the ability to buffer the input and to support the mark and reset methods. When the BufferedInputStream is created, an internal buffer array is created. As bytes from the stream are read or skipped, the internal buffer is refilled as necessary from the contained input stream, many bytes at a time. The mark operation remembers a point in the input stream and the reset operation causes all the bytes read since the most recent mark operation to be reread before new bytes are taken from the contained input stream.",
+    "implements": [
+      "Closeable",
+      "AutoCloseable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "BufferedInputStream",
+      "signature": "public BufferedInputStream(InputStream in)",
+      "description": "Creates a BufferedInputStream and saves its argument, the input stream in, for later use. An internal buffer array is created and stored in buf.",
+      "parameters": [
+        {
+          "name": "in",
+          "description": "the underlying input stream."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "BufferedInputStream",
+      "signature": "public BufferedInputStream(InputStream in, int size)",
+      "description": "Creates a BufferedInputStream with the specified buffer size, and saves its argument, the input stream in, for later use. An internal buffer array of length size is created and stored in buf.",
+      "parameters": [
+        {
+          "name": "in",
+          "description": "the underlying input stream."
+        },
+        {
+          "name": "size",
+          "description": "the buffer size."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if size <= 0."
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "read",
+      "signature": "public int read() throws IOException",
+      "description": "See the general contract of the read method of InputStream.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if this input stream has been closed by invoking its close() method, or an I/O error occurs."
+        }
+      ],
+      "returns": "the next byte of data, or -1 if the end of the stream is reached."
+    },
+    {
+      "name": "read",
+      "signature": "public int read(byte[] b, int off, int len) throws IOException",
+      "description": "Reads bytes from this byte-input stream into the specified byte array, starting at the given offset. This method implements the general contract of the corresponding read method of the InputStream class. As an additional convenience, it attempts to read as many bytes as possible by repeatedly invoking the read method of the underlying stream. This iterated read continues until one of the following conditions becomes true: The specified number of bytes have been read, The read method of the underlying stream returns -1, indicating end-of-file, or The available method of the underlying stream returns zero, indicating that further input requests would block. If the first read on the underlying stream returns -1 to indicate end-of-file then this method returns -1. Otherwise this method returns the number of bytes actually read. Subclasses of this class are encouraged, but not required, to attempt to read as many bytes as possible in the same fashion.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "destination buffer."
+        },
+        {
+          "name": "off",
+          "description": "offset at which to start storing bytes."
+        },
+        {
+          "name": "len",
+          "description": "maximum number of bytes to read."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if this input stream has been closed by invoking its close() method, or an I/O error occurs."
+        }
+      ],
+      "returns": "the number of bytes read, or -1 if the end of the stream has been reached."
+    },
+    {
+      "name": "skip",
+      "signature": "public long skip(long n) throws IOException",
+      "description": "See the general contract of the skip method of InputStream.",
+      "parameters": [
+        {
+          "name": "n",
+          "description": "the number of bytes to be skipped."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if this input stream has been closed by invoking its close() method, in.skip(n) throws an IOException, or an I/O error occurs."
+        }
+      ],
+      "returns": "the actual number of bytes skipped."
+    },
+    {
+      "name": "available",
+      "signature": "public int available() throws IOException",
+      "description": "Returns an estimate of the number of bytes that can be read (or skipped over) from this input stream without blocking by the next invocation of a method for this input stream. The next invocation might be the same thread or another thread. A single read or skip of this many bytes will not block, but may read or skip fewer bytes. This method returns the sum of the number of bytes remaining to be read in the buffer (count - pos) and the result of calling the in.available().",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if this input stream has been closed by invoking its close() method, or an I/O error occurs."
+        }
+      ],
+      "returns": "an estimate of the number of bytes that can be read (or skipped over) from this input stream without blocking."
+    },
+    {
+      "name": "mark",
+      "signature": "public void mark(int readlimit)",
+      "description": "See the general contract of the mark method of InputStream.",
+      "parameters": [
+        {
+          "name": "readlimit",
+          "description": "the maximum limit of bytes that can be read before the mark position becomes invalid."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "reset",
+      "signature": "public void reset() throws IOException",
+      "description": "See the general contract of the reset method of InputStream. If markpos is -1 (no mark has been set or the mark has been invalidated), an IOException is thrown. Otherwise, pos is set equal to markpos.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if this stream has not been marked or, if the mark has been invalidated, or the stream has been closed by invoking its close() method, or an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "markSupported",
+      "signature": "public boolean markSupported()",
+      "description": "Tests if this input stream supports the mark and reset methods. The markSupported method of BufferedInputStream returns true.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a boolean indicating if this stream type supports the mark and reset methods."
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Closes this input stream and releases any system resources associated with the stream. Once the stream has been closed, further read(), available(), reset(), or skip() invocations will throw an IOException. Closing a previously closed stream has no effect.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    }
+  ]
+}

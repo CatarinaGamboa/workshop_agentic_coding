@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Active : PopupMenu PopupMenu()
+    [*] --> Active : PopupMenu PopupMenu([String label])
+    Active --> Active : void addNotify()
+    Active --> Active : void show([Component origin], [int x], [int y])
+    Active --> Active : AccessibleContext getAccessibleContext()
+
+    note right of Active
+        show() throws IllegalArgumentException
+        if this PopupMenu has a non-Component parent
+        (i.e., was added to a MenuBar instead of a Component).
+    end note

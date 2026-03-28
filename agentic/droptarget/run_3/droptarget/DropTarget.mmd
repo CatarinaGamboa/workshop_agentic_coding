@@ -1,0 +1,94 @@
+stateDiagram-v2
+    [*] --> maybeActive : DropTarget DropTarget()
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [DropTargetListener dtl])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act], [FlavorMap fm])
+
+    maybeActive --> maybeActive : void setComponent([Component c])
+    maybeActive --> maybeActive : Component getComponent()
+    maybeActive --> maybeActive : void setDefaultActions([int ops])
+    maybeActive --> maybeActive : int getDefaultActions()
+    maybeActive --> maybeActive : boolean isActive()
+    maybeActive --> maybeActive : void addDropTargetListener([DropTargetListener dtl])
+    maybeActive --> maybeActive : void removeDropTargetListener([DropTargetListener dtl])
+    maybeActive --> maybeActive : void dragEnter([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dragOver([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dropActionChanged([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dragExit([DropTargetEvent dte])
+    maybeActive --> maybeActive : void drop([DropTargetDropEvent dtde])
+    maybeActive --> maybeActive : FlavorMap getFlavorMap()
+    maybeActive --> maybeActive : void setFlavorMap([FlavorMap fm])
+    maybeActive --> maybeActive : void addNotify()
+    maybeActive --> maybeActive : void removeNotify()
+    maybeActive --> maybeActive : DropTargetContext getDropTargetContext()
+    maybeActive --> maybeActive : DropTargetContext createDropTargetContext()
+    maybeActive --> maybeActive : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    maybeActive --> maybeActive : void initializeAutoscrolling([Point p])
+    maybeActive --> maybeActive : void updateAutoscroll([Point dragCursorLocn])
+    maybeActive --> maybeActive : void clearAutoscroll()
+    maybeActive --> Active : void setActive([boolean isActive])
+
+    Active --> Active : void setComponent([Component c])
+    Active --> Active : Component getComponent()
+    Active --> Active : void setDefaultActions([int ops])
+    Active --> Active : int getDefaultActions()
+    Active --> Active : boolean isActive()
+    Active --> Active : void addDropTargetListener([DropTargetListener dtl])
+    Active --> Active : void removeDropTargetListener([DropTargetListener dtl])
+    Active --> Active : void dragEnter([DropTargetDragEvent dtde])
+    Active --> Active : void dragOver([DropTargetDragEvent dtde])
+    Active --> Active : void dropActionChanged([DropTargetDragEvent dtde])
+    Active --> Active : void dragExit([DropTargetEvent dte])
+    Active --> Active : void drop([DropTargetDropEvent dtde])
+    Active --> Active : FlavorMap getFlavorMap()
+    Active --> Active : void setFlavorMap([FlavorMap fm])
+    Active --> Active : void addNotify()
+    Active --> Active : void removeNotify()
+    Active --> Active : DropTargetContext getDropTargetContext()
+    Active --> Active : DropTargetContext createDropTargetContext()
+    Active --> Active : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    Active --> Active : void initializeAutoscrolling([Point p])
+    Active --> Active : void updateAutoscroll([Point dragCursorLocn])
+    Active --> Active : void clearAutoscroll()
+    Active --> Inactive : void setActive([boolean isActive])
+
+    Inactive --> Inactive : void setComponent([Component c])
+    Inactive --> Inactive : Component getComponent()
+    Inactive --> Inactive : void setDefaultActions([int ops])
+    Inactive --> Inactive : int getDefaultActions()
+    Inactive --> Inactive : boolean isActive()
+    Inactive --> Inactive : void addDropTargetListener([DropTargetListener dtl])
+    Inactive --> Inactive : void removeDropTargetListener([DropTargetListener dtl])
+    Inactive --> Inactive : void dragEnter([DropTargetDragEvent dtde])
+    Inactive --> Inactive : void dragOver([DropTargetDragEvent dtde])
+    Inactive --> Inactive : void dropActionChanged([DropTargetDragEvent dtde])
+    Inactive --> Inactive : void dragExit([DropTargetEvent dte])
+    Inactive --> Inactive : void drop([DropTargetDropEvent dtde])
+    Inactive --> Inactive : FlavorMap getFlavorMap()
+    Inactive --> Inactive : void setFlavorMap([FlavorMap fm])
+    Inactive --> Inactive : void addNotify()
+    Inactive --> Inactive : void removeNotify()
+    Inactive --> Inactive : DropTargetContext getDropTargetContext()
+    Inactive --> Inactive : DropTargetContext createDropTargetContext()
+    Inactive --> Inactive : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    Inactive --> Inactive : void initializeAutoscrolling([Point p])
+    Inactive --> Inactive : void updateAutoscroll([Point dragCursorLocn])
+    Inactive --> Inactive : void clearAutoscroll()
+    Inactive --> Active : void setActive([boolean isActive])
+
+    note right of Active
+        Drag and drop events are forwarded to the registered DropTargetListener.
+        dragEnter, dragOver, dropActionChanged throw NullPointerException if event is null.
+        addDropTargetListener throws TooManyListenersException if listener already registered (unicast).
+    end note
+
+    note right of Inactive
+        Drag and drop events have no effect (dragEnter, dragOver, dropActionChanged, dragExit, drop are no-ops).
+        setActive(true) transitions to Active state.
+    end note
+
+    note right of maybeActive
+        Initial state: constructor boolean act parameter cannot be statically resolved.
+        Transitions to Active via setActive(true); remains here until setActive is called.
+    end note

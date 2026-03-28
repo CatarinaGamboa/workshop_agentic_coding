@@ -1,0 +1,172 @@
+stateDiagram-v2
+    [*] --> Bound : DatagramSocket DatagramSocket()
+    [*] --> Bound : DatagramSocket DatagramSocket([int port])
+    [*] --> Bound : DatagramSocket DatagramSocket([int port], [InetAddress laddr])
+    [*] --> Unbound : DatagramSocket DatagramSocket([DatagramSocketImpl impl])
+    [*] --> maybeUnbound : DatagramSocket DatagramSocket([SocketAddress bindaddr])
+
+    Unbound --> Bound : void bind([SocketAddress addr])
+    maybeUnbound --> Bound : void bind([SocketAddress addr])
+
+    Unbound --> Connected : void connect([InetAddress address], [int port])
+    Unbound --> Connected : void connect([SocketAddress addr])
+    maybeUnbound --> Connected : void connect([InetAddress address], [int port])
+    maybeUnbound --> Connected : void connect([SocketAddress addr])
+    Bound --> Connected : void connect([InetAddress address], [int port])
+    Bound --> Connected : void connect([SocketAddress addr])
+    Connected --> Connected : void connect([InetAddress address], [int port])
+    Connected --> Connected : void connect([SocketAddress addr])
+
+    Connected --> Bound : void disconnect()
+    Bound --> Bound : void disconnect()
+
+    Bound --> Bound : void send([DatagramPacket p])
+    Bound --> Bound : void receive([DatagramPacket p])
+    Connected --> Connected : void send([DatagramPacket p])
+    Connected --> Connected : void receive([DatagramPacket p])
+
+    Bound --> Bound : void setSoTimeout([int timeout])
+    Bound --> Bound : int getSoTimeout()
+    Bound --> Bound : void setSendBufferSize([int size])
+    Bound --> Bound : int getSendBufferSize()
+    Bound --> Bound : void setReceiveBufferSize([int size])
+    Bound --> Bound : int getReceiveBufferSize()
+    Bound --> Bound : void setReuseAddress([boolean on])
+    Bound --> Bound : boolean getReuseAddress()
+    Bound --> Bound : void setBroadcast([boolean on])
+    Bound --> Bound : boolean getBroadcast()
+    Bound --> Bound : void setTrafficClass([int tc])
+    Bound --> Bound : int getTrafficClass()
+    Bound --> Bound : void setOption([SocketOption name])
+    Bound --> Bound : void getOption([SocketOption name])
+    Bound --> Bound : void supportedOptions()
+    Bound --> Bound : boolean isBound()
+    Bound --> Bound : boolean isConnected()
+    Bound --> Bound : boolean isClosed()
+    Bound --> Bound : InetAddress getInetAddress()
+    Bound --> Bound : int getPort()
+    Bound --> Bound : SocketAddress getRemoteSocketAddress()
+    Bound --> Bound : SocketAddress getLocalSocketAddress()
+    Bound --> Bound : InetAddress getLocalAddress()
+    Bound --> Bound : int getLocalPort()
+    Bound --> Bound : DatagramChannel getChannel()
+    Bound --> Bound : void joinGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+    Bound --> Bound : void leaveGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+
+    Connected --> Connected : void setSoTimeout([int timeout])
+    Connected --> Connected : int getSoTimeout()
+    Connected --> Connected : void setSendBufferSize([int size])
+    Connected --> Connected : int getSendBufferSize()
+    Connected --> Connected : void setReceiveBufferSize([int size])
+    Connected --> Connected : int getReceiveBufferSize()
+    Connected --> Connected : void setReuseAddress([boolean on])
+    Connected --> Connected : boolean getReuseAddress()
+    Connected --> Connected : void setBroadcast([boolean on])
+    Connected --> Connected : boolean getBroadcast()
+    Connected --> Connected : void setTrafficClass([int tc])
+    Connected --> Connected : int getTrafficClass()
+    Connected --> Connected : void setOption([SocketOption name])
+    Connected --> Connected : void getOption([SocketOption name])
+    Connected --> Connected : void supportedOptions()
+    Connected --> Connected : boolean isBound()
+    Connected --> Connected : boolean isConnected()
+    Connected --> Connected : boolean isClosed()
+    Connected --> Connected : InetAddress getInetAddress()
+    Connected --> Connected : int getPort()
+    Connected --> Connected : SocketAddress getRemoteSocketAddress()
+    Connected --> Connected : SocketAddress getLocalSocketAddress()
+    Connected --> Connected : InetAddress getLocalAddress()
+    Connected --> Connected : int getLocalPort()
+    Connected --> Connected : DatagramChannel getChannel()
+    Connected --> Connected : void joinGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+    Connected --> Connected : void leaveGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+
+    Unbound --> Unbound : void setSoTimeout([int timeout])
+    Unbound --> Unbound : int getSoTimeout()
+    Unbound --> Unbound : void setSendBufferSize([int size])
+    Unbound --> Unbound : int getSendBufferSize()
+    Unbound --> Unbound : void setReceiveBufferSize([int size])
+    Unbound --> Unbound : int getReceiveBufferSize()
+    Unbound --> Unbound : void setReuseAddress([boolean on])
+    Unbound --> Unbound : boolean getReuseAddress()
+    Unbound --> Unbound : void setBroadcast([boolean on])
+    Unbound --> Unbound : boolean getBroadcast()
+    Unbound --> Unbound : void setTrafficClass([int tc])
+    Unbound --> Unbound : int getTrafficClass()
+    Unbound --> Unbound : void supportedOptions()
+    Unbound --> Unbound : boolean isBound()
+    Unbound --> Unbound : boolean isConnected()
+    Unbound --> Unbound : boolean isClosed()
+    Unbound --> Unbound : InetAddress getInetAddress()
+    Unbound --> Unbound : int getPort()
+    Unbound --> Unbound : SocketAddress getRemoteSocketAddress()
+    Unbound --> Unbound : SocketAddress getLocalSocketAddress()
+    Unbound --> Unbound : InetAddress getLocalAddress()
+    Unbound --> Unbound : int getLocalPort()
+    Unbound --> Unbound : DatagramChannel getChannel()
+
+    maybeUnbound --> maybeUnbound : void setSoTimeout([int timeout])
+    maybeUnbound --> maybeUnbound : int getSoTimeout()
+    maybeUnbound --> maybeUnbound : void setSendBufferSize([int size])
+    maybeUnbound --> maybeUnbound : int getSendBufferSize()
+    maybeUnbound --> maybeUnbound : void setReceiveBufferSize([int size])
+    maybeUnbound --> maybeUnbound : int getReceiveBufferSize()
+    maybeUnbound --> maybeUnbound : void setReuseAddress([boolean on])
+    maybeUnbound --> maybeUnbound : boolean getReuseAddress()
+    maybeUnbound --> maybeUnbound : void setBroadcast([boolean on])
+    maybeUnbound --> maybeUnbound : boolean getBroadcast()
+    maybeUnbound --> maybeUnbound : void setTrafficClass([int tc])
+    maybeUnbound --> maybeUnbound : int getTrafficClass()
+    maybeUnbound --> maybeUnbound : void supportedOptions()
+    maybeUnbound --> maybeUnbound : boolean isBound()
+    maybeUnbound --> maybeUnbound : boolean isConnected()
+    maybeUnbound --> maybeUnbound : boolean isClosed()
+    maybeUnbound --> maybeUnbound : InetAddress getInetAddress()
+    maybeUnbound --> maybeUnbound : int getPort()
+    maybeUnbound --> maybeUnbound : SocketAddress getRemoteSocketAddress()
+    maybeUnbound --> maybeUnbound : SocketAddress getLocalSocketAddress()
+    maybeUnbound --> maybeUnbound : InetAddress getLocalAddress()
+    maybeUnbound --> maybeUnbound : int getLocalPort()
+    maybeUnbound --> maybeUnbound : DatagramChannel getChannel()
+    maybeUnbound --> maybeUnbound : void send([DatagramPacket p])
+    maybeUnbound --> maybeUnbound : void receive([DatagramPacket p])
+    maybeUnbound --> maybeUnbound : void joinGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+    maybeUnbound --> maybeUnbound : void leaveGroup([SocketAddress mcastaddr], [NetworkInterface netIf])
+
+    Unbound --> Closed : void close()
+    maybeUnbound --> Closed : void close()
+    Bound --> Closed : void close()
+    Connected --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> Closed : boolean isBound()
+    Closed --> Closed : boolean isConnected()
+    Closed --> Closed : boolean isClosed()
+    Closed --> Closed : InetAddress getInetAddress()
+    Closed --> Closed : int getPort()
+    Closed --> Closed : SocketAddress getRemoteSocketAddress()
+    Closed --> Closed : void supportedOptions()
+    Closed --> Closed : DatagramChannel getChannel()
+
+    Closed --> [*]
+
+    note right of Unbound
+        Created with DatagramSocketImpl constructor.
+        bind() must be called before send/receive.
+        bind() throws if already bound.
+    end note
+
+    note right of maybeUnbound
+        Created with DatagramSocket(SocketAddress null).
+        May be bound or unbound depending on runtime value.
+    end note
+
+    note right of Connected
+        connect() restricts send/receive to remote address.
+        disconnect() returns to Bound state.
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        setOption/getOption throw IOException if closed.
+    end note

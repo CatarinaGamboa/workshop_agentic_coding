@@ -1,0 +1,40 @@
+stateDiagram-v2
+    [*] --> Open : BufferedReader([Reader in])
+    [*] --> Open : BufferedReader([Reader in], [int sz])
+
+    Open --> Open : int read()
+    Open --> Open : int read([char[] cbuf], [int off], [int len])
+    Open --> Open : String readLine()
+    Open --> Open : boolean ready()
+    Open --> Open : boolean markSupported()
+    Open --> Open : Stream<String> lines()
+    Open --> Marked : void mark([int readAheadLimit])
+    Open --> Closed : void close()
+
+    Marked --> Marked : int read()
+    Marked --> Marked : int read([char[] cbuf], [int off], [int len])
+    Marked --> Marked : String readLine()
+    Marked --> Marked : boolean ready()
+    Marked --> Marked : boolean markSupported()
+    Marked --> Marked : Stream<String> lines()
+    Marked --> Marked : void mark([int readAheadLimit])
+    Marked --> Marked : void reset()
+    Marked --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Open
+        reset() is invalid here: stream has never been marked.
+        Calling reset() throws IOException.
+    end note
+
+    note right of Marked
+        mark() can be called again to update the mark position.
+        reset() repositions the stream to the most recent mark.
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        All read operations throw IOException after close.
+    end note

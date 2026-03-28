@@ -1,0 +1,38 @@
+stateDiagram-v2
+    [*] --> maybeActive : DropTarget DropTarget()
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [DropTargetListener dtl])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act])
+    [*] --> maybeActive : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act], [FlavorMap fm])
+
+    maybeActive --> maybeActive : void setActive([boolean isActive])
+    maybeActive --> maybeActive : void setComponent([Component c])
+    maybeActive --> maybeActive : Component getComponent()
+    maybeActive --> maybeActive : void setDefaultActions([int ops])
+    maybeActive --> maybeActive : int getDefaultActions()
+    maybeActive --> maybeActive : boolean isActive()
+    maybeActive --> maybeActive : void addDropTargetListener([DropTargetListener dtl])
+    maybeActive --> maybeActive : void removeDropTargetListener([DropTargetListener dtl])
+    maybeActive --> maybeActive : void dragEnter([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dragOver([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dropActionChanged([DropTargetDragEvent dtde])
+    maybeActive --> maybeActive : void dragExit([DropTargetEvent dte])
+    maybeActive --> maybeActive : void drop([DropTargetDropEvent dtde])
+    maybeActive --> maybeActive : FlavorMap getFlavorMap()
+    maybeActive --> maybeActive : void setFlavorMap([FlavorMap fm])
+    maybeActive --> maybeActive : void addNotify()
+    maybeActive --> maybeActive : void removeNotify()
+    maybeActive --> maybeActive : DropTargetContext getDropTargetContext()
+    maybeActive --> maybeActive : DropTargetContext createDropTargetContext()
+    maybeActive --> maybeActive : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    maybeActive --> maybeActive : void initializeAutoscrolling([Point p])
+    maybeActive --> maybeActive : void updateAutoscroll([Point dragCursorLocn])
+    maybeActive --> maybeActive : void clearAutoscroll()
+
+    note right of maybeActive
+        setActive(true) makes the DropTarget accept drops (Active behavior).
+        setActive(false) makes it ignore drop events (Inactive behavior).
+        Value-sensitive: isActive parameter determines behavior mode.
+        dragEnter, dragOver, dropActionChanged, dragExit, drop have no effect when inactive.
+        addDropTargetListener throws TooManyListenersException if listener already registered.
+    end note

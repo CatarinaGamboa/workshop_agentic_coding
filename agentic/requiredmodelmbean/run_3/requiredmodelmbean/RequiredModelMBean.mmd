@@ -1,0 +1,64 @@
+stateDiagram-v2
+    [*] --> Unregistered : RequiredModelMBean RequiredModelMBean()
+    [*] --> Unregistered : RequiredModelMBean RequiredModelMBean([ModelMBeanInfo mbi])
+
+    Unregistered --> Unregistered : void setModelMBeanInfo([ModelMBeanInfo mbi])
+    Unregistered --> Unregistered : void setManagedResource([Object mr], [String mr_type])
+    Unregistered --> Unregistered : void load()
+    Unregistered --> Unregistered : void store()
+    Unregistered --> Unregistered : MBeanInfo getMBeanInfo()
+    Unregistered --> Unregistered : Object invoke([String opName], [Object[] opArgs], [String[] sig])
+    Unregistered --> Unregistered : Object getAttribute([String attrName])
+    Unregistered --> Unregistered : AttributeList getAttributes([String[] attrNames])
+    Unregistered --> Unregistered : void setAttribute([Attribute attribute])
+    Unregistered --> Unregistered : AttributeList setAttributes([AttributeList attributes])
+    Unregistered --> Unregistered : void addNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Unregistered --> Unregistered : void removeNotificationListener([NotificationListener listener])
+    Unregistered --> Unregistered : void removeNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Unregistered --> Unregistered : void sendNotification([Notification ntfyObj])
+    Unregistered --> Unregistered : void sendNotification([String ntfyText])
+    Unregistered --> Unregistered : MBeanNotificationInfo[] getNotificationInfo()
+    Unregistered --> Unregistered : void addAttributeChangeNotificationListener([NotificationListener inlistener], [String inAttributeName], [Object inhandback])
+    Unregistered --> Unregistered : void removeAttributeChangeNotificationListener([NotificationListener inlistener], [String inAttributeName])
+    Unregistered --> Unregistered : void sendAttributeChangeNotification([AttributeChangeNotification ntfyObj])
+    Unregistered --> Unregistered : void sendAttributeChangeNotification([Attribute inOldVal], [Attribute inNewVal])
+    Unregistered --> Unregistered : ClassLoaderRepository getClassLoaderRepository()
+    Unregistered --> Registered : ObjectName preRegister([MBeanServer server], [ObjectName name])
+    Unregistered --> Registered : void postRegister([Boolean registrationDone])
+
+    Registered --> Registered : void setManagedResource([Object mr], [String mr_type])
+    Registered --> Registered : void load()
+    Registered --> Registered : void store()
+    Registered --> Registered : MBeanInfo getMBeanInfo()
+    Registered --> Registered : Object invoke([String opName], [Object[] opArgs], [String[] sig])
+    Registered --> Registered : Object getAttribute([String attrName])
+    Registered --> Registered : AttributeList getAttributes([String[] attrNames])
+    Registered --> Registered : void setAttribute([Attribute attribute])
+    Registered --> Registered : AttributeList setAttributes([AttributeList attributes])
+    Registered --> Registered : void addNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Registered --> Registered : void removeNotificationListener([NotificationListener listener])
+    Registered --> Registered : void removeNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Registered --> Registered : void sendNotification([Notification ntfyObj])
+    Registered --> Registered : void sendNotification([String ntfyText])
+    Registered --> Registered : MBeanNotificationInfo[] getNotificationInfo()
+    Registered --> Registered : void addAttributeChangeNotificationListener([NotificationListener inlistener], [String inAttributeName], [Object inhandback])
+    Registered --> Registered : void removeAttributeChangeNotificationListener([NotificationListener inlistener], [String inAttributeName])
+    Registered --> Registered : void sendAttributeChangeNotification([AttributeChangeNotification ntfyObj])
+    Registered --> Registered : void sendAttributeChangeNotification([Attribute inOldVal], [Attribute inNewVal])
+    Registered --> Registered : ClassLoaderRepository getClassLoaderRepository()
+    Registered --> Unregistered : void preDeregister()
+    Registered --> Unregistered : void postDeregister()
+
+    note right of Unregistered
+        setModelMBeanInfo() only valid here.
+        Throws IllegalStateException (wrapped in
+        RuntimeOperationsException) if called
+        while in Registered state.
+    end note
+
+    note right of Registered
+        setModelMBeanInfo() is FORBIDDEN.
+        All operational methods available.
+        load() should have been called before
+        reaching this state.
+    end note

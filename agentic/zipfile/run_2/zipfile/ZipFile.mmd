@@ -1,0 +1,27 @@
+stateDiagram-v2
+    [*] --> Open : ZipFile ZipFile([String name])
+    [*] --> Open : ZipFile ZipFile([File file], [int mode])
+    [*] --> Open : ZipFile ZipFile([File file])
+    [*] --> Open : ZipFile ZipFile([File file], [int mode], [Charset charset])
+    [*] --> Open : ZipFile ZipFile([String name], [Charset charset])
+    [*] --> Open : ZipFile ZipFile([File file], [Charset charset])
+
+    Open --> Open : String getComment()
+    Open --> Open : ZipEntry getEntry([String name])
+    Open --> Open : InputStream getInputStream([ZipEntry entry])
+    Open --> Open : String getName()
+    Open --> Open : void entries()
+    Open --> Open : void stream()
+    Open --> Open : int size()
+    Open --> Closed : void close()
+
+    Closed --> Closed : String getName()
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Closed
+        Terminal state. Once closed, reading methods
+        (getComment, getEntry, getInputStream, entries,
+        stream, size) throw IllegalStateException.
+        getName() remains available. close() is idempotent.
+    end note

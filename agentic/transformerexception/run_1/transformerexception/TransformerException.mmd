@@ -1,0 +1,31 @@
+stateDiagram-v2
+    [*] --> NoCause : TransformerException TransformerException([String message])
+    [*] --> CauseSet : TransformerException TransformerException([Throwable e])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [Throwable e])
+    [*] --> NoCause : TransformerException TransformerException([String message], [SourceLocator locator])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [SourceLocator locator], [Throwable e])
+
+    NoCause --> NoCause : SourceLocator getLocator()
+    NoCause --> NoCause : void setLocator([SourceLocator location])
+    NoCause --> NoCause : Throwable getException()
+    NoCause --> NoCause : Throwable getCause()
+    NoCause --> CauseSet : Throwable initCause([Throwable cause])
+    NoCause --> NoCause : String getMessageAndLocation()
+    NoCause --> NoCause : String getLocationAsString()
+    NoCause --> NoCause : void printStackTrace([PrintStream s])
+    NoCause --> NoCause : void printStackTrace([PrintWriter s])
+
+    CauseSet --> CauseSet : SourceLocator getLocator()
+    CauseSet --> CauseSet : void setLocator([SourceLocator location])
+    CauseSet --> CauseSet : Throwable getException()
+    CauseSet --> CauseSet : Throwable getCause()
+    CauseSet --> CauseSet : String getMessageAndLocation()
+    CauseSet --> CauseSet : String getLocationAsString()
+    CauseSet --> CauseSet : void printStackTrace([PrintStream s])
+    CauseSet --> CauseSet : void printStackTrace([PrintWriter s])
+
+    note right of CauseSet
+        initCause() is forbidden in CauseSet.
+        Calling it throws IllegalStateException.
+        Constructors with Throwable param set the cause immediately.
+    end note

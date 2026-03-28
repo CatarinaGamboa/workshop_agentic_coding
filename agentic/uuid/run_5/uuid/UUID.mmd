@@ -1,0 +1,38 @@
+stateDiagram-v2
+    [*] --> MaybeVersion1 : UUID UUID([long mostSigBits], [long leastSigBits])
+    [*] --> NonVersion1 : UUID randomUUID()
+    [*] --> NonVersion1 : UUID nameUUIDFromBytes([byte[] name])
+    [*] --> MaybeVersion1 : UUID fromString([String name])
+
+    MaybeVersion1 --> MaybeVersion1 : long getLeastSignificantBits()
+    MaybeVersion1 --> MaybeVersion1 : long getMostSignificantBits()
+    MaybeVersion1 --> MaybeVersion1 : int version()
+    MaybeVersion1 --> MaybeVersion1 : int variant()
+    MaybeVersion1 --> MaybeVersion1 : long timestamp()
+    MaybeVersion1 --> MaybeVersion1 : int clockSequence()
+    MaybeVersion1 --> MaybeVersion1 : long node()
+    MaybeVersion1 --> MaybeVersion1 : String toString()
+    MaybeVersion1 --> MaybeVersion1 : int hashCode()
+    MaybeVersion1 --> MaybeVersion1 : boolean equals([Object obj])
+    MaybeVersion1 --> MaybeVersion1 : int compareTo([UUID val])
+
+    NonVersion1 --> NonVersion1 : long getLeastSignificantBits()
+    NonVersion1 --> NonVersion1 : long getMostSignificantBits()
+    NonVersion1 --> NonVersion1 : int version()
+    NonVersion1 --> NonVersion1 : int variant()
+    NonVersion1 --> NonVersion1 : String toString()
+    NonVersion1 --> NonVersion1 : int hashCode()
+    NonVersion1 --> NonVersion1 : boolean equals([Object obj])
+    NonVersion1 --> NonVersion1 : int compareTo([UUID val])
+
+    note right of MaybeVersion1
+        timestamp(), clockSequence(), node() may throw UnsupportedOperationException
+        if this UUID is not a version 1 (time-based) UUID.
+        Version is determined by constructor bits or parsed string.
+    end note
+
+    note right of NonVersion1
+        Created via randomUUID() (version 4) or nameUUIDFromBytes() (version 3).
+        timestamp(), clockSequence(), node() are forbidden and always throw
+        UnsupportedOperationException for non-version-1 UUIDs.
+    end note

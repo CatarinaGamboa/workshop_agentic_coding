@@ -1,0 +1,29 @@
+stateDiagram-v2
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out])
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out], [Charset charset])
+
+    Open --> Open : void setComment([String comment])
+    Open --> Open : void setMethod([int method])
+    Open --> Open : void setLevel([int level])
+    Open --> EntryOpen : void putNextEntry([ZipEntry e])
+    Open --> Closed : void finish()
+    Open --> Closed : void close()
+
+    EntryOpen --> EntryOpen : void write([byte[] b], [int off], [int len])
+    EntryOpen --> EntryOpen : void putNextEntry([ZipEntry e])
+    EntryOpen --> Open : void closeEntry()
+    EntryOpen --> Closed : void finish()
+    EntryOpen --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of EntryOpen
+        write() only valid when an entry is active.
+        putNextEntry() auto-closes current entry before opening new one.
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        finish() writes ZIP central directory without closing underlying stream.
+    end note

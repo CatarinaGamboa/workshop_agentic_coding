@@ -1,0 +1,38 @@
+stateDiagram-v2
+    [*] --> maybeTimeBased : UUID([long mostSigBits], [long leastSigBits])
+    [*] --> NotTimeBased : UUID randomUUID()
+    [*] --> NotTimeBased : UUID nameUUIDFromBytes([byte[] name])
+    [*] --> maybeTimeBased : UUID fromString([String name])
+
+    maybeTimeBased --> maybeTimeBased : long getLeastSignificantBits()
+    maybeTimeBased --> maybeTimeBased : long getMostSignificantBits()
+    maybeTimeBased --> maybeTimeBased : int version()
+    maybeTimeBased --> maybeTimeBased : int variant()
+    maybeTimeBased --> maybeTimeBased : long timestamp()
+    maybeTimeBased --> maybeTimeBased : int clockSequence()
+    maybeTimeBased --> maybeTimeBased : long node()
+    maybeTimeBased --> maybeTimeBased : String toString()
+    maybeTimeBased --> maybeTimeBased : int hashCode()
+    maybeTimeBased --> maybeTimeBased : boolean equals([Object obj])
+    maybeTimeBased --> maybeTimeBased : int compareTo([UUID val])
+
+    NotTimeBased --> NotTimeBased : long getLeastSignificantBits()
+    NotTimeBased --> NotTimeBased : long getMostSignificantBits()
+    NotTimeBased --> NotTimeBased : int version()
+    NotTimeBased --> NotTimeBased : int variant()
+    NotTimeBased --> NotTimeBased : String toString()
+    NotTimeBased --> NotTimeBased : int hashCode()
+    NotTimeBased --> NotTimeBased : boolean equals([Object obj])
+    NotTimeBased --> NotTimeBased : int compareTo([UUID val])
+
+    note right of maybeTimeBased
+        Constructor or fromString() may produce any version.
+        timestamp(), clockSequence(), node() throw UnsupportedOperationException
+        if this is not a version 1 (time-based) UUID.
+    end note
+
+    note right of NotTimeBased
+        Created via randomUUID() (version 4) or nameUUIDFromBytes() (version 3).
+        timestamp(), clockSequence(), and node() are forbidden:
+        they always throw UnsupportedOperationException.
+    end note

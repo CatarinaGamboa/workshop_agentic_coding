@@ -1,0 +1,302 @@
+{
+  "class": {
+    "name": "KerberosTicket",
+    "signature": "public class KerberosTicket extends Object implements Destroyable, Refreshable, Serializable",
+    "description": "This class encapsulates a Kerberos ticket and associated information as viewed from the client's point of view. It captures all information that the Key Distribution Center (KDC) sends to the client in the reply message KDC-REP defined in the Kerberos Protocol Specification (RFC 4120). All Kerberos JAAS login modules that authenticate a user to a KDC should use this class. Where available, the login module might even read this information from a ticket cache in the operating system instead of directly communicating with the KDC. During the commit phase of the JAAS authentication process, the JAAS login module should instantiate this class and store the instance in the private credential set of a Subject. It might be necessary for the application to be granted a PrivateCredentialPermission if it needs to access a KerberosTicket instance from a Subject. This permission is not needed when the application depends on the default JGSS Kerberos mechanism to access the KerberosTicket. In that case, however, the application will need an appropriate ServicePermission. Note that this class is applicable to both ticket granting tickets and other regular service tickets. A ticket granting ticket is just a special case of a more generalized service ticket.",
+    "implements": [
+      "Serializable",
+      "Destroyable",
+      "Refreshable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "KerberosTicket",
+      "signature": "public KerberosTicket(byte[] asn1Encoding, KerberosPrincipal client, KerberosPrincipal server, byte[] sessionKey, int keyType, boolean[] flags, Date authTime, Date startTime, Date endTime, Date renewTill, InetAddress[] clientAddresses)",
+      "description": "Constructs a KerberosTicket using credentials information that a client either receives from a KDC or reads from a cache.",
+      "parameters": [
+        {
+          "name": "asn1Encoding",
+          "description": "the ASN.1 encoding of the ticket as defined by the Kerberos protocol specification."
+        },
+        {
+          "name": "client",
+          "description": "the client that owns this service ticket"
+        },
+        {
+          "name": "server",
+          "description": "the service that this ticket is for"
+        },
+        {
+          "name": "sessionKey",
+          "description": "the raw bytes for the session key that must be used to encrypt the authenticator that will be sent to the server"
+        },
+        {
+          "name": "keyType",
+          "description": "the key type for the session key as defined by the Kerberos protocol specification."
+        },
+        {
+          "name": "flags",
+          "description": "the ticket flags. Each element in this array indicates the value for the corresponding bit in the ASN.1 BitString that represents the ticket flags. If the number of elements in this array is less than the number of flags used by the Kerberos protocol, then the missing flags will be filled in with false."
+        },
+        {
+          "name": "authTime",
+          "description": "the time of initial authentication for the client"
+        },
+        {
+          "name": "startTime",
+          "description": "the time after which the ticket will be valid. This may be null in which case the value of authTime is treated as the startTime."
+        },
+        {
+          "name": "endTime",
+          "description": "the time after which the ticket will no longer be valid"
+        },
+        {
+          "name": "renewTill",
+          "description": "an absolute expiration time for the ticket, including all renewal that might be possible. This field may be null for tickets that are not renewable."
+        },
+        {
+          "name": "clientAddresses",
+          "description": "the addresses from where the ticket may be used by the client. This field may be null when the ticket is usable from any address."
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "getClient",
+      "signature": "public final KerberosPrincipal getClient()",
+      "description": "Returns the client principal associated with this ticket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the client principal, or null if destroyed."
+    },
+    {
+      "name": "getServer",
+      "signature": "public final KerberosPrincipal getServer()",
+      "description": "Returns the service principal associated with this ticket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the service principal, or null if destroyed."
+    },
+    {
+      "name": "getSessionKey",
+      "signature": "public final SecretKey getSessionKey()",
+      "description": "Returns the session key associated with this ticket. The return value is always a EncryptionKey object.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if this ticket is destroyed"
+        }
+      ],
+      "returns": "the session key."
+    },
+    {
+      "name": "getSessionKeyType",
+      "signature": "public final int getSessionKeyType()",
+      "description": "Returns the key type of the session key associated with this ticket as defined by the Kerberos Protocol Specification.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if this ticket is destroyed"
+        }
+      ],
+      "returns": "the key type of the session key associated with this ticket."
+    },
+    {
+      "name": "isForwardable",
+      "signature": "public final boolean isForwardable()",
+      "description": "Determines if this ticket is forwardable.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is forwardable, or false if not forwardable or destroyed."
+    },
+    {
+      "name": "isForwarded",
+      "signature": "public final boolean isForwarded()",
+      "description": "Determines if this ticket had been forwarded or was issued based on authentication involving a forwarded ticket-granting ticket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket had been forwarded or was issued based on authentication involving a forwarded ticket-granting ticket, or false otherwise or destroyed."
+    },
+    {
+      "name": "isProxiable",
+      "signature": "public final boolean isProxiable()",
+      "description": "Determines if this ticket is proxiable.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is proxiable, or false if not proxiable or destroyed."
+    },
+    {
+      "name": "isProxy",
+      "signature": "public final boolean isProxy()",
+      "description": "Determines is this ticket is a proxy-ticket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is a proxy-ticket, or false if not a proxy-ticket or destroyed."
+    },
+    {
+      "name": "isPostdated",
+      "signature": "public final boolean isPostdated()",
+      "description": "Determines is this ticket is post-dated.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is post-dated, or false if not post-dated or destroyed."
+    },
+    {
+      "name": "isRenewable",
+      "signature": "public final boolean isRenewable()",
+      "description": "Determines is this ticket is renewable. If so, the refresh method can be called, assuming the validity period for renewing is not already over.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is renewable, or false if not renewable or destroyed."
+    },
+    {
+      "name": "isInitial",
+      "signature": "public final boolean isInitial()",
+      "description": "Determines if this ticket was issued using the Kerberos AS-Exchange protocol, and not issued based on some ticket-granting ticket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket was issued using the Kerberos AS-Exchange protocol, or false if not issued this way or destroyed."
+    },
+    {
+      "name": "getFlags",
+      "signature": "public final boolean[] getFlags()",
+      "description": "Returns the flags associated with this ticket. Each element in the returned array indicates the value for the corresponding bit in the ASN.1 BitString that represents the ticket flags.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the flags associated with this ticket, or null if destroyed."
+    },
+    {
+      "name": "getAuthTime",
+      "signature": "public final Date getAuthTime()",
+      "description": "Returns the time that the client was authenticated.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the time that the client was authenticated or null if the field is not set or this ticket is destroyed."
+    },
+    {
+      "name": "getStartTime",
+      "signature": "public final Date getStartTime()",
+      "description": "Returns the start time for this ticket's validity period.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the start time for this ticket's validity period or null if the field is not set or this ticket is destroyed."
+    },
+    {
+      "name": "getEndTime",
+      "signature": "public final Date getEndTime()",
+      "description": "Returns the expiration time for this ticket's validity period.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the expiration time for this ticket's validity period, or null if destroyed."
+    },
+    {
+      "name": "getRenewTill",
+      "signature": "public final Date getRenewTill()",
+      "description": "Returns the latest expiration time for this ticket, including all renewals. This will return a null value for non-renewable tickets.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the latest expiration time for this ticket, or null if destroyed."
+    },
+    {
+      "name": "getClientAddresses",
+      "signature": "public final InetAddress[] getClientAddresses()",
+      "description": "Returns a list of addresses from where the ticket can be used.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the list of addresses, or null if the field was not provided or this ticket is destroyed."
+    },
+    {
+      "name": "getEncoded",
+      "signature": "public final byte[] getEncoded()",
+      "description": "Returns an ASN.1 encoding of the entire ticket.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if this ticket is destroyed"
+        }
+      ],
+      "returns": "an ASN.1 encoding of the entire ticket. A new byte array is returned each time this method is called."
+    },
+    {
+      "name": "isCurrent",
+      "signature": "public boolean isCurrent()",
+      "description": "Determines if this ticket is still current.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this ticket is still current, or false if not current or destroyed."
+    },
+    {
+      "name": "refresh",
+      "signature": "public void refresh() throws RefreshFailedException",
+      "description": "Extends the validity period of this ticket. The ticket will contain a new session key if the refresh operation succeeds. The refresh operation will fail if the ticket is not renewable or the latest allowable renew time has passed. Any other error returned by the KDC will also cause this method to fail. Note: This method is not synchronized with the accessor methods of this object. Hence callers need to be aware of multiple threads that might access this and try to renew it at the same time.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if this ticket is destroyed"
+        },
+        {
+          "type": "RefreshFailedException",
+          "description": "if the ticket is not renewable, or the latest allowable renew time has passed, or the KDC returns some error."
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "signature": "public void destroy() throws DestroyFailedException",
+      "description": "Destroys the ticket and destroys any sensitive information stored in it.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "DestroyFailedException",
+          "description": "if the destroy operation fails."
+        }
+      ]
+    },
+    {
+      "name": "isDestroyed",
+      "signature": "public boolean isDestroyed()",
+      "description": "Determines if this ticket has been destroyed.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this Object has been destroyed, false otherwise."
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns an informative textual representation of this KerberosTicket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "an informative textual representation of this KerberosTicket."
+    },
+    {
+      "name": "hashCode",
+      "signature": "public int hashCode()",
+      "description": "Returns a hash code for this KerberosTicket.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a hash code for this KerberosTicket.",
+      "since": "1.6"
+    },
+    {
+      "name": "equals",
+      "signature": "public boolean equals(Object other)",
+      "description": "Compares the specified object with this KerberosTicket for equality. Returns true if the given object is also a KerberosTicket and the two KerberosTicket instances are equivalent. A destroyed KerberosTicket object is only equal to itself.",
+      "parameters": [
+        {
+          "name": "other",
+          "description": "the object to compare to"
+        }
+      ],
+      "throws": [],
+      "returns": "true if the specified object is equal to this KerberosTicket, false otherwise.",
+      "since": "1.6"
+    }
+  ]
+}

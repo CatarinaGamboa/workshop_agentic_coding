@@ -1,0 +1,40 @@
+## Instructions,,,,,,
+## Factors: branching | scale | multi-state | state-dependent-values | workarounds,,,,,,
+"## Write the factors found separated by "" | "" or leave empty if none",,,,,,
+## Complexity: none (no protocol) / simple (0 factors) / moderate (1 factor) / complex (2+ factors),,,,,,
+Class,Reviewer1_Factors,Reviewer1_Complexity,Reviewer2_Complexity,Reviewer2_Factors,Final_Complexity,Final_Factors
+java.awt.PopupMenu,-,none,none,,none,
+java.awt.Window,branching | scale | state-dependent-values,complex,complex,branching | conditional,complex,
+java.awt.datatransfer.Clipboard,-,none,none,,none,
+java.awt.dnd.DragSourceContext,workarounds | branching,complex,complex,branching | scale | workaround,complex,
+java.awt.dnd.DropTarget,multi-state | branching | state-dependent-values | scale,complex,complex,branching | scale | conditional,complex,
+java.awt.geom.FlatteningPathIterator,-,none,none,,none,
+java.io.BufferedInputStream,branching,moderate,complex,branching | scale,complex,branching | scale
+java.io.BufferedReader,branching,moderate,complex,branching | scale,complex,branching | scale
+java.io.PipedOutputStream,,simple,moderate,scale,moderate,scale
+java.io.PipedWriter,,simple,moderate,scale,moderate,scale
+java.lang.ThreadGroup,-,none,none,,none,
+java.lang.Throwable,,simple,simple,,simple,
+java.net.DatagramSocket,branching | scale,complex,moderate,scale,complex,branching | scale
+java.net.ServerSocket,branching | scale,complex,complex,branching | scale | workaround,complex,
+java.net.Socket,branching | scale,complex,complex,branching | scale,complex,
+java.sql.SQLException,-,none,none,,none,
+java.util.UUID,state-dependent-values | workarounds,complex,complex,branching | conditional | state-dependent-values,complex,
+java.util.Vector,workarounds | branching,complex,complex,scale | workarounds,complex,
+java.util.zip.DeflaterOutputStream,,simple,complex,branching | scale,simple,
+java.util.zip.ZipFile,,simple,simple,,simple,
+java.util.zip.ZipOutputStream,,simple,moderate,scale,moderate,scale
+javax.imageio.ImageReadParam,-,none,none,,none,
+javax.imageio.ImageWriteParam,multi-state | state-dependent-values | scale,complex,complex,branching | conditional | scale | complex-multi-state,complex,
+javax.management.loading.MLet,scale,moderate,simple,,moderate,scale
+javax.management.modelmbean.RequiredModelMBean,scale,moderate,moderate,scale,moderate,
+javax.management.remote.rmi.RMIConnector,,simple,moderate,scale,moderate,scale
+javax.security.auth.callback.ChoiceCallback,state-dependent-values,moderate,moderate,conditional,moderate,
+javax.security.auth.kerberos.KerberosKey,,simple,simple,,simple,
+javax.security.auth.kerberos.KerberosTicket,,simple,simple,,simple,
+javax.security.auth.login.LoginContext,,simple,simple,,simple,
+javax.swing.tree.DefaultMutableTreeNode,state-dependent-values | workarounds | scale,complex,complex,branching | conditional | scale | workaround,complex,
+javax.swing.undo.AbstractUndoableEdit,,simple,simple,,simple,
+javax.swing.undo.UndoManager,scale,moderate,complex,branching | scale,complex,branching | scale
+javax.xml.transform.TransformerException,,simple,simple,,simple,
+org.xml.sax.helpers.XMLFilterImpl,,simple,simple,,simple,

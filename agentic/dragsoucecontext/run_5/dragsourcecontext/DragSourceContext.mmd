@@ -1,0 +1,46 @@
+stateDiagram-v2
+    [*] --> Dragging : DragSourceContext DragSourceContext([DragGestureEvent trigger], [Cursor dragCursor], [Image dragImage], [Point offset], [Transferable t], [DragSourceListener dsl])
+
+    Dragging --> OverTarget : void dragEnter([DragSourceDragEvent dsde])
+    Dragging --> Ended : void dragDropEnd([DragSourceDropEvent dsde])
+    Dragging --> Dragging : void dragMouseMoved([DragSourceDragEvent dsde])
+    Dragging --> Dragging : void setCursor([Cursor c])
+    Dragging --> Dragging : Cursor getCursor()
+    Dragging --> Dragging : DragSource getDragSource()
+    Dragging --> Dragging : Component getComponent()
+    Dragging --> Dragging : DragGestureEvent getTrigger()
+    Dragging --> Dragging : int getSourceActions()
+    Dragging --> Dragging : void addDragSourceListener([DragSourceListener dsl])
+    Dragging --> Dragging : void removeDragSourceListener([DragSourceListener dsl])
+    Dragging --> Dragging : void transferablesFlavorsChanged()
+    Dragging --> Dragging : Transferable getTransferable()
+    Dragging --> Dragging : void updateCurrentCursor([int sourceAct], [int targetAct], [int status])
+
+    OverTarget --> Dragging : void dragExit([DragSourceEvent dse])
+    OverTarget --> OverTarget : void dragOver([DragSourceDragEvent dsde])
+    OverTarget --> OverTarget : void dropActionChanged([DragSourceDragEvent dsde])
+    OverTarget --> Ended : void dragDropEnd([DragSourceDropEvent dsde])
+    OverTarget --> OverTarget : void dragMouseMoved([DragSourceDragEvent dsde])
+    OverTarget --> OverTarget : void setCursor([Cursor c])
+    OverTarget --> OverTarget : Cursor getCursor()
+    OverTarget --> OverTarget : DragSource getDragSource()
+    OverTarget --> OverTarget : Component getComponent()
+    OverTarget --> OverTarget : DragGestureEvent getTrigger()
+    OverTarget --> OverTarget : int getSourceActions()
+    OverTarget --> OverTarget : void addDragSourceListener([DragSourceListener dsl])
+    OverTarget --> OverTarget : void removeDragSourceListener([DragSourceListener dsl])
+    OverTarget --> OverTarget : void transferablesFlavorsChanged()
+    OverTarget --> OverTarget : Transferable getTransferable()
+    OverTarget --> OverTarget : void updateCurrentCursor([int sourceAct], [int targetAct], [int status])
+
+    Ended --> [*]
+
+    note right of Dragging
+        addDragSourceListener() throws TooManyListenersException
+        if a listener is already registered.
+        Default cursor behavior is active unless setCursor() sets a custom cursor.
+    end note
+
+    note right of Ended
+        Terminal state. dragDropEnd() transitions here from any active drag state.
+    end note

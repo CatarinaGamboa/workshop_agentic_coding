@@ -1,0 +1,27 @@
+stateDiagram-v2
+    [*] --> Active : KerberosKey KerberosKey([KerberosPrincipal principal], [byte[] keyBytes], [int keyType], [int versionNum])
+    [*] --> Active : KerberosKey KerberosKey([KerberosPrincipal principal], [char[] password], [String algorithm])
+    Active --> Active : KerberosPrincipal getPrincipal()
+    Active --> Active : int getVersionNumber()
+    Active --> Active : int getKeyType()
+    Active --> Active : String getAlgorithm()
+    Active --> Active : String getFormat()
+    Active --> Active : byte[] getEncoded()
+    Active --> Active : boolean isDestroyed()
+    Active --> Active : String toString()
+    Active --> Active : int hashCode()
+    Active --> Active : boolean equals([Object other])
+    Active --> Destroyed : void destroy()
+    Destroyed --> Destroyed : void destroy()
+    Destroyed --> Destroyed : boolean isDestroyed()
+    Destroyed --> Destroyed : String toString()
+    Destroyed --> Destroyed : int hashCode()
+    Destroyed --> Destroyed : boolean equals([Object other])
+    Destroyed --> [*]
+
+    note right of Destroyed
+        getPrincipal(), getVersionNumber(), getKeyType(),
+        getAlgorithm(), getFormat(), getEncoded() all throw
+        IllegalStateException when key is destroyed.
+        A destroyed KerberosKey is only equal to itself.
+    end note

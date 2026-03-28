@@ -1,0 +1,31 @@
+stateDiagram-v2
+    [*] --> Created : LoginContext LoginContext([String name])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject])
+    [*] --> Created : LoginContext LoginContext([String name], [CallbackHandler callbackHandler])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler], [Configuration config])
+
+    Created --> Authenticated : void login()
+    Created --> Created : Subject getSubject()
+
+    Authenticated --> LoggedOut : void logout()
+    Authenticated --> Authenticated : Subject getSubject()
+
+    LoggedOut --> LoggedOut : Subject getSubject()
+    LoggedOut --> [*]
+
+    note right of Created
+        login() must be called to authenticate.
+        getSubject() returns null if authentication has not been attempted.
+        A LoginContext should not be reused for multiple Subjects.
+    end note
+
+    note right of Authenticated
+        getSubject() returns the authenticated Subject.
+        Call logout() to remove credentials and clean up state.
+    end note
+
+    note right of LoggedOut
+        Terminal state. LoginContext should not be reused.
+        getSubject() may return caller-specified Subject or null.
+    end note

@@ -1,0 +1,195 @@
+{
+  "class": {
+    "name": "KerberosKey",
+    "signature": "public class KerberosKey extends Object implements SecretKey",
+    "description": "This class encapsulates a long term secret key for a Kerberos principal. A KerberosKey object includes an EncryptionKey, a KerberosPrincipal as its owner, and the version number of the key. An EncryptionKey is defined in Section 4.2.9 of the Kerberos Protocol Specification (RFC 4120) as: EncryptionKey ::= SEQUENCE { keytype [0] Int32 -- actually encryption type --, keyvalue [1] OCTET STRING } The key material of a KerberosKey is defined as the value of the keyValue above. All Kerberos JAAS login modules that obtain a principal's password and generate the secret key from it should use this class. Sometimes, such as when authenticating a server in the absence of user-to-user authentication, the login module will store an instance of this class in the private credential set of a Subject during the commit phase of the authentication process. A Kerberos service using a keytab to read secret keys should use the KeyTab class, where latest keys can be read when needed. It might be necessary for the application to be granted a PrivateCredentialPermission if it needs to access the KerberosKey instance from a Subject. This permission is not needed when the application depends on the default JGSS Kerberos mechanism to access the KerberosKey. In that case, however, the application will need an appropriate ServicePermission. When creating a KerberosKey using the KerberosKey(KerberosPrincipal, char[], String) constructor, an implementation may accept non-IANA algorithm names (For example, \"ArcFourMac\" for \"rc4-hmac\"), but the getAlgorithm() method must always return the IANA algorithm name.",
+    "implements": [
+      "Serializable",
+      "Key",
+      "SecretKey",
+      "Destroyable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "KerberosKey",
+      "signature": "public KerberosKey(KerberosPrincipal principal, byte[] keyBytes, int keyType, int versionNum)",
+      "description": "Constructs a KerberosKey from the given bytes when the key type and key version number are known. This can be used when reading the secret key information from a Kerberos \"keytab\".",
+      "parameters": [
+        {
+          "name": "principal",
+          "description": "the principal that this secret key belongs to"
+        },
+        {
+          "name": "keyBytes",
+          "description": "the key material for the secret key"
+        },
+        {
+          "name": "keyType",
+          "description": "the key type for the secret key as defined by the Kerberos protocol specification."
+        },
+        {
+          "name": "versionNum",
+          "description": "the version number of this secret key"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "KerberosKey",
+      "signature": "public KerberosKey(KerberosPrincipal principal, char[] password, String algorithm)",
+      "description": "Constructs a KerberosKey from a principal's password using the specified algorithm name. The algorithm name (case insensitive) should be provided as the encryption type string defined on the IANA Kerberos Encryption Type Numbers page. The version number of the key generated will be 0.",
+      "parameters": [
+        {
+          "name": "principal",
+          "description": "the principal that this password belongs to"
+        },
+        {
+          "name": "password",
+          "description": "the password that should be used to compute the key"
+        },
+        {
+          "name": "algorithm",
+          "description": "the name for the algorithm that this key will be used for"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the name of the algorithm passed is unsupported."
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "getPrincipal",
+      "signature": "public final KerberosPrincipal getPrincipal()",
+      "description": "Returns the principal that this key belongs to.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the principal this key belongs to."
+    },
+    {
+      "name": "getVersionNumber",
+      "signature": "public final int getVersionNumber()",
+      "description": "Returns the key version number.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the key version number."
+    },
+    {
+      "name": "getKeyType",
+      "signature": "public final int getKeyType()",
+      "description": "Returns the key type for this long-term key.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the key type."
+    },
+    {
+      "name": "getAlgorithm",
+      "signature": "public final String getAlgorithm()",
+      "description": "Returns the standard algorithm name for this key. The algorithm names are the encryption type string defined on the IANA Kerberos Encryption Type Numbers page. This method can return the following value not defined on the IANA page: none: for etype equal to 0 unknown: for etype greater than 0 but unsupported by the implementation private: for etype smaller than 0",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the name of the algorithm associated with this key."
+    },
+    {
+      "name": "getFormat",
+      "signature": "public final String getFormat()",
+      "description": "Returns the name of the encoding format for this secret key.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the String \"RAW\""
+    },
+    {
+      "name": "getEncoded",
+      "signature": "public final byte[] getEncoded()",
+      "description": "Returns the key material of this secret key.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the key is destroyed"
+        }
+      ],
+      "returns": "the key material"
+    },
+    {
+      "name": "destroy",
+      "signature": "public void destroy() throws DestroyFailedException",
+      "description": "Destroys this key by clearing out the key material of this secret key.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "DestroyFailedException",
+          "description": "if some error occurs while destorying this key."
+        }
+      ]
+    },
+    {
+      "name": "isDestroyed",
+      "signature": "public boolean isDestroyed()",
+      "description": "Determines if this key has been destroyed.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this Object has been destroyed, false otherwise."
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns an informative textual representation of this KerberosKey.",
+      "parameters": [],
+      "throws": [],
+      "returns": "an informative textual representation of this KerberosKey."
+    },
+    {
+      "name": "hashCode",
+      "signature": "public int hashCode()",
+      "description": "Returns a hash code for this KerberosKey.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a hash code for this KerberosKey.",
+      "since": "1.6"
+    },
+    {
+      "name": "equals",
+      "signature": "public boolean equals(Object other)",
+      "description": "Compares the specified object with this KerberosKey for equality. Returns true if the given object is also a KerberosKey and the two KerberosKey instances are equivalent. A destroyed KerberosKey object is only equal to itself.",
+      "parameters": [
+        {
+          "name": "other",
+          "description": "the object to compare to"
+        }
+      ],
+      "throws": [],
+      "returns": "true if the specified object is equal to this KerberosKey, false otherwise.",
+      "since": "1.6"
+    }
+  ]
+}

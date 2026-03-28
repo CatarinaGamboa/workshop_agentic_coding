@@ -1,0 +1,113 @@
+{
+  "class": {
+    "name": "ChoiceCallback",
+    "signature": "public class ChoiceCallback extends Object implements Callback, Serializable",
+    "description": "Underlying security services instantiate and pass a ChoiceCallback to the handle method of a CallbackHandler to display a list of choices and to retrieve the selected choice(s).",
+    "implements": [
+      "Serializable",
+      "Callback"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "ChoiceCallback",
+      "signature": "public ChoiceCallback(String prompt, String[] choices, int defaultChoice, boolean multipleSelectionsAllowed)",
+      "description": "Construct a ChoiceCallback with a prompt, a list of choices, a default choice, and a boolean specifying whether or not multiple selections from the list of choices are allowed.",
+      "parameters": [
+        {
+          "name": "prompt",
+          "description": "the prompt used to describe the list of choices."
+        },
+        {
+          "name": "choices",
+          "description": "the list of choices. The array is cloned to protect against subsequent modification."
+        },
+        {
+          "name": "defaultChoice",
+          "description": "the choice to be used as the default choice when the list of choices are displayed. This value is represented as an index into the choices array."
+        },
+        {
+          "name": "multipleSelectionsAllowed",
+          "description": "boolean specifying whether or not multiple selections can be made from the list of choices."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if prompt is null, if prompt has a length of 0, if choices is null, if choices has a length of 0, if any element from choices is null, if any element from choices has a length of 0 or if defaultChoice does not fall within the array boundaries of choices."
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "getPrompt",
+      "signature": "public String getPrompt()",
+      "description": "Get the prompt.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the prompt."
+    },
+    {
+      "name": "getChoices",
+      "signature": "public String[] getChoices()",
+      "description": "Get the list of choices.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a copy of the list of choices."
+    },
+    {
+      "name": "getDefaultChoice",
+      "signature": "public int getDefaultChoice()",
+      "description": "Get the defaultChoice.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the defaultChoice, represented as an index into the choices list."
+    },
+    {
+      "name": "allowMultipleSelections",
+      "signature": "public boolean allowMultipleSelections()",
+      "description": "Get the boolean determining whether multiple selections from the choices list are allowed.",
+      "parameters": [],
+      "throws": [],
+      "returns": "whether multiple selections are allowed."
+    },
+    {
+      "name": "setSelectedIndex",
+      "signature": "public void setSelectedIndex(int selection)",
+      "description": "Set the selected choice.",
+      "parameters": [
+        {
+          "name": "selection",
+          "description": "the selection represented as an index into the choices list."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "setSelectedIndexes",
+      "signature": "public void setSelectedIndexes(int[] selections)",
+      "description": "Set the selected choices.",
+      "parameters": [
+        {
+          "name": "selections",
+          "description": "the selections represented as indexes into the choices list. The array is cloned to protect against subsequent modification."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if multiple selections are not allowed, as determined by allowMultipleSelections."
+        }
+      ]
+    },
+    {
+      "name": "getSelectedIndexes",
+      "signature": "public int[] getSelectedIndexes()",
+      "description": "Get the selected choices.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a copy of the selected choices, represented as indexes into the choices list."
+    }
+  ]
+}

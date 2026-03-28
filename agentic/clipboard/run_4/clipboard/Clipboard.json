@@ -1,0 +1,174 @@
+{
+  "class": {
+    "name": "Clipboard",
+    "signature": "public class Clipboard extends Object",
+    "description": "A class that implements a mechanism to transfer data using cut/copy/paste operations. FlavorListeners may be registered on an instance of the Clipboard class to be notified about changes to the set of DataFlavors available on this clipboard (see addFlavorListener(java.awt.datatransfer.FlavorListener)).",
+    "since": "1.1"
+  },
+  "constructors": [
+    {
+      "name": "Clipboard",
+      "signature": "public Clipboard(String name)",
+      "description": "Creates a clipboard object.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "for the clipboard"
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "getName",
+      "signature": "public String getName()",
+      "description": "Returns the name of this clipboard object.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the name of this clipboard object"
+    },
+    {
+      "name": "setContents",
+      "signature": "public void setContents(Transferable contents, ClipboardOwner owner)",
+      "description": "Sets the current contents of the clipboard to the specified transferable object and registers the specified clipboard owner as the owner of the new contents. If there is an existing owner different from the argument owner, that owner is notified that it no longer holds ownership of the clipboard contents via an invocation of ClipboardOwner.lostOwnership() on that owner. An implementation of setContents() is free not to invoke lostOwnership() directly from this method. For example, lostOwnership() may be invoked later on a different thread. The same applies to FlavorListeners registered on this clipboard. The method throws IllegalStateException if the clipboard is currently unavailable. For example, on some platforms, the system clipboard is unavailable while it is accessed by another application.",
+      "parameters": [
+        {
+          "name": "contents",
+          "description": "the transferable object representing the clipboard content"
+        },
+        {
+          "name": "owner",
+          "description": "the object which owns the clipboard content"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the clipboard is currently unavailable"
+        }
+      ]
+    },
+    {
+      "name": "getContents",
+      "signature": "public Transferable getContents(Object requestor)",
+      "description": "Returns a transferable object representing the current contents of the clipboard. If the clipboard currently has no contents, it returns null. The parameter Object requestor is not currently used. The method throws IllegalStateException if the clipboard is currently unavailable. For example, on some platforms, the system clipboard is unavailable while it is accessed by another application.",
+      "parameters": [
+        {
+          "name": "requestor",
+          "description": "the object requesting the clip data (not used)"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if the clipboard is currently unavailable"
+        }
+      ],
+      "returns": "the current transferable object on the clipboard"
+    },
+    {
+      "name": "getAvailableDataFlavors",
+      "signature": "public DataFlavor[] getAvailableDataFlavors()",
+      "description": "Returns an array of DataFlavors in which the current contents of this clipboard can be provided. If there are no DataFlavors available, this method returns a zero-length array.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IllegalStateException",
+          "description": "if this clipboard is currently unavailable"
+        }
+      ],
+      "returns": "an array of DataFlavors in which the current contents of this clipboard can be provided",
+      "since": "1.5"
+    },
+    {
+      "name": "isDataFlavorAvailable",
+      "signature": "public boolean isDataFlavorAvailable(DataFlavor flavor)",
+      "description": "Returns whether or not the current contents of this clipboard can be provided in the specified DataFlavor.",
+      "parameters": [
+        {
+          "name": "flavor",
+          "description": "the requested DataFlavor for the contents"
+        }
+      ],
+      "throws": [
+        {
+          "type": "NullPointerException",
+          "description": "if flavor is null"
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if this clipboard is currently unavailable"
+        }
+      ],
+      "returns": "true if the current contents of this clipboard can be provided in the specified DataFlavor; false otherwise",
+      "since": "1.5"
+    },
+    {
+      "name": "getData",
+      "signature": "public Object getData(DataFlavor flavor) throws UnsupportedFlavorException, IOException",
+      "description": "Returns an object representing the current contents of this clipboard in the specified DataFlavor. The class of the object returned is defined by the representation class of flavor.",
+      "parameters": [
+        {
+          "name": "flavor",
+          "description": "the requested DataFlavor for the contents"
+        }
+      ],
+      "throws": [
+        {
+          "type": "NullPointerException",
+          "description": "if flavor is null"
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if this clipboard is currently unavailable"
+        },
+        {
+          "type": "UnsupportedFlavorException",
+          "description": "if the requested DataFlavor is not available"
+        },
+        {
+          "type": "IOException",
+          "description": "if the data in the requested DataFlavor can not be retrieved"
+        }
+      ],
+      "returns": "an object representing the current contents of this clipboard in the specified DataFlavor",
+      "since": "1.5"
+    },
+    {
+      "name": "addFlavorListener",
+      "signature": "public void addFlavorListener(FlavorListener listener)",
+      "description": "Registers the specified FlavorListener to receive FlavorEvents from this clipboard. If listener is null, no exception is thrown and no action is performed.",
+      "parameters": [
+        {
+          "name": "listener",
+          "description": "the listener to be added"
+        }
+      ],
+      "throws": [],
+      "since": "1.5"
+    },
+    {
+      "name": "removeFlavorListener",
+      "signature": "public void removeFlavorListener(FlavorListener listener)",
+      "description": "Removes the specified FlavorListener so that it no longer receives FlavorEvents from this Clipboard. This method performs no function, nor does it throw an exception, if the listener specified by the argument was not previously added to this Clipboard. If listener is null, no exception is thrown and no action is performed.",
+      "parameters": [
+        {
+          "name": "listener",
+          "description": "the listener to be removed"
+        }
+      ],
+      "throws": [],
+      "since": "1.5"
+    },
+    {
+      "name": "getFlavorListeners",
+      "signature": "public FlavorListener[] getFlavorListeners()",
+      "description": "Returns an array of all the FlavorListeners currently registered on this Clipboard.",
+      "parameters": [],
+      "throws": [],
+      "returns": "all of this clipboard's FlavorListeners or an empty array if no listeners are currently registered",
+      "since": "1.5"
+    }
+  ]
+}

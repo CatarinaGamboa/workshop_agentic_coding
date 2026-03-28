@@ -1,0 +1,15 @@
+stateDiagram-v2
+    [*] --> maybePopup : PopupMenu PopupMenu()
+    [*] --> maybePopup : PopupMenu PopupMenu([String label])
+
+    maybePopup --> maybePopup : void addNotify()
+    maybePopup --> maybePopup : void show([Component origin], [int x], [int y])
+    maybePopup --> maybePopup : AccessibleContext getAccessibleContext()
+
+    maybePopup --> [*]
+
+    note right of maybePopup
+        show() throws IllegalArgumentException if this PopupMenu
+        has a non-Component parent (i.e., used as a Menu added to a MenuBar).
+        Parent type is determined externally and cannot be resolved statically at construction.
+    end note

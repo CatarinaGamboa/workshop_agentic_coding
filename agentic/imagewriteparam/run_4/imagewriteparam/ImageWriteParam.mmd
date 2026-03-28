@@ -1,0 +1,298 @@
+stateDiagram-v2
+    [*] --> TNotExplicitCNotExplicit : ImageWriteParam ImageWriteParam([Locale locale])
+
+    %% Tiling mode set to MODE_EXPLICIT from TNotExplicit states
+    TNotExplicitCNotExplicit --> TExplicitCNotExplicit : void setTilingMode([int mode])
+    TNotExplicitCExplicit --> TExplicitCExplicit : void setTilingMode([int mode])
+    TNotExplicitCExplicitTyped --> TExplicitCExplicitTyped : void setTilingMode([int mode])
+
+    %% Tiling mode set to non-MODE_EXPLICIT from TExplicit states
+    TExplicitCNotExplicit --> TNotExplicitCNotExplicit : void setTilingMode([int mode])
+    TExplicitCExplicit --> TNotExplicitCExplicit : void setTilingMode([int mode])
+    TExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : void setTilingMode([int mode])
+
+    %% Tiling mode changed from TExplicitSet states (resets tiling params)
+    TExplicitSetCNotExplicit --> TExplicitCNotExplicit : void setTilingMode([int mode])
+    TExplicitSetCExplicit --> TExplicitCExplicit : void setTilingMode([int mode])
+    TExplicitSetCExplicitTyped --> TExplicitCExplicitTyped : void setTilingMode([int mode])
+
+    %% setTiling - only valid in TExplicit or TExplicitSet states; moves to TExplicitSet
+    TExplicitCNotExplicit --> TExplicitSetCNotExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TExplicitCExplicit --> TExplicitSetCExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TExplicitCExplicitTyped --> TExplicitSetCExplicitTyped : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+
+    %% unsetTiling - only valid in TExplicit or TExplicitSet; moves TExplicitSet back to TExplicit
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : void unsetTiling()
+    TExplicitCExplicit --> TExplicitCExplicit : void unsetTiling()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : void unsetTiling()
+    TExplicitSetCNotExplicit --> TExplicitCNotExplicit : void unsetTiling()
+    TExplicitSetCExplicit --> TExplicitCExplicit : void unsetTiling()
+    TExplicitSetCExplicitTyped --> TExplicitCExplicitTyped : void unsetTiling()
+
+    %% getTileWidth - only valid in TExplicitSet states
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getTileWidth()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getTileWidth()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getTileWidth()
+
+    %% getTileHeight - only valid in TExplicitSet states
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getTileHeight()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getTileHeight()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getTileHeight()
+
+    %% getTileGridXOffset - only valid in TExplicitSet states
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getTileGridXOffset()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getTileGridXOffset()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getTileGridXOffset()
+
+    %% getTileGridYOffset - only valid in TExplicitSet states
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getTileGridYOffset()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getTileGridYOffset()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getTileGridYOffset()
+
+    %% getTilingMode - valid in all states (throws only if tiling not supported)
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : int getTilingMode()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : int getTilingMode()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : int getTilingMode()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : int getTilingMode()
+    TExplicitCExplicit --> TExplicitCExplicit : int getTilingMode()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : int getTilingMode()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getTilingMode()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getTilingMode()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getTilingMode()
+
+    %% getPreferredTileSizes - valid in all states (throws only if tiling not supported)
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : Dimension[] getPreferredTileSizes()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : Dimension[] getPreferredTileSizes()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : Dimension[] getPreferredTileSizes()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : Dimension[] getPreferredTileSizes()
+    TExplicitCExplicit --> TExplicitCExplicit : Dimension[] getPreferredTileSizes()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : Dimension[] getPreferredTileSizes()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : Dimension[] getPreferredTileSizes()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : Dimension[] getPreferredTileSizes()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : Dimension[] getPreferredTileSizes()
+
+    %% setCompressionMode to MODE_EXPLICIT from CNotExplicit states
+    TNotExplicitCNotExplicit --> TNotExplicitCExplicit : void setCompressionMode([int mode])
+    TExplicitCNotExplicit --> TExplicitCExplicit : void setCompressionMode([int mode])
+    TExplicitSetCNotExplicit --> TExplicitSetCExplicit : void setCompressionMode([int mode])
+
+    %% setCompressionMode to non-MODE_EXPLICIT from CExplicit states
+    TNotExplicitCExplicit --> TNotExplicitCNotExplicit : void setCompressionMode([int mode])
+    TExplicitCExplicit --> TExplicitCNotExplicit : void setCompressionMode([int mode])
+    TExplicitSetCExplicit --> TExplicitSetCNotExplicit : void setCompressionMode([int mode])
+
+    %% setCompressionMode from CExplicitTyped states (resets compression type)
+    TNotExplicitCExplicitTyped --> TNotExplicitCNotExplicit : void setCompressionMode([int mode])
+    TExplicitCExplicitTyped --> TExplicitCNotExplicit : void setCompressionMode([int mode])
+    TExplicitSetCExplicitTyped --> TExplicitSetCNotExplicit : void setCompressionMode([int mode])
+
+    %% setCompressionType - only valid in CExplicit or CExplicitTyped; moves to CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicitTyped : void setCompressionType([String compressionType])
+    TExplicitCExplicit --> TExplicitCExplicitTyped : void setCompressionType([String compressionType])
+    TExplicitSetCExplicit --> TExplicitSetCExplicitTyped : void setCompressionType([String compressionType])
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : void setCompressionType([String compressionType])
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : void setCompressionType([String compressionType])
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : void setCompressionType([String compressionType])
+
+    %% unsetCompression - valid in CExplicit and CExplicitTyped; CExplicitTyped goes back to CExplicit
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : void unsetCompression()
+    TExplicitCExplicit --> TExplicitCExplicit : void unsetCompression()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : void unsetCompression()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicit : void unsetCompression()
+    TExplicitCExplicitTyped --> TExplicitCExplicit : void unsetCompression()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicit : void unsetCompression()
+
+    %% getCompressionType - valid in CExplicit and CExplicitTyped states
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : String getCompressionType()
+    TExplicitCExplicit --> TExplicitCExplicit : String getCompressionType()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : String getCompressionType()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : String getCompressionType()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : String getCompressionType()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : String getCompressionType()
+
+    %% getCompressionMode - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : int getCompressionMode()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : int getCompressionMode()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : int getCompressionMode()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : int getCompressionMode()
+    TExplicitCExplicit --> TExplicitCExplicit : int getCompressionMode()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : int getCompressionMode()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getCompressionMode()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getCompressionMode()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getCompressionMode()
+
+    %% getCompressionTypes - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : String[] getCompressionTypes()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : String[] getCompressionTypes()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : String[] getCompressionTypes()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : String[] getCompressionTypes()
+    TExplicitCExplicit --> TExplicitCExplicit : String[] getCompressionTypes()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : String[] getCompressionTypes()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : String[] getCompressionTypes()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : String[] getCompressionTypes()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : String[] getCompressionTypes()
+
+    %% getLocalizedCompressionTypeName - only valid in CExplicitTyped
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : String getLocalizedCompressionTypeName()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : String getLocalizedCompressionTypeName()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : String getLocalizedCompressionTypeName()
+
+    %% isCompressionLossless - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : boolean isCompressionLossless()
+    TExplicitCExplicit --> TExplicitCExplicit : boolean isCompressionLossless()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : boolean isCompressionLossless()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : boolean isCompressionLossless()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : boolean isCompressionLossless()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : boolean isCompressionLossless()
+
+    %% setCompressionQuality - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : void setCompressionQuality([float quality])
+    TExplicitCExplicit --> TExplicitCExplicit : void setCompressionQuality([float quality])
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : void setCompressionQuality([float quality])
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : void setCompressionQuality([float quality])
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : void setCompressionQuality([float quality])
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : void setCompressionQuality([float quality])
+
+    %% getCompressionQuality - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : float getCompressionQuality()
+    TExplicitCExplicit --> TExplicitCExplicit : float getCompressionQuality()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : float getCompressionQuality()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : float getCompressionQuality()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : float getCompressionQuality()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : float getCompressionQuality()
+
+    %% getBitRate - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : float getBitRate([float quality])
+    TExplicitCExplicit --> TExplicitCExplicit : float getBitRate([float quality])
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : float getBitRate([float quality])
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : float getBitRate([float quality])
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : float getBitRate([float quality])
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : float getBitRate([float quality])
+
+    %% getCompressionQualityDescriptions - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : String[] getCompressionQualityDescriptions()
+    TExplicitCExplicit --> TExplicitCExplicit : String[] getCompressionQualityDescriptions()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : String[] getCompressionQualityDescriptions()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : String[] getCompressionQualityDescriptions()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : String[] getCompressionQualityDescriptions()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : String[] getCompressionQualityDescriptions()
+
+    %% getCompressionQualityValues - valid in CExplicit (single mandatory type) and CExplicitTyped
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : float[] getCompressionQualityValues()
+    TExplicitCExplicit --> TExplicitCExplicit : float[] getCompressionQualityValues()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : float[] getCompressionQualityValues()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : float[] getCompressionQualityValues()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : float[] getCompressionQualityValues()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : float[] getCompressionQualityValues()
+
+    %% getLocale - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : Locale getLocale()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : Locale getLocale()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : Locale getLocale()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : Locale getLocale()
+    TExplicitCExplicit --> TExplicitCExplicit : Locale getLocale()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : Locale getLocale()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : Locale getLocale()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : Locale getLocale()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : Locale getLocale()
+
+    %% canWriteTiles - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : boolean canWriteTiles()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : boolean canWriteTiles()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : boolean canWriteTiles()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : boolean canWriteTiles()
+    TExplicitCExplicit --> TExplicitCExplicit : boolean canWriteTiles()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : boolean canWriteTiles()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : boolean canWriteTiles()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : boolean canWriteTiles()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : boolean canWriteTiles()
+
+    %% canOffsetTiles - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : boolean canOffsetTiles()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : boolean canOffsetTiles()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : boolean canOffsetTiles()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : boolean canOffsetTiles()
+    TExplicitCExplicit --> TExplicitCExplicit : boolean canOffsetTiles()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : boolean canOffsetTiles()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : boolean canOffsetTiles()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : boolean canOffsetTiles()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : boolean canOffsetTiles()
+
+    %% canWriteProgressive - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : boolean canWriteProgressive()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : boolean canWriteProgressive()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : boolean canWriteProgressive()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : boolean canWriteProgressive()
+    TExplicitCExplicit --> TExplicitCExplicit : boolean canWriteProgressive()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : boolean canWriteProgressive()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : boolean canWriteProgressive()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : boolean canWriteProgressive()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : boolean canWriteProgressive()
+
+    %% canWriteCompressed - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : boolean canWriteCompressed()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : boolean canWriteCompressed()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : boolean canWriteCompressed()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : boolean canWriteCompressed()
+    TExplicitCExplicit --> TExplicitCExplicit : boolean canWriteCompressed()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : boolean canWriteCompressed()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : boolean canWriteCompressed()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : boolean canWriteCompressed()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : boolean canWriteCompressed()
+
+    %% setProgressiveMode - valid in all states (throws if progressive not supported)
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : void setProgressiveMode([int mode])
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : void setProgressiveMode([int mode])
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : void setProgressiveMode([int mode])
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : void setProgressiveMode([int mode])
+    TExplicitCExplicit --> TExplicitCExplicit : void setProgressiveMode([int mode])
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : void setProgressiveMode([int mode])
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : void setProgressiveMode([int mode])
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : void setProgressiveMode([int mode])
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : void setProgressiveMode([int mode])
+
+    %% getProgressiveMode - valid in all states
+    TNotExplicitCNotExplicit --> TNotExplicitCNotExplicit : int getProgressiveMode()
+    TNotExplicitCExplicit --> TNotExplicitCExplicit : int getProgressiveMode()
+    TNotExplicitCExplicitTyped --> TNotExplicitCExplicitTyped : int getProgressiveMode()
+    TExplicitCNotExplicit --> TExplicitCNotExplicit : int getProgressiveMode()
+    TExplicitCExplicit --> TExplicitCExplicit : int getProgressiveMode()
+    TExplicitCExplicitTyped --> TExplicitCExplicitTyped : int getProgressiveMode()
+    TExplicitSetCNotExplicit --> TExplicitSetCNotExplicit : int getProgressiveMode()
+    TExplicitSetCExplicit --> TExplicitSetCExplicit : int getProgressiveMode()
+    TExplicitSetCExplicitTyped --> TExplicitSetCExplicitTyped : int getProgressiveMode()
+
+    note right of TNotExplicitCNotExplicit
+        Tiling mode: DEFAULT, DISABLED, or COPY_FROM_METADATA.
+        Compression mode: DEFAULT, DISABLED, or COPY_FROM_METADATA.
+        setTiling(), getTileWidth/Height/Offset(), setCompressionType(),
+        getCompressionType(), setCompressionQuality(), etc. are all forbidden.
+    end note
+
+    note right of TExplicitCExplicit
+        Tiling mode: MODE_EXPLICIT, but setTiling() not yet called.
+        Compression mode: MODE_EXPLICIT, but no compression type set yet.
+        getTileWidth/Height/Offset() and getLocalizedCompressionTypeName(),
+        setCompressionQuality() (if types exist) are forbidden.
+    end note
+
+    note right of TExplicitSetCExplicitTyped
+        Tiling: MODE_EXPLICIT and setTiling() called.
+        Compression: MODE_EXPLICIT and compression type set.
+        All tiling and compression methods available.
+    end note
+
+    note right of TExplicitCNotExplicit
+        setTilingMode(MODE_EXPLICIT) moves to TExplicit states.
+        setTilingMode(non-EXPLICIT) moves to TNotExplicit states.
+        Value-sensitive parameter: mode determines target state.
+    end note
+
+    note right of TNotExplicitCExplicit
+        setCompressionMode(MODE_EXPLICIT) moves to CExplicit states.
+        setCompressionMode(non-EXPLICIT) moves to CNotExplicit states.
+        Value-sensitive parameter: mode determines target state.
+    end note

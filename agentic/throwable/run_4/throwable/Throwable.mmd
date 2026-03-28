@@ -1,0 +1,65 @@
+stateDiagram-v2
+    [*] --> CauseUnset : Throwable Throwable()
+    [*] --> CauseUnset : Throwable Throwable([String message])
+    [*] --> CauseSet : Throwable Throwable([Throwable cause])
+    [*] --> CauseSet : Throwable Throwable([String message], [Throwable cause])
+    [*] --> maybeCauseSet : Throwable Throwable([String message], [Throwable cause], [boolean enableSuppression], [boolean writableStackTrace])
+
+    CauseUnset --> CauseSet : Throwable initCause([Throwable cause])
+    CauseUnset --> CauseUnset : String getMessage()
+    CauseUnset --> CauseUnset : String getLocalizedMessage()
+    CauseUnset --> CauseUnset : Throwable getCause()
+    CauseUnset --> CauseUnset : String toString()
+    CauseUnset --> CauseUnset : void printStackTrace()
+    CauseUnset --> CauseUnset : void printStackTrace([PrintStream s])
+    CauseUnset --> CauseUnset : void printStackTrace([PrintWriter s])
+    CauseUnset --> CauseUnset : Throwable fillInStackTrace()
+    CauseUnset --> CauseUnset : StackTraceElement[] getStackTrace()
+    CauseUnset --> CauseUnset : void setStackTrace([StackTraceElement[] stackTrace])
+    CauseUnset --> CauseUnset : void addSuppressed([Throwable exception])
+    CauseUnset --> CauseUnset : Throwable[] getSuppressed()
+
+    CauseSet --> CauseSet : String getMessage()
+    CauseSet --> CauseSet : String getLocalizedMessage()
+    CauseSet --> CauseSet : Throwable getCause()
+    CauseSet --> CauseSet : String toString()
+    CauseSet --> CauseSet : void printStackTrace()
+    CauseSet --> CauseSet : void printStackTrace([PrintStream s])
+    CauseSet --> CauseSet : void printStackTrace([PrintWriter s])
+    CauseSet --> CauseSet : Throwable fillInStackTrace()
+    CauseSet --> CauseSet : StackTraceElement[] getStackTrace()
+    CauseSet --> CauseSet : void setStackTrace([StackTraceElement[] stackTrace])
+    CauseSet --> CauseSet : void addSuppressed([Throwable exception])
+    CauseSet --> CauseSet : Throwable[] getSuppressed()
+    CauseSet --> [*]
+
+    maybeCauseSet --> maybeCauseSet : Throwable initCause([Throwable cause])
+    maybeCauseSet --> maybeCauseSet : String getMessage()
+    maybeCauseSet --> maybeCauseSet : String getLocalizedMessage()
+    maybeCauseSet --> maybeCauseSet : Throwable getCause()
+    maybeCauseSet --> maybeCauseSet : String toString()
+    maybeCauseSet --> maybeCauseSet : void printStackTrace()
+    maybeCauseSet --> maybeCauseSet : void printStackTrace([PrintStream s])
+    maybeCauseSet --> maybeCauseSet : void printStackTrace([PrintWriter s])
+    maybeCauseSet --> maybeCauseSet : Throwable fillInStackTrace()
+    maybeCauseSet --> maybeCauseSet : StackTraceElement[] getStackTrace()
+    maybeCauseSet --> maybeCauseSet : void setStackTrace([StackTraceElement[] stackTrace])
+    maybeCauseSet --> maybeCauseSet : void addSuppressed([Throwable exception])
+    maybeCauseSet --> maybeCauseSet : Throwable[] getSuppressed()
+
+    note right of CauseUnset
+        initCause() can be called at most once.
+        Cause not yet initialized via constructor.
+    end note
+
+    note right of CauseSet
+        initCause() is forbidden here.
+        Throws IllegalStateException if called.
+        Cause was set via constructor or initCause().
+    end note
+
+    note right of maybeCauseSet
+        Protected constructor: cause may or may not
+        be set depending on runtime parameter value.
+        initCause() is speculatively allowed.
+    end note

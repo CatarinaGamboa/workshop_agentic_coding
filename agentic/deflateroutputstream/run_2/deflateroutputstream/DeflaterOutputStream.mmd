@@ -1,0 +1,26 @@
+stateDiagram-v2
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out], [Deflater def], [int size], [boolean syncFlush])
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out], [Deflater def], [int size])
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out], [Deflater def], [boolean syncFlush])
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out], [Deflater def])
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out], [boolean syncFlush])
+    [*] --> Open : DeflaterOutputStream DeflaterOutputStream([OutputStream out])
+    Open --> Open : void write([int b])
+    Open --> Open : void write([byte[] b], [int off], [int len])
+    Open --> Open : void flush()
+    Open --> Open : void deflate()
+    Open --> Finished : void finish()
+    Open --> Closed : void close()
+    Finished --> Closed : void close()
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Finished
+        finish() completes compression without closing the underlying stream.
+        write() and deflate() are no longer valid after finish().
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        Underlying stream is closed.
+    end note

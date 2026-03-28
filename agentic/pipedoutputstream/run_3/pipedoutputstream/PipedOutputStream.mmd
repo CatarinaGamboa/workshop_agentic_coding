@@ -1,0 +1,24 @@
+stateDiagram-v2
+    [*] --> Unconnected : PipedOutputStream()
+    [*] --> Connected : PipedOutputStream([PipedInputStream snk])
+
+
+    Unconnected --> Connected : void connect([PipedInputStream snk])
+
+    Connected --> Connected : void write([int b])
+    Connected --> Connected : void write([byte[] b], [int off], [int len])
+    Connected --> Connected : void flush()
+    Connected --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Unconnected
+        write() and flush() throw IOException if called before connect().
+        connect() throws IOException if already connected.
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        No further writes or connections permitted.
+    end note

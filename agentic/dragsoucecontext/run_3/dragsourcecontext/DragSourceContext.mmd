@@ -1,0 +1,69 @@
+stateDiagram-v2
+    [*] --> maybeDraggingHasListener : DragSourceContext DragSourceContext([DragGestureEvent trigger], [Cursor dragCursor], [Image dragImage], [Point offset], [Transferable t], [DragSourceListener dsl])
+
+    maybeDraggingHasListener --> maybeDraggingHasListener : DragSource getDragSource()
+    maybeDraggingHasListener --> maybeDraggingHasListener : Component getComponent()
+    maybeDraggingHasListener --> maybeDraggingHasListener : DragGestureEvent getTrigger()
+    maybeDraggingHasListener --> maybeDraggingHasListener : int getSourceActions()
+    maybeDraggingHasListener --> maybeDraggingHasListener : void setCursor([Cursor c])
+    maybeDraggingHasListener --> maybeDraggingHasListener : Cursor getCursor()
+    maybeDraggingHasListener --> DraggingHasListener : void addDragSourceListener([DragSourceListener dsl])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void removeDragSourceListener([DragSourceListener dsl])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void transferablesFlavorsChanged()
+    maybeDraggingHasListener --> maybeDraggingHasListener : void dragEnter([DragSourceDragEvent dsde])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void dragOver([DragSourceDragEvent dsde])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void dragExit([DragSourceEvent dse])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void dropActionChanged([DragSourceDragEvent dsde])
+    maybeDraggingHasListener --> maybeDraggingHasListener : void dragMouseMoved([DragSourceDragEvent dsde])
+    maybeDraggingHasListener --> maybeDraggingHasListener : Transferable getTransferable()
+    maybeDraggingHasListener --> maybeDraggingHasListener : void updateCurrentCursor([int sourceAct], [int targetAct], [int status])
+    maybeDraggingHasListener --> Ended : void dragDropEnd([DragSourceDropEvent dsde])
+
+    DraggingHasListener --> DraggingHasListener : DragSource getDragSource()
+    DraggingHasListener --> DraggingHasListener : Component getComponent()
+    DraggingHasListener --> DraggingHasListener : DragGestureEvent getTrigger()
+    DraggingHasListener --> DraggingHasListener : int getSourceActions()
+    DraggingHasListener --> DraggingHasListener : void setCursor([Cursor c])
+    DraggingHasListener --> DraggingHasListener : Cursor getCursor()
+    DraggingHasListener --> DraggingNoListener : void removeDragSourceListener([DragSourceListener dsl])
+    DraggingHasListener --> DraggingHasListener : void transferablesFlavorsChanged()
+    DraggingHasListener --> DraggingHasListener : void dragEnter([DragSourceDragEvent dsde])
+    DraggingHasListener --> DraggingHasListener : void dragOver([DragSourceDragEvent dsde])
+    DraggingHasListener --> DraggingHasListener : void dragExit([DragSourceEvent dse])
+    DraggingHasListener --> DraggingHasListener : void dropActionChanged([DragSourceDragEvent dsde])
+    DraggingHasListener --> DraggingHasListener : void dragMouseMoved([DragSourceDragEvent dsde])
+    DraggingHasListener --> DraggingHasListener : Transferable getTransferable()
+    DraggingHasListener --> DraggingHasListener : void updateCurrentCursor([int sourceAct], [int targetAct], [int status])
+    DraggingHasListener --> Ended : void dragDropEnd([DragSourceDropEvent dsde])
+
+    DraggingNoListener --> DraggingNoListener : DragSource getDragSource()
+    DraggingNoListener --> DraggingNoListener : Component getComponent()
+    DraggingNoListener --> DraggingNoListener : DragGestureEvent getTrigger()
+    DraggingNoListener --> DraggingNoListener : int getSourceActions()
+    DraggingNoListener --> DraggingNoListener : void setCursor([Cursor c])
+    DraggingNoListener --> DraggingNoListener : Cursor getCursor()
+    DraggingNoListener --> DraggingHasListener : void addDragSourceListener([DragSourceListener dsl])
+    DraggingNoListener --> DraggingNoListener : void removeDragSourceListener([DragSourceListener dsl])
+    DraggingNoListener --> DraggingNoListener : void transferablesFlavorsChanged()
+    DraggingNoListener --> DraggingNoListener : void dragEnter([DragSourceDragEvent dsde])
+    DraggingNoListener --> DraggingNoListener : void dragOver([DragSourceDragEvent dsde])
+    DraggingNoListener --> DraggingNoListener : void dragExit([DragSourceEvent dse])
+    DraggingNoListener --> DraggingNoListener : void dropActionChanged([DragSourceDragEvent dsde])
+    DraggingNoListener --> DraggingNoListener : void dragMouseMoved([DragSourceDragEvent dsde])
+    DraggingNoListener --> DraggingNoListener : Transferable getTransferable()
+    DraggingNoListener --> DraggingNoListener : void updateCurrentCursor([int sourceAct], [int targetAct], [int status])
+    DraggingNoListener --> Ended : void dragDropEnd([DragSourceDropEvent dsde])
+
+    Ended --> [*]
+
+    note right of maybeDraggingHasListener
+        Constructor accepts optional DragSourceListener (dsl).
+        If dsl is non-null a listener is registered at construction.
+        addDragSourceListener() throws TooManyListenersException if
+        a listener is already present.
+    end note
+
+    note right of DraggingHasListener
+        addDragSourceListener() is forbidden here:
+        throws TooManyListenersException (listener already added).
+    end note

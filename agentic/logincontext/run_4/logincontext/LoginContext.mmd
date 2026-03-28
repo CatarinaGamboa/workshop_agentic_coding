@@ -1,0 +1,33 @@
+stateDiagram-v2
+    [*] --> Created : LoginContext LoginContext([String name])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject])
+    [*] --> Created : LoginContext LoginContext([String name], [CallbackHandler callbackHandler])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler])
+    [*] --> Created : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler], [Configuration config])
+
+    Created --> Authenticated : void login()
+    Created --> Created : Subject getSubject()
+
+    Authenticated --> Authenticated : void login()
+    Authenticated --> LoggedOut : void logout()
+    Authenticated --> Authenticated : Subject getSubject()
+
+    LoggedOut --> LoggedOut : Subject getSubject()
+    LoggedOut --> [*]
+
+    note right of Created
+        getSubject() returns null if authentication
+        has not been attempted or has failed.
+        login() transitions to Authenticated on success.
+    end note
+
+    note right of Authenticated
+        getSubject() returns the authenticated Subject.
+        A LoginContext should not be used to
+        authenticate more than one Subject.
+    end note
+
+    note right of LoggedOut
+        Terminal state. Subject credentials
+        have been removed/destroyed by logout().
+    end note

@@ -1,0 +1,62 @@
+stateDiagram-v2
+    [*] --> Unregistered : MLet MLet()
+    [*] --> Unregistered : MLet MLet([URL[] urls])
+    [*] --> Unregistered : MLet MLet([URL[] urls], [ClassLoader parent])
+    [*] --> Unregistered : MLet MLet([URL[] urls], [ClassLoader parent], [URLStreamHandlerFactory factory])
+    [*] --> Unregistered : MLet MLet([URL[] urls], [boolean delegateToCLR])
+    [*] --> Unregistered : MLet MLet([URL[] urls], [ClassLoader parent], [boolean delegateToCLR])
+    [*] --> Unregistered : MLet MLet([URL[] urls], [ClassLoader parent], [URLStreamHandlerFactory factory], [boolean delegateToCLR])
+
+    Unregistered --> Unregistered : void addURL([URL url])
+    Unregistered --> Unregistered : void addURL([String url])
+    Unregistered --> Unregistered : URL[] getURLs()
+    Unregistered --> Unregistered : String getLibraryDirectory()
+    Unregistered --> Unregistered : void setLibraryDirectory([String libdir])
+    Unregistered --> Unregistered : void writeExternal([ObjectOutput out])
+    Unregistered --> Unregistered : void readExternal([ObjectInput in])
+    Unregistered --> Unregistered : void findClass([String name])
+    Unregistered --> Unregistered : String findLibrary([String libname])
+    Unregistered --> Unregistered : void loadClass([String name], [ClassLoaderRepository clr])
+    Unregistered --> Unregistered : URL check([String version], [URL codebase], [String jarfile], [MLetContent mlet])
+    Unregistered --> Registered : ObjectName preRegister([MBeanServer server], [ObjectName name])
+    Registered --> Registered : void postRegister([Boolean registrationDone])
+
+    Registered --> Registered : void addURL([URL url])
+    Registered --> Registered : void addURL([String url])
+    Registered --> Registered : URL[] getURLs()
+    Registered --> Registered : String getLibraryDirectory()
+    Registered --> Registered : void setLibraryDirectory([String libdir])
+    Registered --> Registered : void writeExternal([ObjectOutput out])
+    Registered --> Registered : void readExternal([ObjectInput in])
+    Registered --> Registered : void findClass([String name])
+    Registered --> Registered : String findLibrary([String libname])
+    Registered --> Registered : void loadClass([String name], [ClassLoaderRepository clr])
+    Registered --> Registered : URL check([String version], [URL codebase], [String jarfile], [MLetContent mlet])
+    Registered --> Registered : Set<Object> getMBeansFromURL([URL url])
+    Registered --> Registered : Set<Object> getMBeansFromURL([String url])
+    Registered --> Deregistered : void preDeregister()
+    Deregistered --> Deregistered : void postDeregister()
+
+    Deregistered --> Deregistered : void addURL([URL url])
+    Deregistered --> Deregistered : void addURL([String url])
+    Deregistered --> Deregistered : URL[] getURLs()
+    Deregistered --> Deregistered : String getLibraryDirectory()
+    Deregistered --> Deregistered : void setLibraryDirectory([String libdir])
+    Deregistered --> Deregistered : void writeExternal([ObjectOutput out])
+    Deregistered --> Deregistered : void readExternal([ObjectInput in])
+    Deregistered --> Deregistered : void findClass([String name])
+    Deregistered --> Deregistered : String findLibrary([String libname])
+    Deregistered --> Deregistered : void loadClass([String name], [ClassLoaderRepository clr])
+    Deregistered --> Deregistered : URL check([String version], [URL codebase], [String jarfile], [MLetContent mlet])
+    Deregistered --> [*]
+
+    note right of Unregistered
+        getMBeansFromURL() throws IllegalStateException:
+        MLet MBean is not registered with an MBeanServer.
+    end note
+
+    note right of Registered
+        getMBeansFromURL() is only valid in this state.
+        postRegister(false) keeps state as Registered
+        but registration may have failed.
+    end note

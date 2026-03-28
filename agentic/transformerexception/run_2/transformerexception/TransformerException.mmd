@@ -1,0 +1,37 @@
+stateDiagram-v2
+    [*] --> CauseUnset : TransformerException TransformerException([String message])
+    [*] --> CauseUnset : TransformerException TransformerException([String message], [SourceLocator locator])
+    [*] --> CauseSet : TransformerException TransformerException([Throwable e])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [Throwable e])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [SourceLocator locator], [Throwable e])
+
+    CauseUnset --> CauseUnset : SourceLocator getLocator()
+    CauseUnset --> CauseUnset : void setLocator([SourceLocator location])
+    CauseUnset --> CauseUnset : Throwable getException()
+    CauseUnset --> CauseUnset : Throwable getCause()
+    CauseUnset --> CauseSet : Throwable initCause([Throwable cause])
+    CauseUnset --> CauseUnset : String getMessageAndLocation()
+    CauseUnset --> CauseUnset : String getLocationAsString()
+    CauseUnset --> CauseUnset : void printStackTrace()
+    CauseUnset --> CauseUnset : void printStackTrace([PrintStream s])
+    CauseUnset --> CauseUnset : void printStackTrace([PrintWriter s])
+
+    CauseSet --> CauseSet : SourceLocator getLocator()
+    CauseSet --> CauseSet : void setLocator([SourceLocator location])
+    CauseSet --> CauseSet : Throwable getException()
+    CauseSet --> CauseSet : Throwable getCause()
+    CauseSet --> CauseSet : String getMessageAndLocation()
+    CauseSet --> CauseSet : String getLocationAsString()
+    CauseSet --> CauseSet : void printStackTrace()
+    CauseSet --> CauseSet : void printStackTrace([PrintStream s])
+    CauseSet --> CauseSet : void printStackTrace([PrintWriter s])
+
+    note right of CauseSet
+        initCause() throws IllegalStateException in this state.
+        Cause was set via constructor (Throwable) or initCause() already called.
+    end note
+
+    note right of CauseUnset
+        initCause() can be called exactly once to transition to CauseSet.
+        Object created without a wrapped cause.
+    end note

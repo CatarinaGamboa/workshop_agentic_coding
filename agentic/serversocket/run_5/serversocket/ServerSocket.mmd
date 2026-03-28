@@ -1,0 +1,72 @@
+stateDiagram-v2
+    [*] --> Unbound : ServerSocket ServerSocket()
+    [*] --> Unbound : ServerSocket ServerSocket([SocketImpl impl])
+    [*] --> Bound : ServerSocket ServerSocket([int port])
+    [*] --> Bound : ServerSocket ServerSocket([int port], [int backlog])
+    [*] --> Bound : ServerSocket ServerSocket([int port], [int backlog], [InetAddress bindAddr])
+
+    Unbound --> Bound : void bind([SocketAddress endpoint])
+    Unbound --> Bound : void bind([SocketAddress endpoint], [int backlog])
+    Unbound --> Unbound : void setSoTimeout([int timeout])
+    Unbound --> Unbound : int getSoTimeout()
+    Unbound --> Unbound : void setReuseAddress([boolean on])
+    Unbound --> Unbound : boolean getReuseAddress()
+    Unbound --> Unbound : void setReceiveBufferSize([int size])
+    Unbound --> Unbound : int getReceiveBufferSize()
+    Unbound --> Unbound : void setPerformancePreferences([int connectionTime], [int latency], [int bandwidth])
+    Unbound --> Unbound : void setOption([SocketOption name], [T value])
+    Unbound --> Unbound : void getOption([T T])
+    Unbound --> Unbound : void supportedOptions()
+    Unbound --> Unbound : InetAddress getInetAddress()
+    Unbound --> Unbound : int getLocalPort()
+    Unbound --> Unbound : SocketAddress getLocalSocketAddress()
+    Unbound --> Unbound : ServerSocketChannel getChannel()
+    Unbound --> Unbound : boolean isBound()
+    Unbound --> Unbound : boolean isClosed()
+    Unbound --> Unbound : String toString()
+    Unbound --> Closed : void close()
+
+    Bound --> Bound : Socket accept()
+    Bound --> Bound : void implAccept([Socket s])
+    Bound --> Bound : void setSoTimeout([int timeout])
+    Bound --> Bound : int getSoTimeout()
+    Bound --> Bound : void setReuseAddress([boolean on])
+    Bound --> Bound : boolean getReuseAddress()
+    Bound --> Bound : void setReceiveBufferSize([int size])
+    Bound --> Bound : int getReceiveBufferSize()
+    Bound --> Bound : void setPerformancePreferences([int connectionTime], [int latency], [int bandwidth])
+    Bound --> Bound : void setOption([SocketOption name], [T value])
+    Bound --> Bound : void getOption([T T])
+    Bound --> Bound : void supportedOptions()
+    Bound --> Bound : InetAddress getInetAddress()
+    Bound --> Bound : int getLocalPort()
+    Bound --> Bound : SocketAddress getLocalSocketAddress()
+    Bound --> Bound : ServerSocketChannel getChannel()
+    Bound --> Bound : boolean isBound()
+    Bound --> Bound : boolean isClosed()
+    Bound --> Bound : String toString()
+    Bound --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> Closed : void supportedOptions()
+    Closed --> Closed : InetAddress getInetAddress()
+    Closed --> Closed : int getLocalPort()
+    Closed --> Closed : SocketAddress getLocalSocketAddress()
+    Closed --> Closed : ServerSocketChannel getChannel()
+    Closed --> Closed : boolean isBound()
+    Closed --> Closed : boolean isClosed()
+    Closed --> Closed : String toString()
+    Closed --> [*]
+
+    note right of Unbound
+        bind() throws IOException if already bound.
+        setReceiveBufferSize() must be called before bind()
+        for TCP windows larger than 64K.
+        setPerformancePreferences() has no effect after bound.
+    end note
+
+    note right of Closed
+        setOption() and getOption() throw IOException if closed.
+        setReuseAddress() throws SocketException if closed.
+        accept() not available after close.
+    end note

@@ -1,0 +1,43 @@
+stateDiagram-v2
+    [*] --> CauseUnset : Throwable Throwable()
+    [*] --> CauseUnset : Throwable Throwable([String message])
+    [*] --> CauseSet : Throwable Throwable([Throwable cause])
+    [*] --> CauseSet : Throwable Throwable([String message], [Throwable cause])
+    [*] --> CauseSet : Throwable Throwable([String message], [Throwable cause], [boolean enableSuppression], [boolean writableStackTrace])
+
+    CauseUnset --> CauseUnset : String getMessage()
+    CauseUnset --> CauseUnset : String getLocalizedMessage()
+    CauseUnset --> CauseUnset : Throwable getCause()
+    CauseUnset --> CauseSet : Throwable initCause([Throwable cause])
+    CauseUnset --> CauseUnset : String toString()
+    CauseUnset --> CauseUnset : void printStackTrace()
+    CauseUnset --> CauseUnset : void printStackTrace([PrintStream s])
+    CauseUnset --> CauseUnset : void printStackTrace([PrintWriter s])
+    CauseUnset --> CauseUnset : Throwable fillInStackTrace()
+    CauseUnset --> CauseUnset : StackTraceElement[] getStackTrace()
+    CauseUnset --> CauseUnset : void setStackTrace([StackTraceElement[] stackTrace])
+    CauseUnset --> CauseUnset : void addSuppressed([Throwable exception])
+    CauseUnset --> CauseUnset : Throwable[] getSuppressed()
+
+    CauseSet --> CauseSet : String getMessage()
+    CauseSet --> CauseSet : String getLocalizedMessage()
+    CauseSet --> CauseSet : Throwable getCause()
+    CauseSet --> CauseSet : String toString()
+    CauseSet --> CauseSet : void printStackTrace()
+    CauseSet --> CauseSet : void printStackTrace([PrintStream s])
+    CauseSet --> CauseSet : void printStackTrace([PrintWriter s])
+    CauseSet --> CauseSet : Throwable fillInStackTrace()
+    CauseSet --> CauseSet : StackTraceElement[] getStackTrace()
+    CauseSet --> CauseSet : void setStackTrace([StackTraceElement[] stackTrace])
+    CauseSet --> CauseSet : void addSuppressed([Throwable exception])
+    CauseSet --> CauseSet : Throwable[] getSuppressed()
+
+    note right of CauseUnset
+        initCause() can be called exactly once.
+        Cause was not set in the constructor.
+    end note
+
+    note right of CauseSet
+        initCause() is forbidden (throws IllegalStateException).
+        Cause was set via constructor or initCause().
+    end note

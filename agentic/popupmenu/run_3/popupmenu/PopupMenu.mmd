@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> maybeComponentParent : PopupMenu PopupMenu()
+    [*] --> maybeComponentParent : PopupMenu PopupMenu([String label])
+
+    maybeComponentParent --> maybeComponentParent : void show([Component origin], [int x], [int y])
+    maybeComponentParent --> maybeComponentParent : AccessibleContext getAccessibleContext()
+    maybeComponentParent --> nonComponentParent : void addNotify()
+
+    nonComponentParent --> nonComponentParent : void addNotify()
+    nonComponentParent --> nonComponentParent : AccessibleContext getAccessibleContext()
+    nonComponentParent --> [*]
+
+    note right of maybeComponentParent
+        show() valid only when parent is a Component.
+        If parent is non-Component (e.g. MenuBar), show() throws IllegalArgumentException.
+    end note
+
+    note right of nonComponentParent
+        PopupMenu added to a non-Component parent (e.g. MenuBar).
+        show() is forbidden and throws IllegalArgumentException.
+    end note

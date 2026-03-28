@@ -1,0 +1,41 @@
+stateDiagram-v2
+    [*] --> maybeTimeBased : UUID UUID([long mostSigBits], [long leastSigBits])
+    [*] --> NonTimeBased : UUID randomUUID()
+    [*] --> NonTimeBased : UUID nameUUIDFromBytes([byte[] name])
+    [*] --> NonTimeBased : UUID fromString([String name])
+
+    maybeTimeBased --> maybeTimeBased : long getLeastSignificantBits()
+    maybeTimeBased --> maybeTimeBased : long getMostSignificantBits()
+    maybeTimeBased --> maybeTimeBased : int version()
+    maybeTimeBased --> maybeTimeBased : int variant()
+    maybeTimeBased --> maybeTimeBased : long timestamp()
+    maybeTimeBased --> maybeTimeBased : int clockSequence()
+    maybeTimeBased --> maybeTimeBased : long node()
+    maybeTimeBased --> maybeTimeBased : String toString()
+    maybeTimeBased --> maybeTimeBased : int hashCode()
+    maybeTimeBased --> maybeTimeBased : boolean equals([Object obj])
+    maybeTimeBased --> maybeTimeBased : int compareTo([UUID val])
+
+    NonTimeBased --> NonTimeBased : long getLeastSignificantBits()
+    NonTimeBased --> NonTimeBased : long getMostSignificantBits()
+    NonTimeBased --> NonTimeBased : int version()
+    NonTimeBased --> NonTimeBased : int variant()
+    NonTimeBased --> NonTimeBased : String toString()
+    NonTimeBased --> NonTimeBased : int hashCode()
+    NonTimeBased --> NonTimeBased : boolean equals([Object obj])
+    NonTimeBased --> NonTimeBased : int compareTo([UUID val])
+
+    note right of maybeTimeBased
+        timestamp(), clockSequence(), node() are only valid
+        for version 1 (time-based) UUIDs. When constructed
+        via UUID(long, long), the version cannot be statically
+        determined, so all methods are permitted here
+        (false negatives accepted over false positives).
+    end note
+
+    note right of NonTimeBased
+        timestamp(), clockSequence(), node() are forbidden:
+        they throw UnsupportedOperationException because
+        randomUUID() produces type 4 and nameUUIDFromBytes()
+        produces type 3 UUIDs, which are never time-based.
+    end note

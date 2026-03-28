@@ -1,0 +1,20 @@
+stateDiagram-v2
+    [*] --> Iterating : FlatteningPathIterator FlatteningPathIterator([PathIterator src], [double flatness])
+    [*] --> Iterating : FlatteningPathIterator FlatteningPathIterator([PathIterator src], [double flatness], [int limit])
+    Iterating --> Iterating : double getFlatness()
+    Iterating --> Iterating : int getRecursionLimit()
+    Iterating --> Iterating : int getWindingRule()
+    Iterating --> Iterating : boolean isDone()
+    Iterating --> Iterating : int currentSegment([float[] coords])
+    Iterating --> Iterating : int currentSegment([double[] coords])
+    Iterating --> Done : void next()
+    Done --> Done : double getFlatness()
+    Done --> Done : int getRecursionLimit()
+    Done --> Done : int getWindingRule()
+    Done --> Done : boolean isDone()
+    Done --> [*]
+
+    note right of Done
+        currentSegment() throws NoSuchElementException when Done.
+        next() advances the iterator; when all segments are consumed, transitions to Done.
+    end note

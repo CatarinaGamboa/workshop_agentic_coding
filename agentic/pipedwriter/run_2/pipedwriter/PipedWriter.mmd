@@ -1,0 +1,23 @@
+stateDiagram-v2
+    [*] --> Unconnected : PipedWriter PipedWriter()
+    [*] --> Connected : PipedWriter PipedWriter([PipedReader snk])
+
+    Unconnected --> Connected : void connect([PipedReader snk])
+
+    Connected --> Connected : void write([int c])
+    Connected --> Connected : void write([char[] cbuf], [int off], [int len])
+    Connected --> Connected : void flush()
+
+    Connected --> Closed : void close()
+    Unconnected --> Closed : void close()
+
+    Closed --> [*]
+
+    note right of Unconnected
+        write() and flush() throw IOException when unconnected.
+        connect() throws IOException if already connected.
+    end note
+
+    note right of Closed
+        Terminal state. No further writes or flushes permitted.
+    end note

@@ -1,0 +1,18 @@
+stateDiagram-v2
+    [*] --> maybeMultipleSelection : ChoiceCallback ChoiceCallback([String prompt], [String[] choices], [int defaultChoice], [boolean multipleSelectionsAllowed])
+
+    maybeMultipleSelection --> maybeMultipleSelection : String getPrompt()
+    maybeMultipleSelection --> maybeMultipleSelection : String[] getChoices()
+    maybeMultipleSelection --> maybeMultipleSelection : int getDefaultChoice()
+    maybeMultipleSelection --> maybeMultipleSelection : boolean allowMultipleSelections()
+    maybeMultipleSelection --> maybeMultipleSelection : void setSelectedIndex([int selection])
+    maybeMultipleSelection --> maybeMultipleSelection : void setSelectedIndexes([int[] selections])
+    maybeMultipleSelection --> maybeMultipleSelection : int[] getSelectedIndexes()
+
+    note right of maybeMultipleSelection
+        setSelectedIndexes() throws UnsupportedOperationException
+        if allowMultipleSelections() returns false.
+        The multipleSelectionsAllowed flag is set at construction
+        and cannot be changed. This state is maybe-prefixed because
+        the constructor parameter cannot be statically resolved.
+    end note

@@ -1,0 +1,49 @@
+stateDiagram-v2
+    [*] --> Done : AbstractUndoableEdit AbstractUndoableEdit()
+
+    Done --> Undone : void undo()
+    Done --> Dead : void die()
+    Done --> Done : boolean canUndo()
+    Done --> Done : boolean canRedo()
+    Done --> Done : boolean addEdit([UndoableEdit anEdit])
+    Done --> Done : boolean replaceEdit([UndoableEdit anEdit])
+    Done --> Done : boolean isSignificant()
+    Done --> Done : String getPresentationName()
+    Done --> Done : String getUndoPresentationName()
+    Done --> Done : String getRedoPresentationName()
+    Done --> Done : String toString()
+
+    Undone --> Done : void redo()
+    Undone --> Dead : void die()
+    Undone --> Undone : boolean canUndo()
+    Undone --> Undone : boolean canRedo()
+    Undone --> Undone : boolean addEdit([UndoableEdit anEdit])
+    Undone --> Undone : boolean replaceEdit([UndoableEdit anEdit])
+    Undone --> Undone : boolean isSignificant()
+    Undone --> Undone : String getPresentationName()
+    Undone --> Undone : String getUndoPresentationName()
+    Undone --> Undone : String getRedoPresentationName()
+    Undone --> Undone : String toString()
+
+    Dead --> Dead : void die()
+    Dead --> [*]
+
+    note right of Done
+        alive=true, hasBeenDone=true.
+        canUndo() returns true.
+        canRedo() returns false.
+        undo() allowed; redo() throws CannotRedoException.
+    end note
+
+    note right of Undone
+        alive=true, hasBeenDone=false.
+        canUndo() returns false.
+        canRedo() returns true.
+        redo() allowed; undo() throws CannotUndoException.
+    end note
+
+    note right of Dead
+        alive=false. Terminal state.
+        undo() and redo() both throw exceptions.
+        die() is a one-way operation (idempotent).
+    end note

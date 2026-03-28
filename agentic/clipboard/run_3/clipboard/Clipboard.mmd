@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> Available : Clipboard Clipboard([String name])
+
+    Available --> Available : String getName()
+    Available --> Available : void setContents([Transferable contents], [ClipboardOwner owner])
+    Available --> Available : Transferable getContents([Object requestor])
+    Available --> Available : DataFlavor[] getAvailableDataFlavors()
+    Available --> Available : boolean isDataFlavorAvailable([DataFlavor flavor])
+    Available --> Available : Object getData([DataFlavor flavor])
+    Available --> Available : void addFlavorListener([FlavorListener listener])
+    Available --> Available : void removeFlavorListener([FlavorListener listener])
+    Available --> Available : FlavorListener[] getFlavorListeners()
+
+    note right of Available
+        IllegalStateException is thrown by setContents, getContents,
+        getAvailableDataFlavors, isDataFlavorAvailable, and getData
+        only when the clipboard is externally unavailable
+        (e.g., held by another application). This is a platform
+        condition, not an internal object state transition.
+        No user-callable method changes the object's internal state.
+    end note

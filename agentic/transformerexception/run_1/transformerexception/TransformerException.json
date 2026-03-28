@@ -1,0 +1,195 @@
+{
+  "class": {
+    "name": "TransformerException",
+    "signature": "public class TransformerException extends Exception",
+    "description": "This class specifies an exceptional condition that occurred during the transformation process.",
+    "implements": [
+      "Serializable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "TransformerException",
+      "signature": "public TransformerException(String message)",
+      "description": "Create a new TransformerException.",
+      "parameters": [
+        {
+          "name": "message",
+          "description": "The error or warning message."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "TransformerException",
+      "signature": "public TransformerException(Throwable e)",
+      "description": "Create a new TransformerException wrapping an existing exception.",
+      "parameters": [
+        {
+          "name": "e",
+          "description": "The exception to be wrapped."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "TransformerException",
+      "signature": "public TransformerException(String message, Throwable e)",
+      "description": "Wrap an existing exception in a TransformerException. This is used for throwing processor exceptions before the processing has started.",
+      "parameters": [
+        {
+          "name": "message",
+          "description": "The error or warning message, or null to use the message from the embedded exception."
+        },
+        {
+          "name": "e",
+          "description": "Any exception"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "TransformerException",
+      "signature": "public TransformerException(String message, SourceLocator locator)",
+      "description": "Create a new TransformerException from a message and a Locator. This constructor is especially useful when an application is creating its own exception from within a DocumentHandler callback.",
+      "parameters": [
+        {
+          "name": "message",
+          "description": "The error or warning message."
+        },
+        {
+          "name": "locator",
+          "description": "The locator object for the error or warning."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "TransformerException",
+      "signature": "public TransformerException(String message, SourceLocator locator, Throwable e)",
+      "description": "Wrap an existing exception in a TransformerException.",
+      "parameters": [
+        {
+          "name": "message",
+          "description": "The error or warning message, or null to use the message from the embedded exception."
+        },
+        {
+          "name": "locator",
+          "description": "The locator object for the error or warning."
+        },
+        {
+          "name": "e",
+          "description": "Any exception"
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "getLocator",
+      "signature": "public SourceLocator getLocator()",
+      "description": "Method getLocator retrieves an instance of a SourceLocator object that specifies where an error occurred.",
+      "parameters": [],
+      "throws": [],
+      "returns": "A SourceLocator object, or null if none was specified."
+    },
+    {
+      "name": "setLocator",
+      "signature": "public void setLocator(SourceLocator location)",
+      "description": "Method setLocator sets an instance of a SourceLocator object that specifies where an error occurred.",
+      "parameters": [
+        {
+          "name": "location",
+          "description": "A SourceLocator object, or null to clear the location."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getException",
+      "signature": "public Throwable getException()",
+      "description": "This method retrieves an exception that this exception wraps.",
+      "parameters": [],
+      "throws": [],
+      "returns": "An Throwable object, or null."
+    },
+    {
+      "name": "getCause",
+      "signature": "public Throwable getCause()",
+      "description": "Returns the cause of this throwable or null if the cause is nonexistent or unknown. (The cause is the throwable that caused this throwable to get thrown.)",
+      "parameters": [],
+      "throws": [],
+      "returns": "the cause, or null if unknown"
+    },
+    {
+      "name": "initCause",
+      "signature": "public Throwable initCause(Throwable cause)",
+      "description": "Initializes the cause of this throwable to the specified value. (The cause is the throwable that caused this throwable to get thrown.) This method can be called at most once. It is generally called from within the constructor, or immediately after creating the throwable. If this throwable was created with TransformerException(Throwable) or TransformerException(String,Throwable), this method cannot be called even once.",
+      "parameters": [
+        {
+          "name": "cause",
+          "description": "the cause (which is saved for later retrieval by the getCause() method). (A null value is permitted, and indicates that the cause is nonexistent or unknown.)"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if cause is this throwable. (A throwable cannot be its own cause.)"
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if this throwable was created with TransformerException(Throwable) or TransformerException(String,Throwable), or this method has already been called on this throwable."
+        }
+      ],
+      "returns": "a reference to this Throwable instance."
+    },
+    {
+      "name": "getMessageAndLocation",
+      "signature": "public String getMessageAndLocation()",
+      "description": "Get the error message with location information appended.",
+      "parameters": [],
+      "throws": [],
+      "returns": "A String representing the error message with location information appended."
+    },
+    {
+      "name": "getLocationAsString",
+      "signature": "public String getLocationAsString()",
+      "description": "Get the location information as a string.",
+      "parameters": [],
+      "throws": [],
+      "returns": "A string with location info, or null if there is no location information."
+    },
+    {
+      "name": "printStackTrace",
+      "signature": "public void printStackTrace()",
+      "description": "Print the the trace of methods from where the error originated. This will trace all nested exception objects, as well as this object.",
+      "parameters": [],
+      "throws": []
+    },
+    {
+      "name": "printStackTrace",
+      "signature": "public void printStackTrace(PrintStream s)",
+      "description": "Print the the trace of methods from where the error originated. This will trace all nested exception objects, as well as this object.",
+      "parameters": [
+        {
+          "name": "s",
+          "description": "The stream where the dump will be sent to."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "printStackTrace",
+      "signature": "public void printStackTrace(PrintWriter s)",
+      "description": "Print the the trace of methods from where the error originated. This will trace all nested exception objects, as well as this object.",
+      "parameters": [
+        {
+          "name": "s",
+          "description": "The writer where the dump will be sent to."
+        }
+      ],
+      "throws": []
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+stateDiagram-v2
+    [*] --> InProgress : UndoManager()
+
+    InProgress --> InProgress : int getLimit()
+    InProgress --> InProgress : void discardAllEdits()
+    InProgress --> InProgress : void trimForLimit()
+    InProgress --> InProgress : void trimEdits([int from], [int to])
+    InProgress --> InProgress : void setLimit([int l])
+    InProgress --> InProgress : UndoableEdit editToBeUndone()
+    InProgress --> InProgress : UndoableEdit editToBeRedone()
+    InProgress --> InProgress : void undoTo([UndoableEdit edit])
+    InProgress --> InProgress : void redoTo([UndoableEdit edit])
+    InProgress --> InProgress : void undoOrRedo()
+    InProgress --> InProgress : boolean canUndoOrRedo()
+    InProgress --> InProgress : void undo()
+    InProgress --> InProgress : boolean canUndo()
+    InProgress --> InProgress : void redo()
+    InProgress --> InProgress : boolean canRedo()
+    InProgress --> InProgress : boolean addEdit([UndoableEdit anEdit])
+    InProgress --> InProgress : String getUndoOrRedoPresentationName()
+    InProgress --> InProgress : String getUndoPresentationName()
+    InProgress --> InProgress : String getRedoPresentationName()
+    InProgress --> InProgress : void undoableEditHappened([UndoableEditEvent e])
+    InProgress --> InProgress : String toString()
+    InProgress --> Ended : void end()
+
+    Ended --> Ended : int getLimit()
+    Ended --> Ended : void discardAllEdits()
+    Ended --> Ended : void trimForLimit()
+    Ended --> Ended : void trimEdits([int from], [int to])
+    Ended --> Ended : UndoableEdit editToBeUndone()
+    Ended --> Ended : UndoableEdit editToBeRedone()
+    Ended --> Ended : void undoTo([UndoableEdit edit])
+    Ended --> Ended : void redoTo([UndoableEdit edit])
+    Ended --> Ended : void undoOrRedo()
+    Ended --> Ended : boolean canUndoOrRedo()
+    Ended --> Ended : void undo()
+    Ended --> Ended : boolean canUndo()
+    Ended --> Ended : void redo()
+    Ended --> Ended : boolean canRedo()
+    Ended --> Ended : boolean addEdit([UndoableEdit anEdit])
+    Ended --> Ended : String getUndoOrRedoPresentationName()
+    Ended --> Ended : String getUndoPresentationName()
+    Ended --> Ended : String getRedoPresentationName()
+    Ended --> Ended : void undoableEditHappened([UndoableEditEvent e])
+    Ended --> Ended : String toString()
+    Ended --> [*]
+
+    note right of Ended
+        setLimit() throws RuntimeException in Ended state.
+        addEdit() returns false in Ended state.
+        undo/redo delegate to CompoundEdit superclass.
+    end note

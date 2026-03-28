@@ -1,0 +1,29 @@
+stateDiagram-v2
+    [*] --> SingleSelection : ChoiceCallback ChoiceCallback([String prompt], [String[] choices], [int defaultChoice], [boolean multipleSelectionsAllowed])
+    [*] --> MultipleSelection : ChoiceCallback ChoiceCallback([String prompt], [String[] choices], [int defaultChoice], [boolean multipleSelectionsAllowed])
+
+    SingleSelection --> SingleSelection : String getPrompt()
+    SingleSelection --> SingleSelection : String[] getChoices()
+    SingleSelection --> SingleSelection : int getDefaultChoice()
+    SingleSelection --> SingleSelection : boolean allowMultipleSelections()
+    SingleSelection --> SingleSelection : void setSelectedIndex([int selection])
+    SingleSelection --> SingleSelection : int[] getSelectedIndexes()
+
+    MultipleSelection --> MultipleSelection : String getPrompt()
+    MultipleSelection --> MultipleSelection : String[] getChoices()
+    MultipleSelection --> MultipleSelection : int getDefaultChoice()
+    MultipleSelection --> MultipleSelection : boolean allowMultipleSelections()
+    MultipleSelection --> MultipleSelection : void setSelectedIndex([int selection])
+    MultipleSelection --> MultipleSelection : void setSelectedIndexes([int[] selections])
+    MultipleSelection --> MultipleSelection : int[] getSelectedIndexes()
+
+    note right of SingleSelection
+        multipleSelectionsAllowed=false at construction.
+        setSelectedIndexes() is forbidden:
+        throws UnsupportedOperationException.
+    end note
+
+    note right of MultipleSelection
+        multipleSelectionsAllowed=true at construction.
+        All methods available.
+    end note

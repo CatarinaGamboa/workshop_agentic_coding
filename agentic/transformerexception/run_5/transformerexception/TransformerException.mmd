@@ -1,0 +1,37 @@
+stateDiagram-v2
+    [*] --> CauseSettable : TransformerException TransformerException([String message])
+    [*] --> CauseSettable : TransformerException TransformerException([String message], [SourceLocator locator])
+    [*] --> CauseLocked : TransformerException TransformerException([Throwable e])
+    [*] --> CauseLocked : TransformerException TransformerException([String message], [Throwable e])
+    [*] --> CauseLocked : TransformerException TransformerException([String message], [SourceLocator locator], [Throwable e])
+
+    CauseSettable --> CauseLocked : Throwable initCause([Throwable cause])
+    CauseSettable --> CauseSettable : SourceLocator getLocator()
+    CauseSettable --> CauseSettable : void setLocator([SourceLocator location])
+    CauseSettable --> CauseSettable : Throwable getException()
+    CauseSettable --> CauseSettable : Throwable getCause()
+    CauseSettable --> CauseSettable : String getMessageAndLocation()
+    CauseSettable --> CauseSettable : String getLocationAsString()
+    CauseSettable --> CauseSettable : void printStackTrace()
+    CauseSettable --> CauseSettable : void printStackTrace([PrintStream s])
+    CauseSettable --> CauseSettable : void printStackTrace([PrintWriter s])
+
+    CauseLocked --> CauseLocked : SourceLocator getLocator()
+    CauseLocked --> CauseLocked : void setLocator([SourceLocator location])
+    CauseLocked --> CauseLocked : Throwable getException()
+    CauseLocked --> CauseLocked : Throwable getCause()
+    CauseLocked --> CauseLocked : String getMessageAndLocation()
+    CauseLocked --> CauseLocked : String getLocationAsString()
+    CauseLocked --> CauseLocked : void printStackTrace()
+    CauseLocked --> CauseLocked : void printStackTrace([PrintStream s])
+    CauseLocked --> CauseLocked : void printStackTrace([PrintWriter s])
+
+    note right of CauseSettable
+        initCause() can be called at most once.
+        Only reachable via constructors without a wrapped Throwable.
+    end note
+
+    note right of CauseLocked
+        initCause() throws IllegalStateException here.
+        Reached via Throwable-wrapping constructors or after initCause() is called.
+    end note

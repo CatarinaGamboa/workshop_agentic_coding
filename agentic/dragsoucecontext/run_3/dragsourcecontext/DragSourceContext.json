@@ -1,0 +1,257 @@
+{
+  "class": {
+    "name": "DragSourceContext",
+    "signature": "public class DragSourceContext extends Object implements DragSourceListener, DragSourceMotionListener, Serializable",
+    "description": "The DragSourceContext class is responsible for managing the initiator side of the Drag and Drop protocol. In particular, it is responsible for managing drag event notifications to the DragSourceListeners and DragSourceMotionListeners, and providing the Transferable representing the source data for the drag operation. Note that the DragSourceContext itself implements the DragSourceListener and DragSourceMotionListener interfaces. This is to allow the platform peer (the DragSourceContextPeer instance) created by the DragSource to notify the DragSourceContext of state changes in the ongoing operation. This allows the DragSourceContext object to interpose itself between the platform and the listeners provided by the initiator of the drag operation. By default, DragSourceContext sets the cursor as appropriate for the current state of the drag and drop operation. For example, if the user has chosen the move action, and the pointer is over a target that accepts the move action, the default move cursor is shown. When the pointer is over an area that does not accept the transfer, the default \"no drop\" cursor is shown. This default handling mechanism is disabled when a custom cursor is set by the setCursor(java.awt.Cursor) method. When the default handling is disabled, it becomes the responsibility of the developer to keep the cursor up to date, by listening to the DragSource events and calling the setCursor() method. Alternatively, you can provide custom cursor behavior by providing custom implementations of the DragSource and the DragSourceContext classes.",
+    "implements": [
+      "DragSourceListener",
+      "DragSourceMotionListener",
+      "Serializable",
+      "EventListener"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "DragSourceContext",
+      "signature": "public DragSourceContext(DragGestureEvent trigger, Cursor dragCursor, Image dragImage, Point offset, Transferable t, DragSourceListener dsl)",
+      "description": "Called from DragSource, this constructor creates a new DragSourceContext given the DragSourceContextPeer for this Drag, the DragGestureEvent that triggered the Drag, the initial Cursor to use for the Drag, an (optional) Image to display while the Drag is taking place, the offset of the Image origin from the hotspot at the instant of the triggering event, the Transferable subject data, and the DragSourceListener to use during the Drag and Drop operation. If DragSourceContextPeer is null NullPointerException is thrown. If DragGestureEvent is null NullPointerException is thrown. If Cursor is null no exception is thrown and the default drag cursor behavior is activated for this drag operation. If Image is null no exception is thrown. If Image is not null and the offset is null NullPointerException is thrown. If Transferable is null NullPointerException is thrown. If DragSourceListener is null no exception is thrown.",
+      "parameters": [
+        {
+          "name": "trigger",
+          "description": "the triggering event"
+        },
+        {
+          "name": "dragCursor",
+          "description": "the initial Cursor for this drag operation or null for the default cursor handling; see class level documentation for more details on the cursor handling mechanism during drag and drop"
+        },
+        {
+          "name": "dragImage",
+          "description": "the Image to drag (or null)"
+        },
+        {
+          "name": "offset",
+          "description": "the offset of the image origin from the hotspot at the instant of the triggering event"
+        },
+        {
+          "name": "t",
+          "description": "the Transferable"
+        },
+        {
+          "name": "dsl",
+          "description": "the DragSourceListener"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the Component associated with the trigger event is null."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the DragSource for the trigger event is null."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the drag action for the trigger event is DnDConstants.ACTION_NONE."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the source actions for the DragGestureRecognizer associated with the trigger event are equal to DnDConstants.ACTION_NONE."
+        },
+        {
+          "type": "NullPointerException",
+          "description": "if dscp, trigger, or t are null, or if dragImage is non-null and offset is null"
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "getDragSource",
+      "signature": "public DragSource getDragSource()",
+      "description": "Returns the DragSource that instantiated this DragSourceContext.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the DragSource that instantiated this DragSourceContext"
+    },
+    {
+      "name": "getComponent",
+      "signature": "public Component getComponent()",
+      "description": "Returns the Component associated with this DragSourceContext.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the Component that started the drag"
+    },
+    {
+      "name": "getTrigger",
+      "signature": "public DragGestureEvent getTrigger()",
+      "description": "Returns the DragGestureEvent that initially triggered the drag.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the Event that triggered the drag"
+    },
+    {
+      "name": "getSourceActions",
+      "signature": "public int getSourceActions()",
+      "description": "Returns a bitwise mask of DnDConstants that represent the set of drop actions supported by the drag source for the drag operation associated with this DragSourceContext.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the drop actions supported by the drag source"
+    },
+    {
+      "name": "setCursor",
+      "signature": "public void setCursor(Cursor c)",
+      "description": "Sets the custom cursor for this drag operation to the specified Cursor. If the specified Cursor is null, the default drag cursor behavior is activated for this drag operation, otherwise it is deactivated.",
+      "parameters": [
+        {
+          "name": "c",
+          "description": "the initial Cursor for this drag operation, or null for the default cursor handling; see class level documentation for more details on the cursor handling during drag and drop"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getCursor",
+      "signature": "public Cursor getCursor()",
+      "description": "Returns the current custom drag Cursor.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the current custom drag Cursor, if it was set otherwise returns null."
+    },
+    {
+      "name": "addDragSourceListener",
+      "signature": "public void addDragSourceListener(DragSourceListener dsl) throws TooManyListenersException",
+      "description": "Add a DragSourceListener to this DragSourceContext if one has not already been added. If a DragSourceListener already exists, this method throws a TooManyListenersException.",
+      "parameters": [
+        {
+          "name": "dsl",
+          "description": "the DragSourceListener to add. Note that while null is not prohibited, it is not acceptable as a parameter."
+        }
+      ],
+      "throws": [
+        {
+          "type": "TooManyListenersException",
+          "description": "if a DragSourceListener has already been added"
+        }
+      ]
+    },
+    {
+      "name": "removeDragSourceListener",
+      "signature": "public void removeDragSourceListener(DragSourceListener dsl)",
+      "description": "Removes the specified DragSourceListener from this DragSourceContext.",
+      "parameters": [
+        {
+          "name": "dsl",
+          "description": "the DragSourceListener to remove; note that while null is not prohibited, it is not acceptable as a parameter"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "transferablesFlavorsChanged",
+      "signature": "public void transferablesFlavorsChanged()",
+      "description": "Notifies the peer that the Transferable's DataFlavors have changed."
+    },
+    {
+      "name": "dragEnter",
+      "signature": "public void dragEnter(DragSourceDragEvent dsde)",
+      "description": "Calls dragEnter on the DragSourceListeners registered with this DragSourceContext and with the associated DragSource, and passes them the specified DragSourceDragEvent.",
+      "parameters": [
+        {
+          "name": "dsde",
+          "description": "the DragSourceDragEvent"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "dragOver",
+      "signature": "public void dragOver(DragSourceDragEvent dsde)",
+      "description": "Calls dragOver on the DragSourceListeners registered with this DragSourceContext and with the associated DragSource, and passes them the specified DragSourceDragEvent.",
+      "parameters": [
+        {
+          "name": "dsde",
+          "description": "the DragSourceDragEvent"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "dragExit",
+      "signature": "public void dragExit(DragSourceEvent dse)",
+      "description": "Calls dragExit on the DragSourceListeners registered with this DragSourceContext and with the associated DragSource, and passes them the specified DragSourceEvent.",
+      "parameters": [
+        {
+          "name": "dse",
+          "description": "the DragSourceEvent"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "dropActionChanged",
+      "signature": "public void dropActionChanged(DragSourceDragEvent dsde)",
+      "description": "Calls dropActionChanged on the DragSourceListeners registered with this DragSourceContext and with the associated DragSource, and passes them the specified DragSourceDragEvent.",
+      "parameters": [
+        {
+          "name": "dsde",
+          "description": "the DragSourceDragEvent"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "dragDropEnd",
+      "signature": "public void dragDropEnd(DragSourceDropEvent dsde)",
+      "description": "Calls dragDropEnd on the DragSourceListeners registered with this DragSourceContext and with the associated DragSource, and passes them the specified DragSourceDropEvent.",
+      "parameters": [
+        {
+          "name": "dsde",
+          "description": "the DragSourceDropEvent"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "dragMouseMoved",
+      "signature": "public void dragMouseMoved(DragSourceDragEvent dsde)",
+      "description": "Calls dragMouseMoved on the DragSourceMotionListeners registered with the DragSource associated with this DragSourceContext, and them passes the specified DragSourceDragEvent.",
+      "parameters": [
+        {
+          "name": "dsde",
+          "description": "the DragSourceDragEvent"
+        }
+      ],
+      "throws": [],
+      "since": "1.4"
+    },
+    {
+      "name": "getTransferable",
+      "signature": "public Transferable getTransferable()",
+      "description": "Returns the Transferable associated with this DragSourceContext.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the Transferable"
+    },
+    {
+      "name": "updateCurrentCursor",
+      "signature": "protected void updateCurrentCursor(int sourceAct, int targetAct, int status)",
+      "description": "If the default drag cursor behavior is active, this method sets the default drag cursor for the specified actions supported by the drag source, the drop target action, and status, otherwise this method does nothing.",
+      "parameters": [
+        {
+          "name": "sourceAct",
+          "description": "the actions supported by the drag source"
+        },
+        {
+          "name": "targetAct",
+          "description": "the drop target action"
+        },
+        {
+          "name": "status",
+          "description": "one of the fields DEFAULT, ENTER, OVER, CHANGED"
+        }
+      ],
+      "throws": []
+    }
+  ]
+}

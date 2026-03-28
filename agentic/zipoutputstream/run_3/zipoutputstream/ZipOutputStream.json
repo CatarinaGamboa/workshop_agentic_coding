@@ -1,0 +1,194 @@
+{
+  "class": {
+    "name": "ZipOutputStream",
+    "signature": "public class ZipOutputStream extends DeflaterOutputStream",
+    "description": "This class implements an output stream filter for writing files in the ZIP file format. Includes support for both compressed and uncompressed entries.",
+    "implements": [
+      "Closeable",
+      "Flushable",
+      "AutoCloseable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "ZipOutputStream",
+      "signature": "public ZipOutputStream(OutputStream out)",
+      "description": "Creates a new ZIP output stream. The UTF-8 charset is used to encode the entry names and comments.",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the actual output stream"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "ZipOutputStream",
+      "signature": "public ZipOutputStream(OutputStream out, Charset charset)",
+      "description": "Creates a new ZIP output stream.",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the actual output stream"
+        },
+        {
+          "name": "charset",
+          "description": "the charset to be used to encode the entry names and comments"
+        }
+      ],
+      "throws": [],
+      "since": "1.7"
+    }
+  ],
+  "methods": [
+    {
+      "name": "setComment",
+      "signature": "public void setComment(String comment)",
+      "description": "Sets the ZIP file comment.",
+      "parameters": [
+        {
+          "name": "comment",
+          "description": "the comment string"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the length of the specified ZIP file comment is greater than 0xFFFF bytes"
+        }
+      ]
+    },
+    {
+      "name": "setMethod",
+      "signature": "public void setMethod(int method)",
+      "description": "Sets the default compression method for subsequent entries. This default will be used whenever the compression method is not specified for an individual ZIP file entry, and is initially set to DEFLATED.",
+      "parameters": [
+        {
+          "name": "method",
+          "description": "the default compression method"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the specified compression method is invalid"
+        }
+      ]
+    },
+    {
+      "name": "setLevel",
+      "signature": "public void setLevel(int level)",
+      "description": "Sets the compression level for subsequent entries which are DEFLATED. The default setting is DEFAULT_COMPRESSION.",
+      "parameters": [
+        {
+          "name": "level",
+          "description": "the compression level (0-9)"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the compression level is invalid"
+        }
+      ]
+    },
+    {
+      "name": "putNextEntry",
+      "signature": "public void putNextEntry(ZipEntry e) throws IOException",
+      "description": "Begins writing a new ZIP file entry and positions the stream to the start of the entry data. Closes the current entry if still active. The default compression method will be used if no compression method was specified for the entry. When writing a compressed (DEFLATED) entry, and the compressed size has not been explicitly set with the ZipEntry.setCompressedSize(long) method, then the compressed size will be set to the actual compressed size after deflation. The current time will be used if the entry has no set modification time.",
+      "parameters": [
+        {
+          "name": "e",
+          "description": "the ZIP entry to be written"
+        }
+      ],
+      "throws": [
+        {
+          "type": "ZipException",
+          "description": "if a ZIP format error has occurred"
+        },
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "closeEntry",
+      "signature": "public void closeEntry() throws IOException",
+      "description": "Closes the current ZIP entry and positions the stream for writing the next entry.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "ZipException",
+          "description": "if a ZIP format error has occurred"
+        },
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(byte[] b, int off, int len) throws IOException",
+      "description": "Writes an array of bytes to the current ZIP entry data. This method will block until all the bytes are written.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "the data to be written"
+        },
+        {
+          "name": "off",
+          "description": "the start offset in the data"
+        },
+        {
+          "name": "len",
+          "description": "the number of bytes that are written"
+        }
+      ],
+      "throws": [
+        {
+          "type": "ZipException",
+          "description": "if a ZIP file error has occurred"
+        },
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "finish",
+      "signature": "public void finish() throws IOException",
+      "description": "Finishes writing the contents of the ZIP output stream without closing the underlying stream. Use this method when applying multiple filters in succession to the same output stream.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "ZipException",
+          "description": "if a ZIP file error has occurred"
+        },
+        {
+          "type": "IOException",
+          "description": "if an I/O exception has occurred"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Closes the ZIP output stream as well as the stream being filtered.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "ZipException",
+          "description": "if a ZIP file error has occurred"
+        },
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    }
+  ]
+}

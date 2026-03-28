@@ -1,0 +1,31 @@
+stateDiagram-v2
+    [*] --> CauseNotSet : TransformerException TransformerException([String message])
+    [*] --> CauseNotSet : TransformerException TransformerException([String message], [SourceLocator locator])
+    [*] --> CauseSet : TransformerException TransformerException([Throwable e])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [Throwable e])
+    [*] --> CauseSet : TransformerException TransformerException([String message], [SourceLocator locator], [Throwable e])
+
+    CauseNotSet --> CauseNotSet : SourceLocator getLocator()
+    CauseNotSet --> CauseNotSet : void setLocator([SourceLocator location])
+    CauseNotSet --> CauseNotSet : Throwable getException()
+    CauseNotSet --> CauseNotSet : Throwable getCause()
+    CauseNotSet --> CauseNotSet : String getMessageAndLocation()
+    CauseNotSet --> CauseNotSet : String getLocationAsString()
+    CauseNotSet --> CauseNotSet : void printStackTrace()
+    CauseNotSet --> CauseNotSet : void printStackTrace([PrintStream s])
+    CauseNotSet --> CauseNotSet : void printStackTrace([PrintWriter s])
+    CauseNotSet --> CauseSet : Throwable initCause([Throwable cause])
+
+    CauseSet --> CauseSet : SourceLocator getLocator()
+    CauseSet --> CauseSet : void setLocator([SourceLocator location])
+    CauseSet --> CauseSet : Throwable getException()
+    CauseSet --> CauseSet : Throwable getCause()
+    CauseSet --> CauseSet : String getMessageAndLocation()
+    CauseSet --> CauseSet : String getLocationAsString()
+    CauseSet --> CauseSet : void printStackTrace()
+    CauseSet --> CauseSet : void printStackTrace([PrintStream s])
+    CauseSet --> CauseSet : void printStackTrace([PrintWriter s])
+
+    note right of CauseSet
+        initCause() throws IllegalStateException: cause already set at construction or initCause() already called once.
+    end note

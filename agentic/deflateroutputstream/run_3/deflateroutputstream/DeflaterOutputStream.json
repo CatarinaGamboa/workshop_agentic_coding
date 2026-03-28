@@ -1,0 +1,228 @@
+{
+  "class": {
+    "name": "DeflaterOutputStream",
+    "signature": "public class DeflaterOutputStream extends FilterOutputStream",
+    "description": "This class implements an output stream filter for compressing data in the \"deflate\" compression format. It is also used as the basis for other types of compression filters, such as GZIPOutputStream.",
+    "implements": [
+      "Closeable",
+      "Flushable",
+      "AutoCloseable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out, Deflater def, int size, boolean syncFlush)",
+      "description": "Creates a new output stream with the specified compressor, buffer size and flush mode.",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        },
+        {
+          "name": "def",
+          "description": "the compressor (\"deflater\")"
+        },
+        {
+          "name": "size",
+          "description": "the output buffer size"
+        },
+        {
+          "name": "syncFlush",
+          "description": "if true the flush() method of this instance flushes the compressor with flush mode Deflater.SYNC_FLUSH before flushing the output stream, otherwise only flushes the output stream"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if size <= 0"
+        }
+      ],
+      "since": "1.7"
+    },
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out, Deflater def, int size)",
+      "description": "Creates a new output stream with the specified compressor and buffer size. The new output stream instance is created as if by invoking the 4-argument constructor DeflaterOutputStream(out, def, size, false).",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        },
+        {
+          "name": "def",
+          "description": "the compressor (\"deflater\")"
+        },
+        {
+          "name": "size",
+          "description": "the output buffer size"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if size <= 0"
+        }
+      ]
+    },
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out, Deflater def, boolean syncFlush)",
+      "description": "Creates a new output stream with the specified compressor, flush mode and a default buffer size.",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        },
+        {
+          "name": "def",
+          "description": "the compressor (\"deflater\")"
+        },
+        {
+          "name": "syncFlush",
+          "description": "if true the flush() method of this instance flushes the compressor with flush mode Deflater.SYNC_FLUSH before flushing the output stream, otherwise only flushes the output stream"
+        }
+      ],
+      "throws": [],
+      "since": "1.7"
+    },
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out, Deflater def)",
+      "description": "Creates a new output stream with the specified compressor and a default buffer size. The new output stream instance is created as if by invoking the 3-argument constructor DeflaterOutputStream(out, def, false).",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        },
+        {
+          "name": "def",
+          "description": "the compressor (\"deflater\")"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out, boolean syncFlush)",
+      "description": "Creates a new output stream with a default compressor, a default buffer size and the specified flush mode.",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        },
+        {
+          "name": "syncFlush",
+          "description": "if true the flush() method of this instance flushes the compressor with flush mode Deflater.SYNC_FLUSH before flushing the output stream, otherwise only flushes the output stream"
+        }
+      ],
+      "throws": [],
+      "since": "1.7"
+    },
+    {
+      "name": "DeflaterOutputStream",
+      "signature": "public DeflaterOutputStream(OutputStream out)",
+      "description": "Creates a new output stream with a default compressor and buffer size. The new output stream instance is created as if by invoking the 2-argument constructor DeflaterOutputStream(out, false).",
+      "parameters": [
+        {
+          "name": "out",
+          "description": "the output stream"
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "write",
+      "signature": "public void write(int b) throws IOException",
+      "description": "Writes a byte to the compressed output stream. This method will block until the byte can be written.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "the byte to be written"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(byte[] b, int off, int len) throws IOException",
+      "description": "Writes an array of bytes to the compressed output stream. This method will block until all the bytes are written.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "the data to be written"
+        },
+        {
+          "name": "off",
+          "description": "the start offset of the data"
+        },
+        {
+          "name": "len",
+          "description": "the length of the data"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "finish",
+      "signature": "public void finish() throws IOException",
+      "description": "Finishes writing compressed data to the output stream without closing the underlying stream. Use this method when applying multiple filters in succession to the same output stream.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Writes remaining compressed data to the output stream and closes the underlying stream.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "deflate",
+      "signature": "protected void deflate() throws IOException",
+      "description": "Writes next block of compressed data to the output stream.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ]
+    },
+    {
+      "name": "flush",
+      "signature": "public void flush() throws IOException",
+      "description": "Flushes the compressed output stream. If syncFlush is true when this compressed output stream is constructed, this method first flushes the underlying compressor with the flush mode Deflater.SYNC_FLUSH to force all pending data to be flushed out to the output stream and then flushes the output stream. Otherwise this method only flushes the output stream without flushing the compressor.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error has occurred"
+        }
+      ],
+      "since": "1.7"
+    }
+  ]
+}

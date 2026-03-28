@@ -1,0 +1,123 @@
+{
+  "class": {
+    "name": "PipedOutputStream",
+    "signature": "public class PipedOutputStream extends OutputStream",
+    "description": "A piped output stream can be connected to a piped input stream to create a communications pipe. The piped output stream is the sending end of the pipe. Typically, data is written to a PipedOutputStream object by one thread and data is read from the connected PipedInputStream by some other thread. Attempting to use both objects from a single thread is not recommended as it may deadlock the thread. The pipe is said to be broken if a thread that was reading data bytes from the connected piped input stream is no longer alive.",
+    "implements": [
+      "Closeable",
+      "Flushable",
+      "AutoCloseable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "PipedOutputStream",
+      "signature": "public PipedOutputStream(PipedInputStream snk) throws IOException",
+      "description": "Creates a piped output stream connected to the specified piped input stream. Data bytes written to this stream will then be available as input from snk.",
+      "parameters": [
+        {
+          "name": "snk",
+          "description": "The piped input stream to connect to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "PipedOutputStream",
+      "signature": "public PipedOutputStream()",
+      "description": "Creates a piped output stream that is not yet connected to a piped input stream. It must be connected to a piped input stream, either by the receiver or the sender, before being used.",
+      "parameters": [],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "connect",
+      "signature": "public void connect(PipedInputStream snk) throws IOException",
+      "description": "Connects this piped output stream to a receiver. If this object is already connected to some other piped input stream, an IOException is thrown. If snk is an unconnected piped input stream and src is an unconnected piped output stream, they may be connected by either the call: src.connect(snk) or the call: snk.connect(src) The two calls have the same effect.",
+      "parameters": [
+        {
+          "name": "snk",
+          "description": "the piped input stream to connect to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(int b) throws IOException",
+      "description": "Writes the specified byte to the piped output stream. Implements the write method of OutputStream.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "the byte to be written."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the pipe is broken, unconnected, closed, or if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(byte[] b, int off, int len) throws IOException",
+      "description": "Writes len bytes from the specified byte array starting at offset off to this piped output stream. This method blocks until all the bytes are written to the output stream.",
+      "parameters": [
+        {
+          "name": "b",
+          "description": "the data."
+        },
+        {
+          "name": "off",
+          "description": "the start offset in the data."
+        },
+        {
+          "name": "len",
+          "description": "the number of bytes to write."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the pipe is broken, unconnected, closed, or if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "flush",
+      "signature": "public void flush() throws IOException",
+      "description": "Flushes this output stream and forces any buffered output bytes to be written out. This will notify any readers that bytes are waiting in the pipe.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Closes this piped output stream and releases any system resources associated with this stream. This stream may no longer be used for writing bytes.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    }
+  ]
+}

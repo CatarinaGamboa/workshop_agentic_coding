@@ -1,0 +1,166 @@
+stateDiagram-v2
+    [*] --> TilingNonExplicitCompNonExplicit : ImageWriteParam([Locale locale])
+    TilingNonExplicitCompNonExplicit --> [*]
+
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : int getTilingMode()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : boolean canWriteTiles()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : boolean canOffsetTiles()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : Dimension[] getPreferredTileSizes()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : boolean canWriteProgressive()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : void setProgressiveMode([int mode])
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : int getProgressiveMode()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : boolean canWriteCompressed()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : int getCompressionMode()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : String[] getCompressionTypes()
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompNonExplicit : Locale getLocale()
+    TilingNonExplicitCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : void setTilingMode([int mode])
+    TilingNonExplicitCompNonExplicit --> TilingNonExplicitCompExplicit : void setCompressionMode([int mode])
+
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : int getTilingMode()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : boolean canWriteTiles()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : boolean canOffsetTiles()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : Dimension[] getPreferredTileSizes()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : boolean canWriteProgressive()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : void setProgressiveMode([int mode])
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : int getProgressiveMode()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : boolean canWriteCompressed()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : int getCompressionMode()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : String[] getCompressionTypes()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : Locale getLocale()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : void unsetTiling()
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitSetCompNonExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingExplicitUnsetCompNonExplicit --> TilingNonExplicitCompNonExplicit : void setTilingMode([int mode])
+    TilingExplicitUnsetCompNonExplicit --> TilingExplicitUnsetCompExplicit : void setCompressionMode([int mode])
+
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getTilingMode()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : boolean canWriteTiles()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : boolean canOffsetTiles()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : Dimension[] getPreferredTileSizes()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : boolean canWriteProgressive()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : void setProgressiveMode([int mode])
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getProgressiveMode()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : boolean canWriteCompressed()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getCompressionMode()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : String[] getCompressionTypes()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : Locale getLocale()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getTileWidth()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getTileHeight()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getTileGridXOffset()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompNonExplicit : int getTileGridYOffset()
+    TilingExplicitSetCompNonExplicit --> TilingExplicitUnsetCompNonExplicit : void unsetTiling()
+    TilingExplicitSetCompNonExplicit --> TilingNonExplicitCompNonExplicit : void setTilingMode([int mode])
+    TilingExplicitSetCompNonExplicit --> TilingExplicitSetCompExplicit : void setCompressionMode([int mode])
+
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : int getTilingMode()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : boolean canWriteTiles()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : boolean canOffsetTiles()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : Dimension[] getPreferredTileSizes()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : boolean canWriteProgressive()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : void setProgressiveMode([int mode])
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : int getProgressiveMode()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : boolean canWriteCompressed()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : int getCompressionMode()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : String[] getCompressionTypes()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : Locale getLocale()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : void setCompressionType([String compressionType])
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : String getCompressionType()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : void unsetCompression()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : String getLocalizedCompressionTypeName()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : boolean isCompressionLossless()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : void setCompressionQuality([float quality])
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : float getCompressionQuality()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : float getBitRate([float quality])
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : String[] getCompressionQualityDescriptions()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompExplicit : float[] getCompressionQualityValues()
+    TilingNonExplicitCompExplicit --> TilingNonExplicitCompNonExplicit : void setCompressionMode([int mode])
+    TilingNonExplicitCompExplicit --> TilingExplicitUnsetCompExplicit : void setTilingMode([int mode])
+
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : int getTilingMode()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : boolean canWriteTiles()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : boolean canOffsetTiles()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : Dimension[] getPreferredTileSizes()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : boolean canWriteProgressive()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : void setProgressiveMode([int mode])
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : int getProgressiveMode()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : boolean canWriteCompressed()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : int getCompressionMode()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : String[] getCompressionTypes()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : Locale getLocale()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : void unsetTiling()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : void setCompressionType([String compressionType])
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : String getCompressionType()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : void unsetCompression()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : String getLocalizedCompressionTypeName()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : boolean isCompressionLossless()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : void setCompressionQuality([float quality])
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : float getCompressionQuality()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : float getBitRate([float quality])
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : String[] getCompressionQualityDescriptions()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompExplicit : float[] getCompressionQualityValues()
+    TilingExplicitUnsetCompExplicit --> TilingExplicitSetCompExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingExplicitUnsetCompExplicit --> TilingNonExplicitCompExplicit : void setTilingMode([int mode])
+    TilingExplicitUnsetCompExplicit --> TilingExplicitUnsetCompNonExplicit : void setCompressionMode([int mode])
+
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getTilingMode()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : boolean canWriteTiles()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : boolean canOffsetTiles()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : Dimension[] getPreferredTileSizes()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : boolean canWriteProgressive()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : void setProgressiveMode([int mode])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getProgressiveMode()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : boolean canWriteCompressed()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getCompressionMode()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : String[] getCompressionTypes()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : Locale getLocale()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getTileWidth()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getTileHeight()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getTileGridXOffset()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : int getTileGridYOffset()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : void setCompressionType([String compressionType])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : String getCompressionType()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : void unsetCompression()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : String getLocalizedCompressionTypeName()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : boolean isCompressionLossless()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : void setCompressionQuality([float quality])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : float getCompressionQuality()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : float getBitRate([float quality])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : String[] getCompressionQualityDescriptions()
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompExplicit : float[] getCompressionQualityValues()
+    TilingExplicitSetCompExplicit --> TilingExplicitUnsetCompExplicit : void unsetTiling()
+    TilingExplicitSetCompExplicit --> TilingNonExplicitCompExplicit : void setTilingMode([int mode])
+    TilingExplicitSetCompExplicit --> TilingExplicitSetCompNonExplicit : void setCompressionMode([int mode])
+
+    note right of TilingNonExplicitCompNonExplicit
+        Initial state. Default mode is MODE_COPY_FROM_METADATA for both dimensions.
+        setTilingMode(MODE_EXPLICIT) transitions to TilingExplicitUnsetCompNonExplicit.
+        setCompressionMode(MODE_EXPLICIT) transitions to TilingNonExplicitCompExplicit.
+        setTiling and getTile* methods are forbidden here.
+        Compression detail methods require MODE_EXPLICIT and are forbidden here.
+    end note
+
+    note right of TilingExplicitUnsetCompNonExplicit
+        Tiling is MODE_EXPLICIT but setTiling() has not been called yet.
+        getTileWidth/Height/GridXOffset/GridYOffset throw IllegalStateException (params not set).
+        setTilingMode with non-EXPLICIT value returns to TilingNonExplicitCompNonExplicit.
+    end note
+
+    note right of TilingExplicitSetCompNonExplicit
+        Tiling is MODE_EXPLICIT and setTiling() has been called.
+        getTileWidth/Height/GridXOffset/GridYOffset are available.
+        setTilingMode with non-EXPLICIT value returns to TilingNonExplicitCompNonExplicit.
+        Compression detail methods require MODE_EXPLICIT and are forbidden here.
+    end note
+
+    note right of TilingNonExplicitCompExplicit
+        Compression is MODE_EXPLICIT but tiling mode is non-explicit.
+        setCompressionType, getCompressionType, setCompressionQuality etc. are available.
+        setCompressionMode with non-EXPLICIT value returns to TilingNonExplicitCompNonExplicit.
+        Tiling detail methods are forbidden here.
+    end note
+
+    note right of TilingExplicitSetCompExplicit
+        Both tiling (with params set) and compression are in MODE_EXPLICIT.
+        All protocol methods are available.
+    end note

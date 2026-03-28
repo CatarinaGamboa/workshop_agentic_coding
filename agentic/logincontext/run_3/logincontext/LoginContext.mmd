@@ -1,0 +1,30 @@
+stateDiagram-v2
+    [*] --> Ready : LoginContext LoginContext([String name])
+    [*] --> Ready : LoginContext LoginContext([String name], [Subject subject])
+    [*] --> Ready : LoginContext LoginContext([String name], [CallbackHandler callbackHandler])
+    [*] --> Ready : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler])
+    [*] --> Ready : LoginContext LoginContext([String name], [Subject subject], [CallbackHandler callbackHandler], [Configuration config])
+
+    Ready --> LoggedIn : void login()
+    Ready --> Ready : Subject getSubject()
+
+    LoggedIn --> LoggedOut : void logout()
+    LoggedIn --> LoggedIn : Subject getSubject()
+
+    LoggedOut --> LoggedOut : Subject getSubject()
+    LoggedOut --> [*]
+
+    note right of Ready
+        getSubject() returns null if authentication has not been attempted.
+        A LoginContext should not be used to authenticate more than one Subject.
+    end note
+
+    note right of LoggedIn
+        getSubject() returns the authenticated Subject.
+        logout() removes Principals and Credentials from Subject.
+    end note
+
+    note right of LoggedOut
+        Context should not be reused after logout.
+        A separate LoginContext should be used for each Subject.
+    end note

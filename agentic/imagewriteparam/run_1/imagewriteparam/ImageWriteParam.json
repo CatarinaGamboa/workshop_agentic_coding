@@ -1,0 +1,567 @@
+{
+  "class": {
+    "name": "ImageWriteParam",
+    "signature": "public class ImageWriteParam extends IIOParam",
+    "description": "A class describing how a stream is to be encoded. Instances of this class or its subclasses are used to supply prescriptive \"how-to\" information to instances of ImageWriter. A plug-in for a specific image format may define a subclass of this class, and return objects of that class from the getDefaultWriteParam method of its ImageWriter implementation. For example, the built-in JPEG writer plug-in will return instances of javax.imageio.plugins.jpeg.JPEGImageWriteParam. The region of the image to be written is determined by first intersecting the actual bounds of the image with the rectangle specified by IIOParam.setSourceRegion, if any. If the resulting rectangle has a width or height of zero, the writer will throw an IIOException. If the intersection is non-empty, writing will commence with the first subsampled pixel and include additional pixels within the intersected bounds according to the horizontal and vertical subsampling factors specified by IIOParam.setSourceSubsampling. Individual features such as tiling, progressive encoding, and compression may be set in one of four modes. MODE_DISABLED disables the features; MODE_DEFAULT enables the feature with writer-controlled parameter values; MODE_EXPLICIT enables the feature and allows the use of a set method to provide additional parameters; and MODE_COPY_FROM_METADATA copies relevant parameter values from the stream and image metadata objects passed to the writer. The default for all features is MODE_COPY_FROM_METADATA. Non-standard features supplied in subclasses are encouraged, but not required to use a similar scheme. Plug-in writers may extend the functionality of ImageWriteParam by providing a subclass that implements additional, plug-in specific interfaces. It is up to the plug-in to document what interfaces are available and how they are to be used. Writers will silently ignore any extended features of an ImageWriteParam subclass of which they are not aware. Also, they may ignore any optional features that they normally disable when creating their own ImageWriteParam instances via getDefaultWriteParam. Note that unless a query method exists for a capability, it must be supported by all ImageWriter implementations (e.g. progressive encoding is optional, but subsampling must be supported)."
+  },
+  "constructors": [
+    {
+      "name": "ImageWriteParam",
+      "signature": "protected ImageWriteParam()",
+      "description": "Constructs an empty ImageWriteParam. It is up to the subclass to set up the instance variables properly."
+    },
+    {
+      "name": "ImageWriteParam",
+      "signature": "public ImageWriteParam(Locale locale)",
+      "description": "Constructs an ImageWriteParam set to use a given Locale.",
+      "parameters": [
+        {
+          "name": "locale",
+          "description": "a Locale to be used to localize compression type names and quality descriptions, or null."
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "getLocale",
+      "signature": "public Locale getLocale()",
+      "description": "Returns the currently set Locale, or null if only a default Locale is supported.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the current Locale, or null."
+    },
+    {
+      "name": "canWriteTiles",
+      "signature": "public boolean canWriteTiles()",
+      "description": "Returns true if the writer can perform tiling while writing. If this method returns false, then setTiling will throw an UnsupportedOperationException.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if the writer supports tiling."
+    },
+    {
+      "name": "canOffsetTiles",
+      "signature": "public boolean canOffsetTiles()",
+      "description": "Returns true if the writer can perform tiling with non-zero grid offsets while writing. If this method returns false, then setTiling will throw an UnsupportedOperationException if the grid offset arguments are not both zero. If canWriteTiles returns false, this method will return false as well.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if the writer supports non-zero tile offsets."
+    },
+    {
+      "name": "setTilingMode",
+      "signature": "public void setTilingMode(int mode)",
+      "description": "Determines whether the image will be tiled in the output stream and, if it will, how the tiling parameters will be determined. The modes are interpreted as follows: MODE_DISABLED - The image will not be tiled. setTiling will throw an IllegalStateException. MODE_DEFAULT - The image will be tiled using default parameters. setTiling will throw an IllegalStateException. MODE_EXPLICIT - The image will be tiled according to parameters given in the setTiling method. Any previously set tiling parameters are discarded. MODE_COPY_FROM_METADATA - The image will conform to the metadata object passed in to a write. setTiling will throw an IllegalStateException.",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "The mode to use for tiling."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if canWriteTiles returns false."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if mode is not one of the modes listed above."
+        }
+      ]
+    },
+    {
+      "name": "getTilingMode",
+      "signature": "public int getTilingMode()",
+      "description": "Returns the current tiling mode, if tiling is supported. Otherwise throws an UnsupportedOperationException.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if canWriteTiles returns false."
+        }
+      ],
+      "returns": "the current tiling mode."
+    },
+    {
+      "name": "getPreferredTileSizes",
+      "signature": "public Dimension[] getPreferredTileSizes()",
+      "description": "Returns an array of Dimensions indicating the legal size ranges for tiles as they will be encoded in the output file or stream. The returned array is a copy. The information is returned as a set of pairs; the first element of a pair contains an (inclusive) minimum width and height, and the second element contains an (inclusive) maximum width and height. Together, each pair defines a valid range of sizes. To specify a fixed size, use the same width and height for both elements. To specify an arbitrary range, a value of null is used in place of an actual array of Dimensions. If no array is specified on the constructor, but tiling is allowed, then this method returns null.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        }
+      ],
+      "returns": "an array of Dimensions with an even length of at least two, or null."
+    },
+    {
+      "name": "setTiling",
+      "signature": "public void setTiling(int tileWidth, int tileHeight, int tileGridXOffset, int tileGridYOffset)",
+      "description": "Specifies that the image should be tiled in the output stream. The tileWidth and tileHeight parameters specify the width and height of the tiles in the file. If the tile width or height is greater than the width or height of the image, the image is not tiled in that dimension. If canOffsetTiles returns false, then the tileGridXOffset and tileGridYOffset parameters must be zero.",
+      "parameters": [
+        {
+          "name": "tileWidth",
+          "description": "the width of each tile."
+        },
+        {
+          "name": "tileHeight",
+          "description": "the height of each tile."
+        },
+        {
+          "name": "tileGridXOffset",
+          "description": "the horizontal offset of the tile grid."
+        },
+        {
+          "name": "tileGridYOffset",
+          "description": "the vertical offset of the tile grid."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support grid offsets, and the grid offsets are not both zero."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if the tile size is not within one of the allowable ranges returned by getPreferredTileSizes."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if tileWidth or tileHeight is less than or equal to 0."
+        }
+      ]
+    },
+    {
+      "name": "unsetTiling",
+      "signature": "public void unsetTiling()",
+      "description": "Removes any previous tile grid parameters specified by calls to setTiling. The default implementation sets the instance variables tileWidth, tileHeight, tileGridXOffset, and tileGridYOffset to 0.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        }
+      ]
+    },
+    {
+      "name": "getTileWidth",
+      "signature": "public int getTileWidth()",
+      "description": "Returns the width of each tile in an image as it will be written to the output stream. If tiling parameters have not been set, an IllegalStateException is thrown.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling parameters have not been set."
+        }
+      ],
+      "returns": "the tile width to be used for encoding."
+    },
+    {
+      "name": "getTileHeight",
+      "signature": "public int getTileHeight()",
+      "description": "Returns the height of each tile in an image as it will be written to the output stream. If tiling parameters have not been set, an IllegalStateException is thrown.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling parameters have not been set."
+        }
+      ],
+      "returns": "the tile height to be used for encoding."
+    },
+    {
+      "name": "getTileGridXOffset",
+      "signature": "public int getTileGridXOffset()",
+      "description": "Returns the horizontal tile grid offset of an image as it will be written to the output stream. If tiling parameters have not been set, an IllegalStateException is thrown.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling parameters have not been set."
+        }
+      ],
+      "returns": "the tile grid X offset to be used for encoding."
+    },
+    {
+      "name": "getTileGridYOffset",
+      "signature": "public int getTileGridYOffset()",
+      "description": "Returns the vertical tile grid offset of an image as it will be written to the output stream. If tiling parameters have not been set, an IllegalStateException is thrown.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support tiling."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the tiling parameters have not been set."
+        }
+      ],
+      "returns": "the tile grid Y offset to be used for encoding."
+    },
+    {
+      "name": "canWriteProgressive",
+      "signature": "public boolean canWriteProgressive()",
+      "description": "Returns true if the writer can write out images as a series of passes of progressively increasing quality.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if the writer supports progressive encoding."
+    },
+    {
+      "name": "setProgressiveMode",
+      "signature": "public void setProgressiveMode(int mode)",
+      "description": "Specifies that the writer is to write the image out in a progressive mode such that the stream will contain a series of scans of increasing quality. If progressive encoding is not supported, an UnsupportedOperationException will be thrown. The mode argument determines how the progression parameters are chosen, and must be either MODE_DISABLED, MODE_COPY_FROM_METADATA, or MODE_DEFAULT. Otherwise an IllegalArgumentException is thrown. The modes are interpreted as follows: MODE_DISABLED - No progression. Use this to turn off progression. MODE_COPY_FROM_METADATA - The output image will use whatever progression parameters are found in the metadata objects passed into the writer. MODE_DEFAULT - The image will be written progressively, with parameters chosen by the writer. The default is MODE_COPY_FROM_METADATA.",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "The mode for setting progression in the output stream."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support progressive encoding."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if mode is not one of the modes listed above."
+        }
+      ]
+    },
+    {
+      "name": "getProgressiveMode",
+      "signature": "public int getProgressiveMode()",
+      "description": "Returns the current mode for writing the stream in a progressive manner.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support progressive encoding."
+        }
+      ],
+      "returns": "the current mode for progressive encoding."
+    },
+    {
+      "name": "canWriteCompressed",
+      "signature": "public boolean canWriteCompressed()",
+      "description": "Returns true if this writer supports compression.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if the writer supports compression."
+    },
+    {
+      "name": "setCompressionMode",
+      "signature": "public void setCompressionMode(int mode)",
+      "description": "Specifies whether compression is to be performed, and if so how compression parameters are to be determined. The mode argument must be one of the four modes, interpreted as follows: MODE_DISABLED - If the mode is set to MODE_DISABLED, methods that query or modify the compression type or parameters will throw an IllegalStateException (if compression is normally supported by the plug-in). Some writers, such as JPEG, do not normally offer uncompressed output. In this case, attempting to set the mode to MODE_DISABLED will throw an UnsupportedOperationException and the mode will not be changed. MODE_EXPLICIT - Compress using the compression type and quality settings specified in this ImageWriteParam. Any previously set compression parameters are discarded. MODE_COPY_FROM_METADATA - Use whatever compression parameters are specified in metadata objects passed in to the writer. MODE_DEFAULT - Use default compression parameters. The default is MODE_COPY_FROM_METADATA.",
+      "parameters": [
+        {
+          "name": "mode",
+          "description": "The mode for setting compression in the output stream."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression, or does not support the requested mode."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if mode is not one of the modes listed above."
+        }
+      ]
+    },
+    {
+      "name": "getCompressionMode",
+      "signature": "public int getCompressionMode()",
+      "description": "Returns the current compression mode, if compression is supported.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        }
+      ],
+      "returns": "the current compression mode."
+    },
+    {
+      "name": "getCompressionTypes",
+      "signature": "public String[] getCompressionTypes()",
+      "description": "Returns a list of available compression types, as an array or Strings, or null if a compression type may not be chosen using these interfaces. The array returned is a copy. If the writer only offers a single, mandatory form of compression, it is not necessary to provide any named compression types. Named compression types should only be used where the user is able to make a meaningful choice between different schemes. The default implementation checks if compression is supported and throws an UnsupportedOperationException if not. Otherwise, it returns a clone of the compressionTypes instance variable if it is non-null, or else returns null.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        }
+      ],
+      "returns": "an array of Strings containing the (non-localized) names of available compression types, or null."
+    },
+    {
+      "name": "setCompressionType",
+      "signature": "public void setCompressionType(String compressionType)",
+      "description": "Sets the compression type to one of the values indicated by getCompressionTypes. If a value of null is passed in, any previous setting is removed. The default implementation checks whether compression is supported and the compression mode is MODE_EXPLICIT. If so, it calls getCompressionTypes and checks if compressionType is one of the legal values. If it is, the compressionType instance variable is set. If compressionType is null, the instance variable is set without performing any checking.",
+      "parameters": [
+        {
+          "name": "compressionType",
+          "description": "one of the Strings returned by getCompressionTypes, or null to remove any previous setting."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if there are no settable compression types."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if compressionType is non-null but is not one of the values returned by getCompressionTypes."
+        }
+      ]
+    },
+    {
+      "name": "getCompressionType",
+      "signature": "public String getCompressionType()",
+      "description": "Returns the currently set compression type, or null if none has been set. The type is returned as a String from among those returned by getCompressionTypes. If no compression type has been set, null is returned. The default implementation checks whether compression is supported and the compression mode is MODE_EXPLICIT. If so, it returns the value of the compressionType instance variable.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        }
+      ],
+      "returns": "the current compression type as a String, or null if no type is set."
+    },
+    {
+      "name": "unsetCompression",
+      "signature": "public void unsetCompression()",
+      "description": "Removes any previous compression type and quality settings. The default implementation sets the instance variable compressionType to null, and the instance variable compressionQuality to 1.0F.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the plug-in does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        }
+      ]
+    },
+    {
+      "name": "getLocalizedCompressionTypeName",
+      "signature": "public String getLocalizedCompressionTypeName()",
+      "description": "Returns a localized version of the name of the current compression type, using the Locale returned by getLocale. The default implementation checks whether compression is supported and the compression mode is MODE_EXPLICIT. If so, if compressionType is non-null the value of getCompressionType is returned as a convenience.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if no compression type is set."
+        }
+      ],
+      "returns": "a String containing a localized version of the name of the current compression type."
+    },
+    {
+      "name": "isCompressionLossless",
+      "signature": "public boolean isCompressionLossless()",
+      "description": "Returns true if the current compression type provides lossless compression. If a plug-in provides only one mandatory compression type, then this method may be called without calling setCompressionType first. If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks whether compression is supported and the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() is null or getCompressionType() is non-null true is returned as a convenience.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        }
+      ],
+      "returns": "true if the current compression type is lossless."
+    },
+    {
+      "name": "setCompressionQuality",
+      "signature": "public void setCompressionQuality(float quality)",
+      "description": "Sets the compression quality to a value between 0 and 1. Only a single compression quality setting is supported by default; writers can provide extended versions of ImageWriteParam that offer more control. For lossy compression schemes, the compression quality should control the tradeoff between file size and image quality (for example, by choosing quantization tables when writing JPEG images). For lossless schemes, the compression quality may be used to control the tradeoff between file size and time taken to perform the compression (for example, by optimizing row filters and setting the ZLIB compression level when writing PNG images). A compression quality setting of 0.0 is most generically interpreted as \"high compression is important,\" while a setting of 1.0 is most generically interpreted as \"high image quality is important.\" If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks that compression is supported, and that the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() returns null or compressionType is non-null it sets the compressionQuality instance variable.",
+      "parameters": [
+        {
+          "name": "quality",
+          "description": "a float between 0 and 1 indicating the desired quality level."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if quality is not between 0 and 1, inclusive."
+        }
+      ]
+    },
+    {
+      "name": "getCompressionQuality",
+      "signature": "public float getCompressionQuality()",
+      "description": "Returns the current compression quality setting. If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks that compression is supported and that the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() is null or getCompressionType() is non-null, it returns the value of the compressionQuality instance variable.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        }
+      ],
+      "returns": "the current compression quality setting."
+    },
+    {
+      "name": "getBitRate",
+      "signature": "public float getBitRate(float quality)",
+      "description": "Returns a float indicating an estimate of the number of bits of output data for each bit of input image data at the given quality level. The value will typically lie between 0 and 1, with smaller values indicating more compression. A special value of -1.0F is used to indicate that no estimate is available. If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks that compression is supported and the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() is null or getCompressionType() is non-null, and quality is within bounds, it returns -1.0.",
+      "parameters": [
+        {
+          "name": "quality",
+          "description": "the quality setting whose bit rate is to be queried."
+        }
+      ],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        },
+        {
+          "type": "IllegalArgumentException",
+          "description": "if quality is not between 0 and 1, inclusive."
+        }
+      ],
+      "returns": "an estimate of the compressed bit rate, or -1.0F if no estimate is available."
+    },
+    {
+      "name": "getCompressionQualityDescriptions",
+      "signature": "public String[] getCompressionQualityDescriptions()",
+      "description": "Returns an array of Strings that may be used along with getCompressionQualityValues as part of a user interface for setting or displaying the compression quality level. The String with index i provides a description of the range of quality levels between getCompressionQualityValues[i] and getCompressionQualityValues[i + 1]. Note that the length of the array returned from getCompressionQualityValues will always be one greater than that returned from getCompressionQualityDescriptions. As an example, the strings \"Good\", \"Better\", and \"Best\" could be associated with the ranges [0, .33), [.33, .66), and [.66, 1.0]. In this case, getCompressionQualityDescriptions would return { \"Good\", \"Better\", \"Best\" } and getCompressionQualityValues would return { 0.0F, .33F, .66F, 1.0F }. If no descriptions are available, null is returned. If null is returned from getCompressionQualityValues, this method must also return null. The descriptions should be localized for the Locale returned by getLocale, if it is non-null. If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks that compression is supported and that the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() is null or getCompressionType() is non-null, it returns null.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        }
+      ],
+      "returns": "an array of Strings containing localized descriptions of the compression quality levels."
+    },
+    {
+      "name": "getCompressionQualityValues",
+      "signature": "public float[] getCompressionQualityValues()",
+      "description": "Returns an array of floats that may be used along with getCompressionQualityDescriptions as part of a user interface for setting or displaying the compression quality level. See getCompressionQualityDescriptions for more information. If no descriptions are available, null is returned. If null is returned from getCompressionQualityDescriptions, this method must also return null. If there are multiple compression types but none has been set, an IllegalStateException is thrown. The default implementation checks that compression is supported and that the compression mode is MODE_EXPLICIT. If so, if getCompressionTypes() is null or getCompressionType() is non-null, it returns null.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "UnsupportedOperationException",
+          "description": "if the writer does not support compression."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the compression mode is not MODE_EXPLICIT."
+        },
+        {
+          "type": "IllegalStateException",
+          "description": "if the set of legal compression types is non-null and the current compression type is null."
+        }
+      ],
+      "returns": "an array of floats indicating the boundaries between the compression quality levels as described by the Strings from getCompressionQualityDescriptions."
+    }
+  ]
+}

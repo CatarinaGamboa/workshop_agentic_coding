@@ -1,0 +1,26 @@
+stateDiagram-v2
+    [*] --> Available : Clipboard Clipboard([String name])
+
+    Available --> Available : String getName()
+    Available --> Available : void addFlavorListener([FlavorListener listener])
+    Available --> Available : void removeFlavorListener([FlavorListener listener])
+    Available --> Available : FlavorListener[] getFlavorListeners()
+    Available --> Available : Transferable getContents([Object requestor])
+    Available --> Available : DataFlavor[] getAvailableDataFlavors()
+    Available --> Available : boolean isDataFlavorAvailable([DataFlavor flavor])
+    Available --> Available : Object getData([DataFlavor flavor])
+    Available --> Unavailable : void setContents([Transferable contents], [ClipboardOwner owner])
+
+    Unavailable --> Available : void setContents([Transferable contents], [ClipboardOwner owner])
+    Unavailable --> Unavailable : String getName()
+    Unavailable --> Unavailable : void addFlavorListener([FlavorListener listener])
+    Unavailable --> Unavailable : void removeFlavorListener([FlavorListener listener])
+    Unavailable --> Unavailable : FlavorListener[] getFlavorListeners()
+
+    note right of Unavailable
+        Clipboard is temporarily locked by another application.
+        getContents, getAvailableDataFlavors, isDataFlavorAvailable,
+        getData, and setContents throw IllegalStateException in this state.
+        setContents is modeled as the trigger to re-enter Available once
+        the OS releases the clipboard. Transitions are OS-driven externally.
+    end note

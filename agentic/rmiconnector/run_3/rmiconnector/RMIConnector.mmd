@@ -1,0 +1,36 @@
+stateDiagram-v2
+    [*] --> Unconnected : RMIConnector RMIConnector([JMXServiceURL url], [Map environment])
+    [*] --> Unconnected : RMIConnector RMIConnector([RMIServer rmiServer], [Map environment])
+
+    Unconnected --> Connected : void connect()
+    Unconnected --> Connected : void connect([Map environment])
+    Unconnected --> Unconnected : String toString()
+    Unconnected --> Unconnected : JMXServiceURL getAddress()
+    Unconnected --> Unconnected : void addConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Unconnected --> Unconnected : void removeConnectionNotificationListener([NotificationListener listener])
+    Unconnected --> Unconnected : void removeConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Unconnected --> Closed : void close()
+
+    Connected --> Connected : void connect()
+    Connected --> Connected : void connect([Map environment])
+    Connected --> Connected : String getConnectionId()
+    Connected --> Connected : MBeanServerConnection getMBeanServerConnection()
+    Connected --> Connected : MBeanServerConnection getMBeanServerConnection([Subject delegationSubject])
+    Connected --> Connected : String toString()
+    Connected --> Connected : JMXServiceURL getAddress()
+    Connected --> Connected : void addConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Connected --> Connected : void removeConnectionNotificationListener([NotificationListener listener])
+    Connected --> Connected : void removeConnectionNotificationListener([NotificationListener listener], [NotificationFilter filter], [Object handback])
+    Connected --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Unconnected
+        connect() must be called before getMBeanServerConnection() or getConnectionId().
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        getMBeanServerConnection() and getConnectionId() throw IOException when closed.
+    end note

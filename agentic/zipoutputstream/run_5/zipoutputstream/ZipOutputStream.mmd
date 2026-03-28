@@ -1,0 +1,34 @@
+stateDiagram-v2
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out])
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out], [Charset charset])
+
+    Open --> Open : void setComment([String comment])
+    Open --> Open : void setMethod([int method])
+    Open --> Open : void setLevel([int level])
+    Open --> EntryOpen : void putNextEntry([ZipEntry e])
+    Open --> Finished : void finish()
+    Open --> Closed : void close()
+
+    EntryOpen --> EntryOpen : void setComment([String comment])
+    EntryOpen --> EntryOpen : void setMethod([int method])
+    EntryOpen --> EntryOpen : void setLevel([int level])
+    EntryOpen --> EntryOpen : void write([byte[] b], [int off], [int len])
+    EntryOpen --> EntryOpen : void putNextEntry([ZipEntry e])
+    EntryOpen --> Open : void closeEntry()
+    EntryOpen --> Finished : void finish()
+    EntryOpen --> Closed : void close()
+
+    Finished --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of EntryOpen
+        write() writes to the current active entry.
+        putNextEntry() auto-closes the current entry and opens a new one.
+    end note
+
+    note right of Finished
+        finish() finalizes the ZIP contents without closing the underlying stream.
+        Use when chaining multiple filters on the same output stream.
+    end note

@@ -1,0 +1,33 @@
+stateDiagram-v2
+    [*] --> OpenUnmarked : BufferedInputStream BufferedInputStream([InputStream in])
+    [*] --> OpenUnmarked : BufferedInputStream BufferedInputStream([InputStream in], [int size])
+
+    OpenUnmarked --> OpenUnmarked : int read()
+    OpenUnmarked --> OpenUnmarked : int read([byte[] b], [int off], [int len])
+    OpenUnmarked --> OpenUnmarked : long skip([long n])
+    OpenUnmarked --> OpenUnmarked : int available()
+    OpenUnmarked --> OpenUnmarked : boolean markSupported()
+    OpenUnmarked --> OpenMarked : void mark([int readlimit])
+    OpenUnmarked --> Closed : void close()
+
+    OpenMarked --> OpenMarked : int read()
+    OpenMarked --> OpenMarked : int read([byte[] b], [int off], [int len])
+    OpenMarked --> OpenMarked : long skip([long n])
+    OpenMarked --> OpenMarked : int available()
+    OpenMarked --> OpenMarked : boolean markSupported()
+    OpenMarked --> OpenMarked : void mark([int readlimit])
+    OpenMarked --> OpenMarked : void reset()
+    OpenMarked --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of OpenUnmarked
+        reset() is forbidden: no mark has been set (markpos == -1).
+        Call mark(readlimit) first to enable reset().
+    end note
+
+    note right of Closed
+        Terminal state. close() is idempotent.
+        read(), skip(), available(), reset() throw IOException when closed.
+    end note

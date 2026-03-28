@@ -1,0 +1,45 @@
+stateDiagram-v2
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out])
+    [*] --> Open : ZipOutputStream ZipOutputStream([OutputStream out], [Charset charset])
+
+    Open --> Open : void setComment([String comment])
+    Open --> Open : void setMethod([int method])
+    Open --> Open : void setLevel([int level])
+    Open --> EntryOpen : void putNextEntry([ZipEntry e])
+    Open --> Finished : void finish()
+    Open --> Closed : void close()
+
+    EntryOpen --> EntryOpen : void setComment([String comment])
+    EntryOpen --> EntryOpen : void setMethod([int method])
+    EntryOpen --> EntryOpen : void setLevel([int level])
+    EntryOpen --> EntryOpen : void putNextEntry([ZipEntry e])
+    EntryOpen --> EntryOpen : void write([byte[] b], [int off], [int len])
+    EntryOpen --> Open : void closeEntry()
+    EntryOpen --> Finished : void finish()
+    EntryOpen --> Closed : void close()
+
+    Finished --> Closed : void close()
+
+    Closed --> Closed : void close()
+    Closed --> [*]
+
+    note right of Open
+        No active ZIP entry. Ready to begin a new entry
+        or finalize the stream.
+    end note
+
+    note right of EntryOpen
+        A ZIP entry is active. write() sends data to
+        the current entry. putNextEntry() closes the
+        current entry and begins a new one.
+    end note
+
+    note right of Finished
+        ZIP content finalized via finish(). Underlying
+        stream is still open (multi-filter use case).
+    end note
+
+    note right of Closed
+        Terminal state. Stream fully closed.
+        close() is idempotent.
+    end note

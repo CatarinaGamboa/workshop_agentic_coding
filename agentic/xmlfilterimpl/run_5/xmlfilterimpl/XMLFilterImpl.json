@@ -1,0 +1,621 @@
+{
+  "class": {
+    "name": "XMLFilterImpl",
+    "signature": "public class XMLFilterImpl extends Object implements XMLFilter, EntityResolver, DTDHandler, ContentHandler, ErrorHandler",
+    "description": "Base class for deriving an XML filter. This class is designed to sit between an XMLReader and the client application's event handlers. By default, it does nothing but pass requests up to the reader and events on to the handlers unmodified, but subclasses can override specific methods to modify the event stream or the configuration requests as they pass through.",
+    "implements": [
+      "ContentHandler",
+      "DTDHandler",
+      "EntityResolver",
+      "ErrorHandler",
+      "XMLFilter",
+      "XMLReader"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "XMLFilterImpl",
+      "signature": "public XMLFilterImpl()",
+      "description": "Construct an empty XML filter, with no parent. This filter will have no parent: you must assign a parent before you start a parse or do any configuration with setFeature or setProperty, unless you use this as a pure event consumer rather than as an XMLReader.",
+      "parameters": [],
+      "throws": []
+    },
+    {
+      "name": "XMLFilterImpl",
+      "signature": "public XMLFilterImpl(XMLReader parent)",
+      "description": "Construct an XML filter with the specified parent.",
+      "parameters": [
+        {
+          "name": "parent",
+          "description": "the specified parent"
+        }
+      ],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "setParent",
+      "signature": "public void setParent(XMLReader parent)",
+      "description": "Set the parent reader. This is the XMLReader from which this filter will obtain its events and to which it will pass its configuration requests. The parent may itself be another filter. If there is no parent reader set, any attempt to parse or to set or get a feature or property will fail.",
+      "parameters": [
+        {
+          "name": "parent",
+          "description": "The parent XML reader."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getParent",
+      "signature": "public XMLReader getParent()",
+      "description": "Get the parent reader.",
+      "parameters": [],
+      "throws": [],
+      "returns": "The parent XML reader, or null if none is set."
+    },
+    {
+      "name": "setFeature",
+      "signature": "public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException",
+      "description": "Set the value of a feature. This will always fail if the parent is null.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The feature name."
+        },
+        {
+          "name": "value",
+          "description": "The requested feature value."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXNotRecognizedException",
+          "description": "If the feature value can't be assigned or retrieved from the parent."
+        },
+        {
+          "type": "SAXNotSupportedException",
+          "description": "When the parent recognizes the feature name but cannot set the requested value."
+        }
+      ]
+    },
+    {
+      "name": "getFeature",
+      "signature": "public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException",
+      "description": "Look up the value of a feature. This will always fail if the parent is null.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The feature name."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXNotRecognizedException",
+          "description": "If the feature value can't be assigned or retrieved from the parent."
+        },
+        {
+          "type": "SAXNotSupportedException",
+          "description": "When the parent recognizes the feature name but cannot determine its value at this time."
+        }
+      ],
+      "returns": "The current value of the feature."
+    },
+    {
+      "name": "setProperty",
+      "signature": "public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException",
+      "description": "Set the value of a property. This will always fail if the parent is null.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The property name."
+        },
+        {
+          "name": "value",
+          "description": "The requested property value."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXNotRecognizedException",
+          "description": "If the property value can't be assigned or retrieved from the parent."
+        },
+        {
+          "type": "SAXNotSupportedException",
+          "description": "When the parent recognizes the property name but cannot set the requested value."
+        }
+      ]
+    },
+    {
+      "name": "getProperty",
+      "signature": "public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException",
+      "description": "Look up the value of a property.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The property name."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXNotRecognizedException",
+          "description": "If the property value can't be assigned or retrieved from the parent."
+        },
+        {
+          "type": "SAXNotSupportedException",
+          "description": "When the parent recognizes the property name but cannot determine its value at this time."
+        }
+      ],
+      "returns": "The current value of the property."
+    },
+    {
+      "name": "setEntityResolver",
+      "signature": "public void setEntityResolver(EntityResolver resolver)",
+      "description": "Set the entity resolver.",
+      "parameters": [
+        {
+          "name": "resolver",
+          "description": "The new entity resolver."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getEntityResolver",
+      "signature": "public EntityResolver getEntityResolver()",
+      "description": "Get the current entity resolver.",
+      "parameters": [],
+      "throws": [],
+      "returns": "The current entity resolver, or null if none was set."
+    },
+    {
+      "name": "setDTDHandler",
+      "signature": "public void setDTDHandler(DTDHandler handler)",
+      "description": "Set the DTD event handler.",
+      "parameters": [
+        {
+          "name": "handler",
+          "description": "the new DTD handler"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getDTDHandler",
+      "signature": "public DTDHandler getDTDHandler()",
+      "description": "Get the current DTD event handler.",
+      "parameters": [],
+      "throws": [],
+      "returns": "The current DTD handler, or null if none was set."
+    },
+    {
+      "name": "setContentHandler",
+      "signature": "public void setContentHandler(ContentHandler handler)",
+      "description": "Set the content event handler.",
+      "parameters": [
+        {
+          "name": "handler",
+          "description": "the new content handler"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getContentHandler",
+      "signature": "public ContentHandler getContentHandler()",
+      "description": "Get the content event handler.",
+      "parameters": [],
+      "throws": [],
+      "returns": "The current content handler, or null if none was set."
+    },
+    {
+      "name": "setErrorHandler",
+      "signature": "public void setErrorHandler(ErrorHandler handler)",
+      "description": "Set the error event handler.",
+      "parameters": [
+        {
+          "name": "handler",
+          "description": "the new error handler"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "getErrorHandler",
+      "signature": "public ErrorHandler getErrorHandler()",
+      "description": "Get the current error event handler.",
+      "parameters": [],
+      "throws": [],
+      "returns": "The current error handler, or null if none was set."
+    },
+    {
+      "name": "parse",
+      "signature": "public void parse(InputSource input) throws SAXException, IOException",
+      "description": "Parse a document.",
+      "parameters": [
+        {
+          "name": "input",
+          "description": "The input source for the document entity."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "Any SAX exception, possibly wrapping another exception."
+        },
+        {
+          "type": "IOException",
+          "description": "An IO exception from the parser, possibly from a byte stream or character stream supplied by the application."
+        }
+      ]
+    },
+    {
+      "name": "parse",
+      "signature": "public void parse(String systemId) throws SAXException, IOException",
+      "description": "Parse a document.",
+      "parameters": [
+        {
+          "name": "systemId",
+          "description": "The system identifier as a fully-qualified URI."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "Any SAX exception, possibly wrapping another exception."
+        },
+        {
+          "type": "IOException",
+          "description": "An IO exception from the parser, possibly from a byte stream or character stream supplied by the application."
+        }
+      ]
+    },
+    {
+      "name": "resolveEntity",
+      "signature": "public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException",
+      "description": "Filter an external entity resolution.",
+      "parameters": [
+        {
+          "name": "publicId",
+          "description": "The entity's public identifier, or null."
+        },
+        {
+          "name": "systemId",
+          "description": "The entity's system identifier."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        },
+        {
+          "type": "IOException",
+          "description": "The client may throw an I/O-related exception while obtaining the new InputSource."
+        }
+      ],
+      "returns": "A new InputSource or null for the default."
+    },
+    {
+      "name": "notationDecl",
+      "signature": "public void notationDecl(String name, String publicId, String systemId) throws SAXException",
+      "description": "Filter a notation declaration event.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The notation name."
+        },
+        {
+          "name": "publicId",
+          "description": "The notation's public identifier, or null."
+        },
+        {
+          "name": "systemId",
+          "description": "The notation's system identifier, or null."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "unparsedEntityDecl",
+      "signature": "public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException",
+      "description": "Filter an unparsed entity declaration event.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The entity name."
+        },
+        {
+          "name": "publicId",
+          "description": "The entity's public identifier, or null."
+        },
+        {
+          "name": "systemId",
+          "description": "The entity's system identifier, or null."
+        },
+        {
+          "name": "notationName",
+          "description": "The name of the associated notation."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "setDocumentLocator",
+      "signature": "public void setDocumentLocator(Locator locator)",
+      "description": "Filter a new document locator event.",
+      "parameters": [
+        {
+          "name": "locator",
+          "description": "The document locator."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "startDocument",
+      "signature": "public void startDocument() throws SAXException",
+      "description": "Filter a start document event.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "endDocument",
+      "signature": "public void endDocument() throws SAXException",
+      "description": "Filter an end document event.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "startPrefixMapping",
+      "signature": "public void startPrefixMapping(String prefix, String uri) throws SAXException",
+      "description": "Filter a start Namespace prefix mapping event.",
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "The Namespace prefix."
+        },
+        {
+          "name": "uri",
+          "description": "The Namespace URI."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "endPrefixMapping",
+      "signature": "public void endPrefixMapping(String prefix) throws SAXException",
+      "description": "Filter an end Namespace prefix mapping event.",
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "The Namespace prefix."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "startElement",
+      "signature": "public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException",
+      "description": "Filter a start element event.",
+      "parameters": [
+        {
+          "name": "uri",
+          "description": "The element's Namespace URI, or the empty string."
+        },
+        {
+          "name": "localName",
+          "description": "The element's local name, or the empty string."
+        },
+        {
+          "name": "qName",
+          "description": "The element's qualified (prefixed) name, or the empty string."
+        },
+        {
+          "name": "atts",
+          "description": "The element's attributes."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "endElement",
+      "signature": "public void endElement(String uri, String localName, String qName) throws SAXException",
+      "description": "Filter an end element event.",
+      "parameters": [
+        {
+          "name": "uri",
+          "description": "The element's Namespace URI, or the empty string."
+        },
+        {
+          "name": "localName",
+          "description": "The element's local name, or the empty string."
+        },
+        {
+          "name": "qName",
+          "description": "The element's qualified (prefixed) name, or the empty string."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "characters",
+      "signature": "public void characters(char[] ch, int start, int length) throws SAXException",
+      "description": "Filter a character data event.",
+      "parameters": [
+        {
+          "name": "ch",
+          "description": "An array of characters."
+        },
+        {
+          "name": "start",
+          "description": "The starting position in the array."
+        },
+        {
+          "name": "length",
+          "description": "The number of characters to use from the array."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "ignorableWhitespace",
+      "signature": "public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException",
+      "description": "Filter an ignorable whitespace event.",
+      "parameters": [
+        {
+          "name": "ch",
+          "description": "An array of characters."
+        },
+        {
+          "name": "start",
+          "description": "The starting position in the array."
+        },
+        {
+          "name": "length",
+          "description": "The number of characters to use from the array."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "processingInstruction",
+      "signature": "public void processingInstruction(String target, String data) throws SAXException",
+      "description": "Filter a processing instruction event.",
+      "parameters": [
+        {
+          "name": "target",
+          "description": "The processing instruction target."
+        },
+        {
+          "name": "data",
+          "description": "The text following the target."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "skippedEntity",
+      "signature": "public void skippedEntity(String name) throws SAXException",
+      "description": "Filter a skipped entity event.",
+      "parameters": [
+        {
+          "name": "name",
+          "description": "The name of the skipped entity."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "warning",
+      "signature": "public void warning(SAXParseException e) throws SAXException",
+      "description": "Filter a warning event.",
+      "parameters": [
+        {
+          "name": "e",
+          "description": "The warning as an exception."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "error",
+      "signature": "public void error(SAXParseException e) throws SAXException",
+      "description": "Filter an error event.",
+      "parameters": [
+        {
+          "name": "e",
+          "description": "The error as an exception."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    },
+    {
+      "name": "fatalError",
+      "signature": "public void fatalError(SAXParseException e) throws SAXException",
+      "description": "Filter a fatal error event.",
+      "parameters": [
+        {
+          "name": "e",
+          "description": "The error as an exception."
+        }
+      ],
+      "throws": [
+        {
+          "type": "SAXException",
+          "description": "The client may throw an exception during processing."
+        }
+      ]
+    }
+  ]
+}

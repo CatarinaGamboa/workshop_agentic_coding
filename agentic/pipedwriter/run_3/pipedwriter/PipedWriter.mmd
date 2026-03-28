@@ -1,0 +1,23 @@
+stateDiagram-v2
+    [*] --> Unconnected : PipedWriter PipedWriter()
+    [*] --> Connected : PipedWriter PipedWriter([PipedReader snk])
+
+    Unconnected --> Connected : void connect([PipedReader snk])
+    Unconnected --> Closed : void close()
+
+    Connected --> Connected : void write([int c])
+    Connected --> Connected : void write([char[] cbuf], [int off], [int len])
+    Connected --> Connected : void flush()
+    Connected --> Closed : void close()
+
+    Closed --> [*]
+
+    note right of Unconnected
+        Created by no-arg constructor.
+        write() and flush() throw IOException if called before connecting.
+        connect() throws IOException if already connected.
+    end note
+
+    note right of Closed
+        Terminal state. Stream may no longer be used for writing characters.
+    end note

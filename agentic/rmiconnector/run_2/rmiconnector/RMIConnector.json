@@ -1,0 +1,224 @@
+{
+  "class": {
+    "name": "RMIConnector",
+    "signature": "public class RMIConnector extends Object implements JMXConnector, Serializable, JMXAddressable",
+    "description": "A connection to a remote RMI connector. Usually, such connections are made using JMXConnectorFactory. However, specialized applications can use this class directly, for example with an RMIServer stub obtained without going through JNDI.",
+    "implements": [
+      "Closeable",
+      "Serializable",
+      "AutoCloseable",
+      "JMXAddressable",
+      "JMXConnector"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "RMIConnector",
+      "signature": "public RMIConnector(JMXServiceURL url, Map<String,?> environment)",
+      "description": "Constructs an RMIConnector that will connect the RMI connector server with the given address. The address can refer directly to the connector server, using the following syntax: service:jmx:rmi://[host[:port]]/stub/encoded-stub (Here, the square brackets [] are not part of the address but indicate that the host and port are optional.) The address can instead indicate where to find an RMI stub through JNDI, using the following syntax: service:jmx:rmi://[host[:port]]/jndi/jndi-name An implementation may also recognize additional address syntaxes, for example: service:jmx:iiop://[host[:port]]/stub/encoded-stub",
+      "parameters": [
+        {
+          "name": "url",
+          "description": "the address of the RMI connector server."
+        },
+        {
+          "name": "environment",
+          "description": "additional attributes specifying how to make the connection. For JNDI-based addresses, these attributes can usefully include JNDI attributes recognized by InitialContext. This parameter can be null, which is equivalent to an empty Map."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if url is null."
+        }
+      ]
+    },
+    {
+      "name": "RMIConnector",
+      "signature": "public RMIConnector(RMIServer rmiServer, Map<String,?> environment)",
+      "description": "Constructs an RMIConnector using the given RMI stub.",
+      "parameters": [
+        {
+          "name": "rmiServer",
+          "description": "an RMI stub representing the RMI connector server."
+        },
+        {
+          "name": "environment",
+          "description": "additional attributes specifying how to make the connection. This parameter can be null, which is equivalent to an empty Map."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if rmiServer is null."
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string representation of this object. In general, the toString method returns a string that \"textually represents\" this object. The result should be a concise but informative representation that is easy for a person to read.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a String representation of this object."
+    },
+    {
+      "name": "getAddress",
+      "signature": "public JMXServiceURL getAddress()",
+      "description": "The address of this connector.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the address of this connector, or null if it does not have one.",
+      "since": "1.6"
+    },
+    {
+      "name": "connect",
+      "signature": "public void connect() throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the connection could not be made because of a communication problem"
+        }
+      ]
+    },
+    {
+      "name": "connect",
+      "signature": "public void connect(Map<String,?> environment) throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [
+        {
+          "name": "environment",
+          "description": "the properties of the connection. Properties in this map override properties in the map specified when the JMXConnector was created, if any. This parameter can be null, which is equivalent to an empty map."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the connection could not be made because of a communication problem"
+        }
+      ]
+    },
+    {
+      "name": "getConnectionId",
+      "signature": "public String getConnectionId() throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the connection ID cannot be obtained, for instance because the connection is closed or broken."
+        }
+      ],
+      "returns": "the unique ID of this connection. This is the same as the ID that the connector server includes in its JMXConnectionNotifications. The package description describes the conventions for connection IDs."
+    },
+    {
+      "name": "getMBeanServerConnection",
+      "signature": "public MBeanServerConnection getMBeanServerConnection() throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if a valid MBeanServerConnection cannot be created, for instance because the connection to the remote MBean server has not yet been established (with the connect method), or it has been closed, or it has broken."
+        }
+      ],
+      "returns": "an object that implements the MBeanServerConnection interface by forwarding its methods to the remote MBean server."
+    },
+    {
+      "name": "getMBeanServerConnection",
+      "signature": "public MBeanServerConnection getMBeanServerConnection(Subject delegationSubject) throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [
+        {
+          "name": "delegationSubject",
+          "description": "the Subject on behalf of which requests will be performed. Can be null, in which case requests will be performed on behalf of the authenticated Subject, if any."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if a valid MBeanServerConnection cannot be created, for instance because the connection to the remote MBean server has not yet been established (with the connect method), or it has been closed, or it has broken."
+        }
+      ],
+      "returns": "an object that implements the MBeanServerConnection interface by forwarding its methods to the remote MBean server on behalf of a given delegation subject."
+    },
+    {
+      "name": "addConnectionNotificationListener",
+      "signature": "public void addConnectionNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback)",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [
+        {
+          "name": "listener",
+          "description": "a listener to receive connection status notifications."
+        },
+        {
+          "name": "filter",
+          "description": "a filter to select which notifications are to be delivered to the listener, or null if all notifications are to be delivered."
+        },
+        {
+          "name": "handback",
+          "description": "an object to be given to the listener along with each notification. Can be null."
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "removeConnectionNotificationListener",
+      "signature": "public void removeConnectionNotificationListener(NotificationListener listener) throws ListenerNotFoundException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [
+        {
+          "name": "listener",
+          "description": "a listener to receive connection status notifications."
+        }
+      ],
+      "throws": [
+        {
+          "type": "ListenerNotFoundException",
+          "description": "if the listener is not registered with this JMXConnector."
+        }
+      ]
+    },
+    {
+      "name": "removeConnectionNotificationListener",
+      "signature": "public void removeConnectionNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback) throws ListenerNotFoundException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [
+        {
+          "name": "listener",
+          "description": "a listener to receive connection status notifications."
+        },
+        {
+          "name": "filter",
+          "description": "a filter to select which notifications are to be delivered to the listener. Can be null."
+        },
+        {
+          "name": "handback",
+          "description": "an object to be given to the listener along with each notification. Can be null."
+        }
+      ],
+      "throws": [
+        {
+          "type": "ListenerNotFoundException",
+          "description": "if the listener is not registered with this JMXConnector, or is not registered with the given filter and handback."
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Description copied from interface: JMXConnector",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the connection cannot be closed cleanly. If this exception is thrown, it is not known whether the server end of the connection has been cleanly closed."
+        }
+      ]
+    }
+  ]
+}

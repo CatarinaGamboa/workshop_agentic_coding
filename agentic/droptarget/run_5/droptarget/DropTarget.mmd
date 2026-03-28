@@ -1,0 +1,64 @@
+stateDiagram-v2
+    [*] --> maybeListener : DropTarget DropTarget()
+    [*] --> maybeListener : DropTarget DropTarget([Component c], [DropTargetListener dtl])
+    [*] --> maybeListener : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl])
+    [*] --> maybeListener : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act])
+    [*] --> maybeListener : DropTarget DropTarget([Component c], [int ops], [DropTargetListener dtl], [boolean act], [FlavorMap fm])
+
+    maybeListener --> maybeListener : void setComponent([Component c])
+    maybeListener --> maybeListener : Component getComponent()
+    maybeListener --> maybeListener : void setDefaultActions([int ops])
+    maybeListener --> maybeListener : int getDefaultActions()
+    maybeListener --> maybeListener : void setActive([boolean isActive])
+    maybeListener --> maybeListener : boolean isActive()
+    maybeListener --> HasListener : void addDropTargetListener([DropTargetListener dtl])
+    maybeListener --> maybeListener : void removeDropTargetListener([DropTargetListener dtl])
+    maybeListener --> maybeListener : void dragEnter([DropTargetDragEvent dtde])
+    maybeListener --> maybeListener : void dragOver([DropTargetDragEvent dtde])
+    maybeListener --> maybeListener : void dropActionChanged([DropTargetDragEvent dtde])
+    maybeListener --> maybeListener : void dragExit([DropTargetEvent dte])
+    maybeListener --> maybeListener : void drop([DropTargetDropEvent dtde])
+    maybeListener --> maybeListener : FlavorMap getFlavorMap()
+    maybeListener --> maybeListener : void setFlavorMap([FlavorMap fm])
+    maybeListener --> maybeListener : void addNotify()
+    maybeListener --> maybeListener : void removeNotify()
+    maybeListener --> maybeListener : DropTargetContext getDropTargetContext()
+    maybeListener --> maybeListener : DropTargetContext createDropTargetContext()
+    maybeListener --> maybeListener : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    maybeListener --> maybeListener : void initializeAutoscrolling([Point p])
+    maybeListener --> maybeListener : void updateAutoscroll([Point dragCursorLocn])
+    maybeListener --> maybeListener : void clearAutoscroll()
+
+    HasListener --> HasListener : void setComponent([Component c])
+    HasListener --> HasListener : Component getComponent()
+    HasListener --> HasListener : void setDefaultActions([int ops])
+    HasListener --> HasListener : int getDefaultActions()
+    HasListener --> HasListener : void setActive([boolean isActive])
+    HasListener --> HasListener : boolean isActive()
+    HasListener --> maybeListener : void removeDropTargetListener([DropTargetListener dtl])
+    HasListener --> HasListener : void dragEnter([DropTargetDragEvent dtde])
+    HasListener --> HasListener : void dragOver([DropTargetDragEvent dtde])
+    HasListener --> HasListener : void dropActionChanged([DropTargetDragEvent dtde])
+    HasListener --> HasListener : void dragExit([DropTargetEvent dte])
+    HasListener --> HasListener : void drop([DropTargetDropEvent dtde])
+    HasListener --> HasListener : FlavorMap getFlavorMap()
+    HasListener --> HasListener : void setFlavorMap([FlavorMap fm])
+    HasListener --> HasListener : void addNotify()
+    HasListener --> HasListener : void removeNotify()
+    HasListener --> HasListener : DropTargetContext getDropTargetContext()
+    HasListener --> HasListener : DropTargetContext createDropTargetContext()
+    HasListener --> HasListener : DropTarget.DropTargetAutoScroller createDropTargetAutoScroller([Component c], [Point p])
+    HasListener --> HasListener : void initializeAutoscrolling([Point p])
+    HasListener --> HasListener : void updateAutoscroll([Point dragCursorLocn])
+    HasListener --> HasListener : void clearAutoscroll()
+
+    note right of maybeListener
+        addDropTargetListener() is allowed here (listener may or may not be set from constructor).
+        Calling addDropTargetListener() when a listener is already present throws TooManyListenersException.
+        Drag event methods have no effect if DropTarget is not active (controlled via setActive()).
+    end note
+
+    note right of HasListener
+        addDropTargetListener() throws TooManyListenersException in this state (unicast source).
+        removeDropTargetListener() returns to maybeListener state.
+    end note

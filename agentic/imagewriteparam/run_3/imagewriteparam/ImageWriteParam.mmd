@@ -1,0 +1,239 @@
+stateDiagram-v2
+    direction LR
+
+    [*] --> DefaultDefault : ImageWriteParam ImageWriteParam()
+    [*] --> DefaultDefault : ImageWriteParam ImageWriteParam([Locale locale])
+
+    %% State naming: TilingDimension_CompressionDimension
+    %% Tiling:      Default=not-explicit (initial), TilingSet=explicit-no-params, TilingParamsSet=explicit-params-set
+    %% Compression: Default=not-explicit (initial), ComprSet=explicit-no-type,   ComprTypeSet=explicit-type-set
+    %%
+    %% setTilingMode / setCompressionMode are value-dependent:
+    %% They always transition to the Explicit sub-state (false negatives accepted for non-EXPLICIT values).
+
+    %% -------------------------------------------------------
+    %% setTilingMode: column transitions (Tiling dimension)
+    %% -------------------------------------------------------
+    DefaultDefault --> TilingSetDefault : void setTilingMode([int mode])
+    TilingSetDefault --> TilingSetDefault : void setTilingMode([int mode])
+    TilingParamsSetDefault --> TilingSetDefault : void setTilingMode([int mode])
+
+    DefaultComprSet --> TilingSetComprSet : void setTilingMode([int mode])
+    TilingSetComprSet --> TilingSetComprSet : void setTilingMode([int mode])
+    TilingParamsSetComprSet --> TilingSetComprSet : void setTilingMode([int mode])
+
+    DefaultComprTypeSet --> TilingSetComprTypeSet : void setTilingMode([int mode])
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : void setTilingMode([int mode])
+    TilingParamsSetComprTypeSet --> TilingSetComprTypeSet : void setTilingMode([int mode])
+
+    %% -------------------------------------------------------
+    %% setCompressionMode: row transitions (Compression dimension)
+    %% -------------------------------------------------------
+    DefaultDefault --> DefaultComprSet : void setCompressionMode([int mode])
+    DefaultComprSet --> DefaultComprSet : void setCompressionMode([int mode])
+    DefaultComprTypeSet --> DefaultComprSet : void setCompressionMode([int mode])
+
+    TilingSetDefault --> TilingSetComprSet : void setCompressionMode([int mode])
+    TilingSetComprSet --> TilingSetComprSet : void setCompressionMode([int mode])
+    TilingSetComprTypeSet --> TilingSetComprSet : void setCompressionMode([int mode])
+
+    TilingParamsSetDefault --> TilingParamsSetComprSet : void setCompressionMode([int mode])
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : void setCompressionMode([int mode])
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprSet : void setCompressionMode([int mode])
+
+    %% -------------------------------------------------------
+    %% setTiling: TilingSet -> TilingParamsSet (requires MODE_EXPLICIT tiling)
+    %% -------------------------------------------------------
+    TilingSetDefault --> TilingParamsSetDefault : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingSetComprSet --> TilingParamsSetComprSet : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+    TilingSetComprTypeSet --> TilingParamsSetComprTypeSet : void setTiling([int tileWidth], [int tileHeight], [int tileGridXOffset], [int tileGridYOffset])
+
+    %% -------------------------------------------------------
+    %% unsetTiling: TilingParamsSet -> TilingSet (clears params, stays in EXPLICIT tiling mode)
+    %% -------------------------------------------------------
+    TilingParamsSetDefault --> TilingSetDefault : void unsetTiling()
+    TilingParamsSetComprSet --> TilingSetComprSet : void unsetTiling()
+    TilingParamsSetComprTypeSet --> TilingSetComprTypeSet : void unsetTiling()
+
+    %% -------------------------------------------------------
+    %% setCompressionType(non-null): ComprSet -> ComprTypeSet
+    %% setCompressionType(null):     ComprTypeSet -> ComprSet
+    %% -------------------------------------------------------
+    DefaultComprSet --> DefaultComprTypeSet : void setCompressionType([String compressionType])
+    TilingSetComprSet --> TilingSetComprTypeSet : void setCompressionType([String compressionType])
+    TilingParamsSetComprSet --> TilingParamsSetComprTypeSet : void setCompressionType([String compressionType])
+
+    DefaultComprTypeSet --> DefaultComprSet : void setCompressionType([String compressionType])
+    TilingSetComprTypeSet --> TilingSetComprSet : void setCompressionType([String compressionType])
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprSet : void setCompressionType([String compressionType])
+
+    %% -------------------------------------------------------
+    %% unsetCompression: ComprTypeSet -> ComprSet (clears type, stays in EXPLICIT compression mode)
+    %%                   ComprSet -> ComprSet (idempotent when no type set)
+    %% -------------------------------------------------------
+    DefaultComprTypeSet --> DefaultComprSet : void unsetCompression()
+    TilingSetComprTypeSet --> TilingSetComprSet : void unsetCompression()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprSet : void unsetCompression()
+    DefaultComprSet --> DefaultComprSet : void unsetCompression()
+    TilingSetComprSet --> TilingSetComprSet : void unsetCompression()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : void unsetCompression()
+
+    %% -------------------------------------------------------
+    %% Self-loops: capability query methods (all states)
+    %% -------------------------------------------------------
+    DefaultDefault --> DefaultDefault : boolean canWriteTiles()
+    DefaultDefault --> DefaultDefault : boolean canOffsetTiles()
+    DefaultDefault --> DefaultDefault : boolean canWriteProgressive()
+    DefaultDefault --> DefaultDefault : boolean canWriteCompressed()
+    DefaultDefault --> DefaultDefault : Locale getLocale()
+    DefaultDefault --> DefaultDefault : int getTilingMode()
+    DefaultDefault --> DefaultDefault : Dimension[] getPreferredTileSizes()
+    DefaultDefault --> DefaultDefault : int getCompressionMode()
+    DefaultDefault --> DefaultDefault : String[] getCompressionTypes()
+    DefaultDefault --> DefaultDefault : void setProgressiveMode([int mode])
+    DefaultDefault --> DefaultDefault : int getProgressiveMode()
+
+    DefaultComprSet --> DefaultComprSet : boolean canWriteTiles()
+    DefaultComprSet --> DefaultComprSet : boolean canOffsetTiles()
+    DefaultComprSet --> DefaultComprSet : boolean canWriteProgressive()
+    DefaultComprSet --> DefaultComprSet : boolean canWriteCompressed()
+    DefaultComprSet --> DefaultComprSet : Locale getLocale()
+    DefaultComprSet --> DefaultComprSet : int getTilingMode()
+    DefaultComprSet --> DefaultComprSet : Dimension[] getPreferredTileSizes()
+    DefaultComprSet --> DefaultComprSet : int getCompressionMode()
+    DefaultComprSet --> DefaultComprSet : String[] getCompressionTypes()
+    DefaultComprSet --> DefaultComprSet : void setProgressiveMode([int mode])
+    DefaultComprSet --> DefaultComprSet : int getProgressiveMode()
+    DefaultComprSet --> DefaultComprSet : String getCompressionType()
+
+    DefaultComprTypeSet --> DefaultComprTypeSet : boolean canWriteTiles()
+    DefaultComprTypeSet --> DefaultComprTypeSet : boolean canOffsetTiles()
+    DefaultComprTypeSet --> DefaultComprTypeSet : boolean canWriteProgressive()
+    DefaultComprTypeSet --> DefaultComprTypeSet : boolean canWriteCompressed()
+    DefaultComprTypeSet --> DefaultComprTypeSet : Locale getLocale()
+    DefaultComprTypeSet --> DefaultComprTypeSet : int getTilingMode()
+    DefaultComprTypeSet --> DefaultComprTypeSet : Dimension[] getPreferredTileSizes()
+    DefaultComprTypeSet --> DefaultComprTypeSet : int getCompressionMode()
+    DefaultComprTypeSet --> DefaultComprTypeSet : String[] getCompressionTypes()
+    DefaultComprTypeSet --> DefaultComprTypeSet : void setProgressiveMode([int mode])
+    DefaultComprTypeSet --> DefaultComprTypeSet : int getProgressiveMode()
+    DefaultComprTypeSet --> DefaultComprTypeSet : String getCompressionType()
+    DefaultComprTypeSet --> DefaultComprTypeSet : void setCompressionQuality([float quality])
+    DefaultComprTypeSet --> DefaultComprTypeSet : float getCompressionQuality()
+    DefaultComprTypeSet --> DefaultComprTypeSet : float getBitRate([float quality])
+    DefaultComprTypeSet --> DefaultComprTypeSet : String[] getCompressionQualityDescriptions()
+    DefaultComprTypeSet --> DefaultComprTypeSet : float[] getCompressionQualityValues()
+    DefaultComprTypeSet --> DefaultComprTypeSet : boolean isCompressionLossless()
+    DefaultComprTypeSet --> DefaultComprTypeSet : String getLocalizedCompressionTypeName()
+
+    TilingSetDefault --> TilingSetDefault : boolean canWriteTiles()
+    TilingSetDefault --> TilingSetDefault : boolean canOffsetTiles()
+    TilingSetDefault --> TilingSetDefault : boolean canWriteProgressive()
+    TilingSetDefault --> TilingSetDefault : boolean canWriteCompressed()
+    TilingSetDefault --> TilingSetDefault : Locale getLocale()
+    TilingSetDefault --> TilingSetDefault : int getTilingMode()
+    TilingSetDefault --> TilingSetDefault : Dimension[] getPreferredTileSizes()
+    TilingSetDefault --> TilingSetDefault : int getCompressionMode()
+    TilingSetDefault --> TilingSetDefault : String[] getCompressionTypes()
+    TilingSetDefault --> TilingSetDefault : void setProgressiveMode([int mode])
+    TilingSetDefault --> TilingSetDefault : int getProgressiveMode()
+
+    TilingSetComprSet --> TilingSetComprSet : boolean canWriteTiles()
+    TilingSetComprSet --> TilingSetComprSet : boolean canOffsetTiles()
+    TilingSetComprSet --> TilingSetComprSet : boolean canWriteProgressive()
+    TilingSetComprSet --> TilingSetComprSet : boolean canWriteCompressed()
+    TilingSetComprSet --> TilingSetComprSet : Locale getLocale()
+    TilingSetComprSet --> TilingSetComprSet : int getTilingMode()
+    TilingSetComprSet --> TilingSetComprSet : Dimension[] getPreferredTileSizes()
+    TilingSetComprSet --> TilingSetComprSet : int getCompressionMode()
+    TilingSetComprSet --> TilingSetComprSet : String[] getCompressionTypes()
+    TilingSetComprSet --> TilingSetComprSet : void setProgressiveMode([int mode])
+    TilingSetComprSet --> TilingSetComprSet : int getProgressiveMode()
+    TilingSetComprSet --> TilingSetComprSet : String getCompressionType()
+
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : boolean canWriteTiles()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : boolean canOffsetTiles()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : boolean canWriteProgressive()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : boolean canWriteCompressed()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : Locale getLocale()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : int getTilingMode()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : Dimension[] getPreferredTileSizes()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : int getCompressionMode()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : String[] getCompressionTypes()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : void setProgressiveMode([int mode])
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : int getProgressiveMode()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : String getCompressionType()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : void setCompressionQuality([float quality])
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : float getCompressionQuality()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : float getBitRate([float quality])
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : String[] getCompressionQualityDescriptions()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : float[] getCompressionQualityValues()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : boolean isCompressionLossless()
+    TilingSetComprTypeSet --> TilingSetComprTypeSet : String getLocalizedCompressionTypeName()
+
+    TilingParamsSetDefault --> TilingParamsSetDefault : boolean canWriteTiles()
+    TilingParamsSetDefault --> TilingParamsSetDefault : boolean canOffsetTiles()
+    TilingParamsSetDefault --> TilingParamsSetDefault : boolean canWriteProgressive()
+    TilingParamsSetDefault --> TilingParamsSetDefault : boolean canWriteCompressed()
+    TilingParamsSetDefault --> TilingParamsSetDefault : Locale getLocale()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getTilingMode()
+    TilingParamsSetDefault --> TilingParamsSetDefault : Dimension[] getPreferredTileSizes()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getCompressionMode()
+    TilingParamsSetDefault --> TilingParamsSetDefault : String[] getCompressionTypes()
+    TilingParamsSetDefault --> TilingParamsSetDefault : void setProgressiveMode([int mode])
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getProgressiveMode()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getTileWidth()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getTileHeight()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getTileGridXOffset()
+    TilingParamsSetDefault --> TilingParamsSetDefault : int getTileGridYOffset()
+
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : boolean canWriteTiles()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : boolean canOffsetTiles()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : boolean canWriteProgressive()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : boolean canWriteCompressed()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : Locale getLocale()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getTilingMode()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : Dimension[] getPreferredTileSizes()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getCompressionMode()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : String[] getCompressionTypes()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : void setProgressiveMode([int mode])
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getProgressiveMode()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getTileWidth()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getTileHeight()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getTileGridXOffset()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : int getTileGridYOffset()
+    TilingParamsSetComprSet --> TilingParamsSetComprSet : String getCompressionType()
+
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : boolean canWriteTiles()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : boolean canOffsetTiles()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : boolean canWriteProgressive()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : boolean canWriteCompressed()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : Locale getLocale()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getTilingMode()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : Dimension[] getPreferredTileSizes()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getCompressionMode()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : String[] getCompressionTypes()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : void setProgressiveMode([int mode])
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getProgressiveMode()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getTileWidth()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getTileHeight()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getTileGridXOffset()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : int getTileGridYOffset()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : String getCompressionType()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : void setCompressionQuality([float quality])
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : float getCompressionQuality()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : float getBitRate([float quality])
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : String[] getCompressionQualityDescriptions()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : float[] getCompressionQualityValues()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : boolean isCompressionLossless()
+    TilingParamsSetComprTypeSet --> TilingParamsSetComprTypeSet : String getLocalizedCompressionTypeName()
+
+    note right of DefaultDefault
+        States encode two orthogonal dimensions:
+        Tiling: Default=not-explicit, TilingSet=explicit-no-params, TilingParamsSet=explicit-params-set
+        Compression: Default=not-explicit, ComprSet=explicit-no-type, ComprTypeSet=explicit-type-set
+        setTilingMode/setCompressionMode are value-dependent (mode parameter determines target).
+        DFA conservatively transitions to Explicit states; false negatives accepted for non-EXPLICIT values.
+        getTileWidth/Height/GridX/GridY require tiling params to be set (TilingParamsSet states only).
+        setCompressionQuality, getCompressionQuality, getBitRate, etc. require type set (ComprTypeSet states only).
+    end note

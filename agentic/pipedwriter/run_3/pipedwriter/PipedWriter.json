@@ -1,0 +1,128 @@
+{
+  "class": {
+    "name": "PipedWriter",
+    "signature": "public class PipedWriter extends Writer",
+    "description": "Piped character-output streams.",
+    "implements": [
+      "Closeable",
+      "Flushable",
+      "Appendable",
+      "AutoCloseable"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "PipedWriter",
+      "signature": "public PipedWriter(PipedReader snk) throws IOException",
+      "description": "Creates a piped writer connected to the specified piped reader. Data characters written to this stream will then be available as input from snk.",
+      "parameters": [
+        {
+          "name": "snk",
+          "description": "The piped reader to connect to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "PipedWriter",
+      "signature": "public PipedWriter()",
+      "description": "Creates a piped writer that is not yet connected to a piped reader. It must be connected to a piped reader, either by the receiver or the sender, before being used.",
+      "parameters": [],
+      "throws": []
+    }
+  ],
+  "methods": [
+    {
+      "name": "connect",
+      "signature": "public void connect(PipedReader snk) throws IOException",
+      "description": "Connects this piped writer to a receiver. If this object is already connected to some other piped reader, an IOException is thrown. If snk is an unconnected piped reader and src is an unconnected piped writer, they may be connected by either the call: src.connect(snk) or the call: snk.connect(src) The two calls have the same effect.",
+      "parameters": [
+        {
+          "name": "snk",
+          "description": "the piped reader to connect to."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(int c) throws IOException",
+      "description": "Writes the specified char to the piped output stream. If a thread was reading data characters from the connected piped input stream, but the thread is no longer alive, then an IOException is thrown. Implements the write method of Writer.",
+      "parameters": [
+        {
+          "name": "c",
+          "description": "the char to be written."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the pipe is broken, unconnected, closed or an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "write",
+      "signature": "public void write(char[] cbuf, int off, int len) throws IOException",
+      "description": "Writes len characters from the specified character array starting at offset off to this piped output stream. This method blocks until all the characters are written to the output stream. If a thread was reading data characters from the connected piped input stream, but the thread is no longer alive, then an IOException is thrown.",
+      "parameters": [
+        {
+          "name": "cbuf",
+          "description": "the data."
+        },
+        {
+          "name": "off",
+          "description": "the start offset in the data."
+        },
+        {
+          "name": "len",
+          "description": "the number of characters to write."
+        }
+      ],
+      "throws": [
+        {
+          "type": "IndexOutOfBoundsException",
+          "description": "If off is negative, or len is negative, or off + len is negative or greater than the length of the given array"
+        },
+        {
+          "type": "IOException",
+          "description": "if the pipe is broken, unconnected, closed or an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "flush",
+      "signature": "public void flush() throws IOException",
+      "description": "Flushes this output stream and forces any buffered output characters to be written out. This will notify any readers that characters are waiting in the pipe.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if the pipe is closed, or an I/O error occurs."
+        }
+      ]
+    },
+    {
+      "name": "close",
+      "signature": "public void close() throws IOException",
+      "description": "Closes this piped output stream and releases any system resources associated with this stream. This stream may no longer be used for writing characters.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "IOException",
+          "description": "if an I/O error occurs."
+        }
+      ]
+    }
+  ]
+}

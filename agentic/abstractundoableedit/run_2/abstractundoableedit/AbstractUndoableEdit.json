@@ -1,0 +1,133 @@
+{
+  "class": {
+    "name": "AbstractUndoableEdit",
+    "signature": "public class AbstractUndoableEdit extends Object implements UndoableEdit, Serializable",
+    "description": "An abstract implementation of UndoableEdit, implementing simple responses to all boolean methods in that interface.",
+    "implements": [
+      "Serializable",
+      "UndoableEdit"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "AbstractUndoableEdit",
+      "signature": "public AbstractUndoableEdit()",
+      "description": "Creates an AbstractUndoableEdit which defaults hasBeenDone and alive to true."
+    }
+  ],
+  "methods": [
+    {
+      "name": "die",
+      "signature": "public void die()",
+      "description": "Sets alive to false. Note that this is a one way operation; dead edits cannot be resurrected. Sending undo or redo to a dead edit results in an exception being thrown. Typically an edit is killed when it is consolidated by another edit's addEdit or replaceEdit method, or when it is dequeued from an UndoManager.",
+      "parameters": [],
+      "throws": []
+    },
+    {
+      "name": "undo",
+      "signature": "public void undo() throws CannotUndoException",
+      "description": "Throws CannotUndoException if canUndo returns false. Sets hasBeenDone to false. Subclasses should override to undo the operation represented by this edit. Override should begin with a call to super.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "CannotUndoException",
+          "description": "if canUndo returns false"
+        }
+      ]
+    },
+    {
+      "name": "canUndo",
+      "signature": "public boolean canUndo()",
+      "description": "Returns true if this edit is alive and hasBeenDone is true.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this edit is alive and hasBeenDone is true"
+    },
+    {
+      "name": "redo",
+      "signature": "public void redo() throws CannotRedoException",
+      "description": "Throws CannotRedoException if canRedo returns false. Sets hasBeenDone to true. Subclasses should override to redo the operation represented by this edit. Override should begin with a call to super.",
+      "parameters": [],
+      "throws": [
+        {
+          "type": "CannotRedoException",
+          "description": "if canRedo returns false"
+        }
+      ]
+    },
+    {
+      "name": "canRedo",
+      "signature": "public boolean canRedo()",
+      "description": "Returns true if this edit is alive and hasBeenDone is false.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if this edit is alive and hasBeenDone is false"
+    },
+    {
+      "name": "addEdit",
+      "signature": "public boolean addEdit(UndoableEdit anEdit)",
+      "description": "This default implementation returns false.",
+      "parameters": [
+        {
+          "name": "anEdit",
+          "description": "the edit to be added"
+        }
+      ],
+      "throws": [],
+      "returns": "false"
+    },
+    {
+      "name": "replaceEdit",
+      "signature": "public boolean replaceEdit(UndoableEdit anEdit)",
+      "description": "This default implementation returns false.",
+      "parameters": [
+        {
+          "name": "anEdit",
+          "description": "the edit to replace"
+        }
+      ],
+      "throws": [],
+      "returns": "false"
+    },
+    {
+      "name": "isSignificant",
+      "signature": "public boolean isSignificant()",
+      "description": "This default implementation returns true.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true"
+    },
+    {
+      "name": "getPresentationName",
+      "signature": "public String getPresentationName()",
+      "description": "This default implementation returns \"\". Used by getUndoPresentationName and getRedoPresentationName to construct the strings they return. Subclasses should override to return an appropriate description of the operation this edit represents.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the empty string \"\""
+    },
+    {
+      "name": "getUndoPresentationName",
+      "signature": "public String getUndoPresentationName()",
+      "description": "Retreives the value from the defaults table with key AbstractUndoableEdit.undoText and returns that value followed by a space, followed by getPresentationName. If getPresentationName returns \"\", then the defaults value is returned alone.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the value from the defaults table with key AbstractUndoableEdit.undoText, followed by a space, followed by getPresentationName unless getPresentationName is \"\" in which case, the defaults value is returned alone."
+    },
+    {
+      "name": "getRedoPresentationName",
+      "signature": "public String getRedoPresentationName()",
+      "description": "Retreives the value from the defaults table with key AbstractUndoableEdit.redoText and returns that value followed by a space, followed by getPresentationName. If getPresentationName returns \"\", then the defaults value is returned alone.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the value from the defaults table with key AbstractUndoableEdit.redoText, followed by a space, followed by getPresentationName unless getPresentationName is \"\" in which case, the defaults value is returned alone."
+    },
+    {
+      "name": "toString",
+      "signature": "public String toString()",
+      "description": "Returns a string that displays and identifies this object's properties.",
+      "parameters": [],
+      "throws": [],
+      "returns": "a String representation of this object"
+    }
+  ]
+}

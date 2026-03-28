@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> Created : PopupMenu PopupMenu()
+    [*] --> Created : PopupMenu PopupMenu([String label])
+    Created --> WithComponentParent : void addNotify()
+    WithComponentParent --> WithComponentParent : void addNotify()
+    WithComponentParent --> WithComponentParent : void show([Component origin], [int x], [int y])
+    WithComponentParent --> WithComponentParent : AccessibleContext getAccessibleContext()
+
+    note right of Created
+        addNotify() is called by the AWT framework when the
+        popup is added to a parent. If the parent is a
+        non-Component (e.g. MenuBar), show() is forbidden
+        (throws IllegalArgumentException). Model uses
+        WithComponentParent as the primary valid mode.
+    end note
+
+    note right of WithComponentParent
+        show() is only valid when parent is a Component.
+        If used as a Menu (non-Component parent),
+        show() throws IllegalArgumentException.
+    end note

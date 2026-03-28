@@ -1,0 +1,130 @@
+{
+  "class": {
+    "name": "FlatteningPathIterator",
+    "signature": "public class FlatteningPathIterator extends Object implements PathIterator",
+    "description": "The FlatteningPathIterator class returns a flattened view of another PathIterator object. Other Shape classes can use this class to provide flattening behavior for their paths without having to perform the interpolation calculations themselves.",
+    "implements": [
+      "PathIterator"
+    ]
+  },
+  "constructors": [
+    {
+      "name": "FlatteningPathIterator",
+      "signature": "public FlatteningPathIterator(PathIterator src, double flatness)",
+      "description": "Constructs a new FlatteningPathIterator object that flattens a path as it iterates over it. The iterator does not subdivide any curve read from the source iterator to more than 10 levels of subdivision which yields a maximum of 1024 line segments per curve.",
+      "parameters": [
+        {
+          "name": "src",
+          "description": "the original unflattened path being iterated over"
+        },
+        {
+          "name": "flatness",
+          "description": "the maximum allowable distance between the control points and the flattened curve"
+        }
+      ],
+      "throws": []
+    },
+    {
+      "name": "FlatteningPathIterator",
+      "signature": "public FlatteningPathIterator(PathIterator src, double flatness, int limit)",
+      "description": "Constructs a new FlatteningPathIterator object that flattens a path as it iterates over it. The limit parameter allows you to control the maximum number of recursive subdivisions that the iterator can make before it assumes that the curve is flat enough without measuring against the flatness parameter. The flattened iteration therefore never generates more than a maximum of (2^limit) line segments per curve.",
+      "parameters": [
+        {
+          "name": "src",
+          "description": "the original unflattened path being iterated over"
+        },
+        {
+          "name": "flatness",
+          "description": "the maximum allowable distance between the control points and the flattened curve"
+        },
+        {
+          "name": "limit",
+          "description": "the maximum number of recursive subdivisions allowed for any curved segment"
+        }
+      ],
+      "throws": [
+        {
+          "type": "IllegalArgumentException",
+          "description": "if flatness or limit is less than zero"
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "name": "getFlatness",
+      "signature": "public double getFlatness()",
+      "description": "Returns the flatness of this iterator.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the flatness of this FlatteningPathIterator."
+    },
+    {
+      "name": "getRecursionLimit",
+      "signature": "public int getRecursionLimit()",
+      "description": "Returns the recursion limit of this iterator.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the recursion limit of this FlatteningPathIterator."
+    },
+    {
+      "name": "getWindingRule",
+      "signature": "public int getWindingRule()",
+      "description": "Returns the winding rule for determining the interior of the path.",
+      "parameters": [],
+      "throws": [],
+      "returns": "the winding rule of the original unflattened path being iterated over."
+    },
+    {
+      "name": "isDone",
+      "signature": "public boolean isDone()",
+      "description": "Tests if the iteration is complete.",
+      "parameters": [],
+      "throws": [],
+      "returns": "true if all the segments have been read; false otherwise."
+    },
+    {
+      "name": "next",
+      "signature": "public void next()",
+      "description": "Moves the iterator to the next segment of the path forwards along the primary direction of traversal as long as there are more points in that direction.",
+      "parameters": [],
+      "throws": []
+    },
+    {
+      "name": "currentSegment",
+      "signature": "public int currentSegment(float[] coords)",
+      "description": "Returns the coordinates and type of the current path segment in the iteration. The return value is the path segment type: SEG_MOVETO, SEG_LINETO, or SEG_CLOSE. A float array of length 6 must be passed in and can be used to store the coordinates of the point(s). Each point is stored as a pair of float x,y coordinates. SEG_MOVETO and SEG_LINETO types return one point, and SEG_CLOSE does not return any points.",
+      "parameters": [
+        {
+          "name": "coords",
+          "description": "an array that holds the data returned from this method"
+        }
+      ],
+      "throws": [
+        {
+          "type": "NoSuchElementException",
+          "description": "if there are no more elements in the flattening path to be returned."
+        }
+      ],
+      "returns": "the path segment type of the current path segment."
+    },
+    {
+      "name": "currentSegment",
+      "signature": "public int currentSegment(double[] coords)",
+      "description": "Returns the coordinates and type of the current path segment in the iteration. The return value is the path segment type: SEG_MOVETO, SEG_LINETO, or SEG_CLOSE. A double array of length 6 must be passed in and can be used to store the coordinates of the point(s). Each point is stored as a pair of double x,y coordinates. SEG_MOVETO and SEG_LINETO types return one point, and SEG_CLOSE does not return any points.",
+      "parameters": [
+        {
+          "name": "coords",
+          "description": "an array that holds the data returned from this method"
+        }
+      ],
+      "throws": [
+        {
+          "type": "NoSuchElementException",
+          "description": "if there are no more elements in the flattening path to be returned."
+        }
+      ],
+      "returns": "the path segment type of the current path segment."
+    }
+  ]
+}
