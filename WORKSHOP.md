@@ -22,14 +22,12 @@ uv sync
 
 **Goal:** Get familiar with the data and what it represents.
 
-**Tasks:**
-1. Ask your agentic tool to explain the repository structure
-2. Explore the `agentic/` directory — understand the class/run/file hierarchy
-3. Open a workflow log (e.g., `agentic/throwable/run_1/logs/workflow_*.json`) and understand its structure
-4. Open a refinements file (e.g., `agentic/throwable/run_1/throwable/ThrowableRefinements.java`) and understand what a typestate specification looks like
-5. Look at the Mermaid diagram (`.mmd`) and state machine JSON (`.json`) for the same class
-6. Check `listClasses.txt` to see all 35 target classes
-7. Read `manual/complexity/complexity_rubric.md` to understand how specification complexity is classified
+**What to ask the agent:**
+
+> "Help me understand what's in this repo. Make me an HTML of what it does and the files that exist."
+
+- **Concrete output format** — asking for HTML gives the agent a clear deliverable, not just a chat response
+- **Open-ended exploration** — letting the agent decide what to include tests whether it can find the important parts on its own
 
 **Key questions to answer:**
 - How many classes are there? How many runs per class?
@@ -43,19 +41,13 @@ uv sync
 
 **Goal:** Extract key metrics from all 175 workflow log JSON files into a structured CSV.
 
-**Tasks:**
-1. Ask your agentic tool to write a Python script that:
-   - Reads all `workflow_*.json` files from `agentic/`
-   - Extracts relevant metrics (at minimum: class name, run number, wall_clock_secs, total_cost_usd, sdk_turns, tool call counts, agent spawn counts)
-   - Outputs a CSV file (e.g., `agent_metrics.csv`)
-2. Run the script: `uv run python3 <script_name>.py`
-3. Verify the output — check that you have 175 rows (or close to it), one per run
-4. Optionally, enrich the CSV by joining with `manual/complexity/complexity_review_final.csv` to add the complexity rating per class
+**What to ask the agent:**
 
-**Hints:**
-- The workflow logs have nested JSON — `metrics.session.wall_clock_secs`, `metrics.tool_calls`, etc.
-- Some fields may vary across logs — handle missing keys gracefully
-- Remember to use `uv run python3` (not bare `python3`)
+> "Can we join the info from the logs into a CSV? Create tests first and then do it."
+
+- **"Tests first"** — forces a Test-Driven Development workflow: the agent writes tests before implementation, catching edge cases early
+- **Casual phrasing works** — you don't need a precise spec; the agent explores the log structure itself
+
 
 **Expected output:** A CSV file with one row per run containing agent performance metrics.
 
@@ -65,21 +57,13 @@ uv sync
 
 **Goal:** Build a Jupyter notebook that analyzes the CSV and produces visualizations.
 
-**Tasks:**
-1. Ask your agentic tool to create a Jupyter notebook that:
-   - Loads the CSV from Step 2
-   - Computes summary statistics (mean, std, min, max) for cost and duration
-   - Creates visualizations, for example:
-     - Distribution of cost per run (histogram or boxplot)
-     - Distribution of duration per run
-     - Cost vs. duration scatter plot
-     - Tool usage breakdown (which tools are used most?)
-     - Agent turns distribution
-     - Per-class comparison (which classes required more effort?)
-     - Cost/duration by complexity level (if you joined complexity data)
-   - Adds markdown cells explaining each analysis
-2. Run the notebook and verify the plots render correctly
-3. Iterate — ask your agentic tool to refine or add analyses based on what you see
+**What to ask the agent:**
+
+> "We need to analyze these results. Plan an analysis using the logs and the complexity ratings. Think about the main interesting results, ask questions back. Only create the notebook after planning."
+
+- **"Plan ... ask questions back"** — prevents the agent from rushing into code; it proposes an analysis plan and asks clarifying questions first (e.g., how to treat "none" classes, which hypotheses to prioritize)
+- **"Only create after planning"** — separates thinking from doing; you review the plan before any code is written
+- **Pointing to both data sources** — tells the agent to join the metrics CSV with the complexity CSV, which it might not do on its own
 
 **Suggested analyses:**
 - Are there outlier runs that cost significantly more? Which classes?
@@ -94,22 +78,13 @@ uv sync
 
 **Goal:** Critically review the notebook and refine the analysis.
 
-**Tasks:**
-1. Ask your agentic tool to review the notebook for:
-   - Correctness — are the statistics computed correctly?
-   - Completeness — are there obvious analyses missing?
-   - Clarity — are the plots well-labeled and the markdown explanations clear?
-   - Code quality — is the code clean and well-organized?
-2. Address any issues found
-3. Ask your agentic tool to suggest additional analyses you might not have considered
-4. Add at least one new analysis based on the suggestions
-5. Re-run the notebook to ensure everything is consistent
+**What to ask the agent:**
 
-**Review checklist:**
-- [ ] All plots have titles, axis labels, and legends where appropriate
-- [ ] Summary statistics are reported with appropriate precision
-- [ ] Outliers or interesting patterns are discussed
-- [ ] The notebook tells a coherent story from start to finish
+> "Review the notebook for correctness, completeness, and clarity. Are the statistical tests appropriate? Are there analyses missing? Suggest additional analyses I might not have considered."
+
+- **Explicit review criteria** — "correctness, completeness, clarity" gives the agent a checklist instead of a vague "looks good?"
+- **"Are the tests appropriate?"** — prompts the agent to think critically, not just agree with what it already produced
+- **Asking for suggestions** — the agent may spot patterns you missed (e.g., outlier analysis, efficiency metrics)
 
 ---
 
@@ -117,21 +92,13 @@ uv sync
 
 **Goal:** Draft a results section for `paper.tex` based on your analysis.
 
-**Tasks:**
-1. Open `paper.tex` — it has a skeleton with TODO sections
-2. Ask your agentic tool to help you fill in the Results section based on the notebook findings
-3. Include:
-   - Key statistics (mean cost, mean duration, variance across runs)
-   - At least one LaTeX table summarizing results (e.g., per-complexity-level metrics)
-   - References to figures (you can export notebook plots as PDFs for inclusion)
-   - Brief interpretation of the findings
-4. Fill in other sections as time permits (Introduction, Methodology, Discussion)
-5. Compile the paper: `pdflatex paper.tex`
+**What to ask the agent:**
 
-**Tips:**
-- Export plots from the notebook as PDF: `fig.savefig('figure.pdf', bbox_inches='tight')`
-- Use `\begin{table}...\end{table}` for tables, `\begin{figure}...\end{figure}` for plots
-- Keep the results factual — save interpretation for the Discussion section
+> "Fill in the Results section of `paper.tex` based on the notebook findings. Include a LaTeX table with per-complexity-level metrics and references to figures. Keep results factual, save interpretation for Discussion."
+
+- **Grounding in existing work** — "based on the notebook findings" tells the agent to pull numbers from what was already computed, not invent new analysis
+- **Specifying structure** — "LaTeX table" and "references to figures" set concrete expectations for the output format
+- **Style guidance** — "factual, save interpretation for Discussion" prevents the agent from editorializing in the wrong section
 
 ---
 
