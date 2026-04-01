@@ -24,8 +24,9 @@ uv sync
 
 **What to ask the agent:**
 
-> "Help me understand what's in this repo. Make me an HTML of what it does and the files that exist."
+> "You are a researcher in Software Engineering. Look at the files and folder to understand what's in this repo. Make me an HTML of what it does and the files that exist."
 
+- **Role definition** — define a role for your agent
 - **Concrete output format** — asking for HTML gives the agent a clear deliverable, not just a chat response
 - **Open-ended exploration** — letting the agent decide what to include tests whether it can find the important parts on its own
 
