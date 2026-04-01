@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barista Workshop — Repository Overview</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #a78bfa;
+    --green: #4ade80;
+    --orange: #fb923c;
+    --red: #f87171;
+    --yellow: #facc15;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  h1 span { color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
+  h2 { font-size: 1.3rem; color: var(--accent2); margin: 2rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  h3 { font-size: 1.05rem; color: var(--accent); margin: 1.25rem 0 0.5rem; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; text-align: center; }
+  .stat .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 0.85rem; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  tr:hover { background: rgba(56, 189, 248, 0.05); }
+
+  .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+  .badge-none { background: #1e293b; color: var(--muted); border: 1px solid var(--border); }
+  .badge-simple { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+  .badge-moderate { background: rgba(251, 146, 60, 0.15); color: var(--orange); }
+  .badge-complex { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+
+  .tree { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; list-style: none; padding: 0; margin: 0; }
+  .tree ul { list-style: none; padding-left: 1.5rem; margin: 0; position: relative; }
+  .tree ul::before { content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0.9rem; width: 1px; background: var(--border); }
+  .tree li { position: relative; padding: 0.2rem 0 0.2rem 1.5rem; }
+  .tree li::before { content: ''; position: absolute; left: 0.5rem; top: 0.95rem; width: 0.75rem; height: 1px; background: var(--border); }
+  .tree li:last-child::after { content: ''; position: absolute; left: 0.5rem; top: 0.95rem; bottom: 0; width: 1px; background: var(--bg); }
+  .tree > li { padding-left: 0; }
+  .tree > li::before { display: none; }
+  .tree .dir { color: var(--accent); font-weight: 600; }
+  .tree .file { color: var(--text); }
+  .tree .desc { color: var(--muted); font-size: 0.8rem; margin-left: 0.5rem; }
+  .tree .ellipsis { color: var(--muted); font-style: italic; }
+
+  .flow { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+  .flow-step { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 600; }
+  .flow-arrow { color: var(--accent); font-size: 1.2rem; }
+
+  .concept { margin-bottom: 0.75rem; }
+  .concept strong { color: var(--accent); }
+
+  code { background: rgba(56, 189, 248, 0.1); padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; color: var(--accent); }
+
+  .mermaid-box { background: #111827; border: 1px solid var(--border); border-radius: 8px; padding: 1rem; margin: 1rem 0; overflow-x: auto; font-family: monospace; font-size: 0.8rem; color: var(--green); white-space: pre; line-height: 1.5; }
+
+  .agent-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; margin: 1rem 0; }
+  .agent-card { background: #111827; border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; }
+  .agent-card .name { color: var(--accent2); font-weight: 600; font-size: 0.95rem; }
+  .agent-card .role { color: var(--muted); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1><span>Barista</span> Workshop Repository</h1>
+<p class="subtitle">AI-agent synthesized typestate specifications for Java standard library classes</p>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><div class="num">35</div><div class="label">Java Classes</div></div>
+  <div class="stat"><div class="num">5</div><div class="label">Runs per Class</div></div>
+  <div class="stat"><div class="num">175</div><div class="label">Total Workflow Runs</div></div>
+  <div class="stat"><div class="num">145</div><div class="label">Generated Specs</div></div>
+  <div class="stat"><div class="num">153</div><div class="label">State Diagrams</div></div>
+</div>
+
+<!-- What is this? -->
+<h2>What Does This Repository Do?</h2>
+<div class="card">
+  <p><strong>Barista</strong> is an AI-agent system that automatically synthesizes <em>typestate specifications</em> for Java classes. A typestate tracks which methods are valid to call based on an object's current state &mdash; for example, you can't <code>read()</code> from a <code>closed</code> stream.</p>
+  <p style="margin-top:0.75rem;">This repository stores the <strong>results and logs</strong> from running Barista on 35 Java standard library classes, 5 independent times each (175 total runs). It serves as a dataset for analyzing AI agent performance in specification synthesis.</p>
+</div>
+
+<!-- Agent Pipeline -->
+<h2>Agent Pipeline</h2>
+<div class="card">
+  <p>Each run spawns an <strong>orchestrator</strong> that delegates to specialized sub-agents:</p>
+  <div class="agent-list">
+    <div class="agent-card">
+      <div class="name">orchestrator</div>
+      <div class="role">Coordinates the overall workflow, spawns sub-agents, tracks tasks</div>
+    </div>
+    <div class="agent-card">
+      <div class="name">protocol-analyzer</div>
+      <div class="role">Analyzes the Java class to build a state machine (DFA) of valid method transitions</div>
+    </div>
+    <div class="agent-card">
+      <div class="name">java-test-completer</div>
+      <div class="role">Generates test cases to validate the state machine against actual Java behavior</div>
+    </div>
+    <div class="agent-card">
+      <div class="name">liquidjava-spec-writer</div>
+      <div class="role">Writes the LiquidJava refinement specification file from the state machine</div>
+    </div>
+    <div class="agent-card">
+      <div class="name">liquidjava-verifier</div>
+      <div class="role">Verifies the generated specification compiles and passes LiquidJava checks</div>
+    </div>
+  </div>
+  <div class="flow">
+    <div class="flow-step">Analyze Protocol</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step">Build State Machine</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step">Generate Tests</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step">Write Spec</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step">Verify</div>
+  </div>
+</div>
+
+<!-- Key Concepts -->
+<h2>Key Concepts</h2>
+<div class="card">
+  <div class="concept"><strong>Typestate</strong> &mdash; A protocol that defines which methods are valid in each state. Example: a <code>Socket</code> has states like <em>unconnected</em>, <em>connected</em>, <em>inputshutdown</em>, <em>outputshutdown</em>, <em>bothshutdown</em>, and <em>closed</em>. You can only call <code>connect()</code> from the <em>unconnected</em> state.</div>
+  <div class="concept"><strong>LiquidJava</strong> &mdash; A verification framework that checks Java code against typestate refinements using annotations: <code>@StateSet</code> (declares states), <code>@StateRefinement</code> (method pre/post-conditions on states), and <code>@Refinement</code> (value constraints).</div>
+  <div class="concept"><strong>Refinements File</strong> &mdash; A <code>*Refinements.java</code> interface that declares all states and method contracts for a Java class.</div>
+  <div class="concept"><strong>Complexity</strong> &mdash; Each class is rated by two human reviewers on specification difficulty: <em>none</em> (no protocol), <em>simple</em> (0 factors), <em>moderate</em> (1 factor), <em>complex</em> (2+ factors). Factors include branching transitions, scale, multi-state sets, state-dependent values, and encoding workarounds.</div>
+</div>
+
+<!-- Example: Socket State Diagram -->
+<h2>Example: Socket State Diagram</h2>
+<div class="card">
+  <p>The <code>java.net.Socket</code> class has 6 states. Here's a simplified view of its transitions:</p>
+  <div class="mermaid-box">[*] ──▶ Unconnected : new Socket()
+[*] ──▶ Connected   : new Socket(host, port)
+
+Unconnected ──▶ Connected      : connect()
+Connected   ──▶ InputShutdown  : shutdownInput()
+Connected   ──▶ OutputShutdown : shutdownOutput()
+InputShutdown  ──▶ BothShutdown : shutdownOutput()
+OutputShutdown ──▶ BothShutdown : shutdownInput()
+
+Unconnected | Connected | InputShutdown | OutputShutdown | BothShutdown ──▶ Closed : close()
+Closed ──▶ [*]</div>
+</div>
+
+<!-- Directory Layout -->
+<h2>Directory Layout</h2>
+<div class="card">
+  <ul class="tree">
+    <li><span class="dir">workshop_agentic_coding/</span>
+      <ul>
+        <li><span class="file">CLAUDE.md</span><span class="desc">— Project instructions for AI agents</span></li>
+        <li><span class="file">WORKSHOP.md</span><span class="desc">— Step-by-step workshop guide</span></li>
+        <li><span class="file">README.md</span><span class="desc">— Repository readme</span></li>
+        <li><span class="file">listClasses.txt</span><span class="desc">— The 35 fully-qualified Java class names</span></li>
+        <li><span class="file">paper.tex</span><span class="desc">— LaTeX paper template for results</span></li>
+        <li><span class="file">pyproject.toml</span><span class="desc">— Python project config (uses uv)</span></li>
+        <li><span class="file">uv.lock</span><span class="desc">— Dependency lock file</span></li>
+        <li><span class="dir">agentic/</span><span class="desc">— 35 class folders &times; 5 runs each</span>
+          <ul>
+            <li><span class="dir">socket/</span><span class="desc">— Example: java.net.Socket</span>
+              <ul>
+                <li><span class="dir">run_1/</span>
+                  <ul>
+                    <li><span class="dir">logs/</span>
+                      <ul>
+                        <li><span class="file">workflow_*.json</span><span class="desc">— Agent execution log</span></li>
+                      </ul>
+                    </li>
+                    <li><span class="dir">socket/</span>
+                      <ul>
+                        <li><span class="file">SocketRefinements.java</span><span class="desc">— Generated typestate spec</span></li>
+                        <li><span class="file">Socket.mmd</span><span class="desc">— Mermaid state diagram</span></li>
+                        <li><span class="file">Socket.json</span><span class="desc">— State machine as JSON</span></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><span class="dir">run_2/</span></li>
+                <li><span class="dir">run_3/</span></li>
+                <li><span class="dir">run_4/</span></li>
+                <li><span class="dir">run_5/</span></li>
+              </ul>
+            </li>
+            <li><span class="dir">bufferedreader/</span></li>
+            <li><span class="dir">vector/</span></li>
+            <li><span class="ellipsis">... (35 classes total)</span></li>
+          </ul>
+        </li>
+        <li><span class="dir">manual/</span>
+          <ul>
+            <li><span class="dir">complexity/</span>
+              <ul>
+                <li><span class="file">complexity_rubric.md</span><span class="desc">— How complexity is rated</span></li>
+                <li><span class="file">complexity_review_final.csv</span><span class="desc">— Final complexity ratings</span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- Workflow Log Structure -->
+<h2>Workflow Log Structure</h2>
+<div class="card">
+  <p>Each <code>workflow_*.json</code> captures detailed metrics from a single Barista run:</p>
+  <h3>Session Metrics</h3>
+  <table>
+    <tr><th>Field</th><th>Description</th><th>Example</th></tr>
+    <tr><td><code>wall_clock_secs</code></td><td>Total wall clock time</td><td>628.23 s (~10.5 min)</td></tr>
+    <tr><td><code>total_cost_usd</code></td><td>API cost of the run</td><td>$3.46</td></tr>
+    <tr><td><code>sdk_turns</code></td><td>Number of SDK conversation turns</td><td>6</td></tr>
+  </table>
+
+  <h3>Tool Calls</h3>
+  <table>
+    <tr><th>Tool</th><th>Type</th></tr>
+    <tr><td><code>Read</code>, <code>Write</code>, <code>Edit</code></td><td>File operations</td></tr>
+    <tr><td><code>Bash</code></td><td>Shell commands</td></tr>
+    <tr><td><code>Grep</code>, <code>Glob</code></td><td>Search operations</td></tr>
+    <tr><td><code>Task</code></td><td>Task management</td></tr>
+    <tr><td><code>mcp__barista_tools__validate_dfa</code></td><td>Validate state machine</td></tr>
+    <tr><td><code>mcp__barista_tools__verify_liquidjava</code></td><td>Verify specification</td></tr>
+    <tr><td><code>mcp__barista_tools__generate_tests</code></td><td>Generate test cases</td></tr>
+    <tr><td><code>mcp__barista_tools__generate_refinements</code></td><td>Generate refinement file</td></tr>
+  </table>
+
+  <h3>Per-Agent Breakdown</h3>
+  <p>Each agent's turns, tool calls, and errors are tracked individually, enabling analysis of which agents are most expensive or error-prone.</p>
+</div>
+
+<!-- Complexity Ratings -->
+<h2>Complexity Ratings (35 Classes)</h2>
+<div class="card" style="overflow-x:auto;">
+  <table>
+    <thead>
+      <tr><th>Class</th><th>Complexity</th><th>Factors</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>java.awt.PopupMenu</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>java.awt.Window</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale, state-dependent-values</td></tr>
+      <tr><td>java.awt.datatransfer.Clipboard</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>java.awt.dnd.DragSourceContext</td><td><span class="badge badge-complex">complex</span></td><td>workarounds, branching, scale</td></tr>
+      <tr><td>java.awt.dnd.DropTarget</td><td><span class="badge badge-complex">complex</span></td><td>multi-state, branching, scale</td></tr>
+      <tr><td>java.awt.geom.FlatteningPathIterator</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>java.io.BufferedInputStream</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale</td></tr>
+      <tr><td>java.io.BufferedReader</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale</td></tr>
+      <tr><td>java.io.PipedOutputStream</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>java.io.PipedWriter</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>java.lang.ThreadGroup</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>java.lang.Throwable</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>java.net.DatagramSocket</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale</td></tr>
+      <tr><td>java.net.ServerSocket</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale, workaround</td></tr>
+      <tr><td>java.net.Socket</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale</td></tr>
+      <tr><td>java.sql.SQLException</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>java.util.UUID</td><td><span class="badge badge-complex">complex</span></td><td>branching, state-dependent-values</td></tr>
+      <tr><td>java.util.Vector</td><td><span class="badge badge-complex">complex</span></td><td>scale, workarounds</td></tr>
+      <tr><td>java.util.zip.DeflaterOutputStream</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>java.util.zip.ZipFile</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>java.util.zip.ZipOutputStream</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>javax.imageio.ImageReadParam</td><td><span class="badge badge-none">none</span></td><td>&mdash;</td></tr>
+      <tr><td>javax.imageio.ImageWriteParam</td><td><span class="badge badge-complex">complex</span></td><td>multi-state, state-dependent-values, scale</td></tr>
+      <tr><td>javax.management.loading.MLet</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>javax.management.modelmbean.RequiredModelMBean</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>javax.management.remote.rmi.RMIConnector</td><td><span class="badge badge-moderate">moderate</span></td><td>scale</td></tr>
+      <tr><td>javax.security.auth.callback.ChoiceCallback</td><td><span class="badge badge-moderate">moderate</span></td><td>state-dependent-values</td></tr>
+      <tr><td>javax.security.auth.kerberos.KerberosKey</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>javax.security.auth.kerberos.KerberosTicket</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>javax.security.auth.login.LoginContext</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>javax.swing.tree.DefaultMutableTreeNode</td><td><span class="badge badge-complex">complex</span></td><td>state-dependent-values, workarounds, scale</td></tr>
+      <tr><td>javax.swing.undo.AbstractUndoableEdit</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>javax.swing.undo.UndoManager</td><td><span class="badge badge-complex">complex</span></td><td>branching, scale</td></tr>
+      <tr><td>javax.xml.transform.TransformerException</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+      <tr><td>org.xml.sax.helpers.XMLFilterImpl</td><td><span class="badge badge-simple">simple</span></td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:1.25rem;">Complexity Distribution</h3>
+  <div style="display:flex;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+    <div><span class="badge badge-none">none</span> &times; 7 &mdash; no typestate protocol</div>
+    <div><span class="badge badge-simple">simple</span> &times; 8 &mdash; zero complexity factors</div>
+    <div><span class="badge badge-moderate">moderate</span> &times; 7 &mdash; one factor</div>
+    <div><span class="badge badge-complex">complex</span> &times; 13 &mdash; two or more factors</div>
+  </div>
+</div>
+
+<!-- Workshop Tasks -->
+<h2>Workshop Tasks</h2>
+<div class="card">
+  <div class="flow">
+    <div class="flow-step" style="border-color:var(--accent);">1. Explore</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--green);">2. Parse to CSV</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--orange);">3. Analyze (Notebook)</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--accent2);">4. Review</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--red);">5. Write LaTeX</div>
+  </div>
+  <table style="margin-top:1rem;">
+    <tr><th>Step</th><th>Goal</th><th>Output</th></tr>
+    <tr><td>1. Explore</td><td>Understand repo structure and data</td><td>This HTML overview</td></tr>
+    <tr><td>2. Parse</td><td>Extract metrics from 175 workflow logs</td><td>CSV file (one row per run)</td></tr>
+    <tr><td>3. Analyze</td><td>Visualize and analyze cost, time, variance by complexity</td><td>Jupyter notebook</td></tr>
+    <tr><td>4. Review</td><td>Check correctness, completeness, statistical rigor</td><td>Refined notebook</td></tr>
+    <tr><td>5. Write</td><td>Draft results section from notebook findings</td><td>LaTeX paper section</td></tr>
+  </table>
+</div>
+
+<!-- File Inventory -->
+<h2>File Inventory</h2>
+<div class="card">
+  <table>
+    <thead><tr><th>File Type</th><th>Count</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>workflow_*.json</code></td><td>175</td><td>Agent execution logs with cost, duration, tool calls</td></tr>
+      <tr><td><code>*Refinements.java</code></td><td>145</td><td>Generated LiquidJava typestate specifications</td></tr>
+      <tr><td><code>*.mmd</code></td><td>153</td><td>Mermaid state diagrams</td></tr>
+      <tr><td><code>*.json</code> (state machines)</td><td>~175</td><td>State machine in JSON (class info + transitions)</td></tr>
+      <tr><td><code>complexity_review_final.csv</code></td><td>1</td><td>Human-reviewed complexity ratings for all 35 classes</td></tr>
+      <tr><td><code>complexity_rubric.md</code></td><td>1</td><td>Rubric for classifying specification complexity</td></tr>
+      <tr><td><code>paper.tex</code></td><td>1</td><td>LaTeX template for the results paper</td></tr>
+      <tr><td><code>listClasses.txt</code></td><td>1</td><td>List of all 35 fully-qualified Java class names</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem;">Note: Some runs produced fewer output files (145 specs vs 175 runs), likely because some classes have no typestate protocol (complexity = "none") or some runs failed to produce a valid specification.</p>
+</div>
+
+<footer style="margin-top:3rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.8rem;text-align:center;">
+  Generated for the Barista Workshop &mdash; AI Agent Typestate Specification Synthesis
+</footer>
+
+</div>
+</body>
+</html>
